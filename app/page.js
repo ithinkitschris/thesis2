@@ -4,25 +4,24 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function Home() {
-  const [userFlow, setUserFlow] = useState("");
-  const [context, setContext] = useState("");
+  const [appMethodApproach, setAppMethodApproach] = useState("");
+  const [primaryActivityGoal, setPrimaryActivityGoal] = useState("");
+  const [motivationNeed, setMotivationNeed] = useState("");
+  const [positiveAspects, setPositiveAspects] = useState("");
+  const [frictionPoints, setFrictionPoints] = useState("");
+  const [emotionalOutcome, setEmotionalOutcome] = useState("");
   const [output, setOutput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   const handleGenerate = async () => {
-    if (!userFlow.trim()) {
+    if (!appMethodApproach.trim() || !primaryActivityGoal.trim()) {
       return;
     }
 
     setIsLoading(true);
     setOutput("");
 
-    const filledPrompt = `I want to envision how the following user flow will work in 2030:
-
-Current user flow: ${userFlow}
-${context ? `Additional context: ${context}` : ""}
-
-Please describe in detail how this user flow might be transformed in the year 2030, considering emerging technologies, AI advancements, and new interaction paradigms.`;
+    const filledPrompt = `I use ${appMethodApproach} to ${primaryActivityGoal}.${motivationNeed ? ` I do this because ${motivationNeed}.` : ""}${positiveAspects ? ` What I like about it is ${positiveAspects},` : ""}${frictionPoints ? ` but what's frustrating or takes effort is ${frictionPoints}.` : ""}${emotionalOutcome ? ` The whole thing makes me feel ${emotionalOutcome}.` : ""}`;
 
     try {
       const response = await fetch("/api/generate", {
@@ -50,35 +49,72 @@ Please describe in detail how this user flow might be transformed in the year 20
   return (
     <div className="flex min-h-screen items-center justify-center px-8 py-16">
       <main className="w-full max-w-4xl text-center">
-        <h1 className="text-7xl tracking-[-0.02em] font-medium mb-12">
+        {/* <h1 className="text-7xl tracking-[-0.02em] font-medium mb-12">
           Bargaining with the Future.
-        </h1>
+        </h1> */}
 
         <div className="space-y-6 mb-8">
-          <div className="text-xl leading-relaxed">
-            <p className="mb-4">
-              In 2024, when I want to{" "}
+          <div className="text-xl leading-relaxed text-left max-w-3xl mx-auto space-y-4">
+            <p>
+              I use{" "}
               <input
                 type="text"
-                value={userFlow}
-                onChange={(e) => setUserFlow(e.target.value)}
-                placeholder="listen to music"
-                className="inline-block border-b-2 border-gray-400 bg-transparent px-2 py-1 min-w-[300px] focus:outline-none focus:border-gray-700 text-center"
-              />
-              , I follow this process:
+                value={appMethodApproach}
+                onChange={(e) => setAppMethodApproach(e.target.value)}
+                placeholder="Instagram"
+                className="inline-block border-b-2 border-gray-400 bg-transparent px-2 py-1 min-w-[200px] focus:outline-none focus:border-gray-700"
+              />{" "}
+              to{" "}
+              <input
+                type="text"
+                value={primaryActivityGoal}
+                onChange={(e) => setPrimaryActivityGoal(e.target.value)}
+                placeholder="check in on my friends"
+                className="inline-block border-b-2 border-gray-400 bg-transparent px-2 py-1 min-w-[200px] focus:outline-none focus:border-gray-700"
+              />.
             </p>
-            <textarea
-              value={context}
-              onChange={(e) => setContext(e.target.value)}
-              placeholder="Describe the current user flow in detail..."
-              rows={6}
-              className="w-full border-2 border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:border-gray-700 resize-none text-center"
-            />
+            <p>
+              I do this because{" "}
+              <input
+                type="text"
+                value={motivationNeed}
+                onChange={(e) => setMotivationNeed(e.target.value)}
+                placeholder="motivation"
+                className="inline-block border-b-2 border-gray-400 bg-transparent px-2 py-1 min-w-[200px] focus:outline-none focus:border-gray-700"
+              />.
+            </p>
+            <p>
+              What I like about it is{" "}
+              <input
+                type="text"
+                value={positiveAspects}
+                onChange={(e) => setPositiveAspects(e.target.value)}
+                placeholder="benefits"
+                className="inline-block border-b-2 border-gray-400 bg-transparent px-2 py-1 min-w-[200px] focus:outline-none focus:border-gray-700"
+              />, but what's frustrating or takes effort is{" "}
+              <textarea
+                value={frictionPoints}
+                onChange={(e) => setFrictionPoints(e.target.value)}
+                placeholder="friction points"
+                rows={2}
+                className="block border-b-2 border-gray-400 bg-transparent px-2 py-1 w-full mt-2 focus:outline-none focus:border-gray-700 resize-none"
+              />
+            </p>
+            <p>
+              The whole thing makes me feel{" "}
+              <input
+                type="text"
+                value={emotionalOutcome}
+                onChange={(e) => setEmotionalOutcome(e.target.value)}
+                placeholder="awesome man"
+                className="inline-block border-b-2 border-gray-400 bg-transparent px-2 py-1 min-w-[200px] focus:outline-none focus:border-gray-700"
+              />.
+            </p>
           </div>
 
           <button
             onClick={handleGenerate}
-            disabled={isLoading || !userFlow.trim()}
+            disabled={isLoading || !appMethodApproach.trim() || !primaryActivityGoal.trim()}
             className="px-8 py-3 bg-black text-white rounded-lg font-medium hover:bg-gray-800 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors"
           >
             {isLoading ? "Generating..." : "Envision 2030"}
