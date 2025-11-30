@@ -22,9 +22,7 @@ export async function POST(request) {
 
 ## OUTPUT FORMAT
 
-### LifeOS (2030)
-
-**The LifeOS Experience:**
+### The year is 2030: 
 
 [3 paragraphs, second person ("you"), target 80-100 words each, acceptable range 75-105 words]
 
@@ -40,7 +38,7 @@ The result and what you attribute it to. Reveal the invisible optimization. CRIT
 
 ---
 
-**Technical Prologue:**
+**All of the above was possible because of the following capabilities in your personal devices**
 
 [3 sections, maximum 60 words each]
 
@@ -106,7 +104,7 @@ The result and what you attribute it to. Reveal the invisible optimization. CRIT
 
 ## RESPONSE FORMAT
 
-Output ONLY the structured content. No meta-commentary, explanations, or text outside the required format. Start directly with "### LifeOS (2030)".`;
+Output ONLY the structured content. No meta-commentary, explanations, or text outside the required format. Start directly with "### The year is 2030:".`;
 
     const message = await anthropic.messages.create({
       model: 'claude-sonnet-4-5',

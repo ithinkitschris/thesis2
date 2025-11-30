@@ -1,0 +1,78 @@
+import Image from 'next/image';
+
+export default function Research() {
+  return (
+    <div className="flex min-h-screen items-center justify-center relative">
+      <main className="px-8 text-left">
+
+        {/* Header */}
+        <div className="w-[70%] mx-auto mb-12 mt-32 text-center">
+          <Image 
+            src="/flower.svg" 
+            alt="Flower" 
+            width={200} 
+            height={200}
+            className="w-full h-auto"
+          />
+        </div>
+
+        {/* Body */}
+        <div className="max-w-5xl mx-auto text-center">
+          <p className="text-4xl mx-auto font-semibold tracking-[-0.0em] leading-tight bg-gradient-to-t from-black/75 to-black/55 bg-clip-text text-transparent">
+            Bargaining with the Future is a Master's thesis by Chris Leow, a Graduate Student at the School of Visual Arts in New York City. It is a speculative design exercise that seeks to investigate user agency in a fully agentic future; with three main goals:  
+          </p>
+          {/* <ul className="list-decimal list-inside text-lg mt-4" >
+            <li>To investigate the role of agency in a fully agentic future</li>
+            <li>To explore the relationship between user and technology</li>
+            <li>To understand the impact of technology on user behavior</li>
+          </ul> */}
+        </div>
+
+        {/* Images */}
+        <div className="max-w-2xl mx-auto mt-20 mb-32">
+          <Image 
+            src="/thesisobjective1.svg" 
+            alt="Thesis Objective 1" 
+            width={800} 
+            height={600}
+            className="w-full h-auto rounded-4xl drop-shadow-xl"
+          />
+          <Image 
+            src="/thesisobjective2.svg" 
+            alt="Thesis Objective 2" 
+            width={800} 
+            height={600}
+            className="w-full h-auto rounded-4xl drop-shadow-xl mt-8"
+          />
+          <Image 
+            src="/thesisobjective3.svg" 
+            alt="Thesis Objective 3" 
+            width={800} 
+            height={600}
+            className="w-full h-auto rounded-4xl drop-shadow-xl mt-8"
+          />
+        </div>
+
+        {/* <div className="max-w-5xl mx-auto text-center">
+          <p className="text-lg mx-auto">
+            Find me at <a href="https:ithinkitschris.com" className="text-[#007AFF]">ithinkitschris.com</a>.
+          </p>
+        </div> */}
+
+        {/* Memoji Wave - Bottom of Content */}
+        <div className="flex justify-center items-center ml-24 drop-shadow-2xl mt-16 overflow-hidden" style={{ height: '340px' }}>
+          <Image 
+            src="/memojiwave.svg" 
+            alt="Memoji Wave" 
+            width={350} 
+            height={350}
+            className="h-auto"
+          />
+        </div>
+
+      </main>
+    </div>
+  );
+}
+
+
