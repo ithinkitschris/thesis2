@@ -244,7 +244,7 @@ export default function Home() {
                     updateInputWidth(inputRefs.appMethodApproach, measureRefs.appMethodApproach, e.target.value, 'appMethodApproach');
                   }}
                   placeholder="Instagram"
-                  className="inline-block border-b-2 text-black/90 border-black/20 bg-transparent px-2 py-1 focus:outline-none focus:border-black/50 placeholder:text-black/20 placeholder:font-medium focus:placeholder:text-black/10 transition-all duration-200 focus:scale-105 origin-center"
+                  className="inline-block border-b-2 text-black/90 border-black/20 bg-transparent px-2 py-1 focus:outline-none focus:border-black/50 placeholder:text-black/20 placeholder:font-medium focus:placeholder:text-black/3 transition-all duration-200 focus:scale-102 origin-center"
                 />
               </span>{" "}
               to{" "}
@@ -263,7 +263,7 @@ export default function Home() {
                     updateInputWidth(inputRefs.primaryActivityGoal, measureRefs.primaryActivityGoal, e.target.value, 'primaryActivityGoal');
                   }}
                   placeholder="check in on my friends"
-                  className="inline-block border-b-2 text-black/90 border-black/20 bg-transparent px-2 py-1 focus:outline-none focus:border-black/50 placeholder:text-black/20 placeholder:font-medium focus:placeholder:text-black/10 transition-all duration-200 focus:scale-105 origin-center"
+                  className="inline-block border-b-2 text-black/90 border-black/20 bg-transparent px-2 py-1 focus:outline-none focus:border-black/50 placeholder:text-black/20 placeholder:font-medium focus:placeholder:text-black/3 transition-all duration-200 focus:scale-102 origin-center"
                 />
               </span>
             </p>
@@ -284,7 +284,7 @@ export default function Home() {
                     updateInputWidth(inputRefs.motivationNeed, measureRefs.motivationNeed, e.target.value, 'motivationNeed');
                   }}
                   placeholder="I am bored"
-                  className="inline-block border-b-2 text-black/90 border-black/20 bg-transparent px-2 py-1 focus:outline-none focus:border-black/50 placeholder:text-black/20 placeholder:font-medium focus:placeholder:text-black/10 transition-all duration-200 focus:scale-105 origin-center"
+                  className="inline-block border-b-2 text-black/90 border-black/20 bg-transparent px-2 py-1 focus:outline-none focus:border-black/50 placeholder:text-black/20 placeholder:font-medium focus:placeholder:text-black/3 transition-all duration-200 focus:scale-102 origin-center"
                 />
               </span>
             </p>
@@ -305,7 +305,7 @@ export default function Home() {
                   }}
                   placeholder="it helps me feel connected"
                   rows={1}
-                  className="inline-block align-baseline border-b-2 text-black/90 border-black/20 bg-transparent px-2 py-1 focus:outline-none focus:border-black/50 resize-none overflow-hidden placeholder:text-black/20 placeholder:font-medium focus:placeholder:text-black/10 transition-all duration-200 focus:scale-[1.02] origin-left"
+                  className="inline-block align-baseline border-b-2 text-black/90 border-black/20 bg-transparent px-2 py-1 focus:outline-none focus:border-black/50 resize-none overflow-hidden placeholder:text-black/20 placeholder:font-medium focus:placeholder:text-black/3 transition-all duration-200 focus:scale-[1.02] origin-left"
                   style={{ wordWrap: 'break-word', overflowWrap: 'break-word' }}
                 />
               </span>
@@ -327,7 +327,7 @@ export default function Home() {
                   }}
                   placeholder="I end up doomscrolling on corgi reels  "
                   rows={1}
-                  className="inline-block align-baseline border-b-2 text-black/90 border-black/20 bg-transparent px-2 py-1 focus:outline-none focus:border-black/50 resize-none overflow-hidden placeholder:text-black/20 placeholder:font-medium focus:placeholder:text-black/10 transition-all duration-200 focus:scale-105 origin-center"
+                  className="inline-block align-baseline border-b-2 text-black/90 border-black/20 bg-transparent px-2 py-1 focus:outline-none focus:border-black/50 resize-none overflow-hidden placeholder:text-black/20 placeholder:font-medium focus:placeholder:text-black/3 transition-all duration-200 focus:scale-102 origin-center"
                   style={{ wordWrap: 'break-word', overflowWrap: 'break-word' }}
                 />
               </span>
@@ -349,7 +349,7 @@ export default function Home() {
                     updateInputWidth(inputRefs.emotionalOutcome, measureRefs.emotionalOutcome, e.target.value, 'emotionalOutcome');
                   }}
                   placeholder="dystopian, man"
-                  className="inline-block border-b-2 text-black/90 border-black/20 bg-transparent px-2 py-1 focus:outline-none focus:border-black/50 placeholder:text-black/20 placeholder:font-medium focus:placeholder:text-black/10 transition-all duration-200 focus:scale-105 origin-center"
+                  className="inline-block border-b-2 text-black/90 border-black/20 bg-transparent px-2 py-1 focus:outline-none focus:border-black/50 placeholder:text-black/20 placeholder:font-medium focus:placeholder:text-black/3 transition-all duration-200 focus:scale-102 origin-center"
                 />
               </span>
             </p>
@@ -357,8 +357,8 @@ export default function Home() {
 
           <button
             onClick={handleGenerate}
-            disabled={isLoading || !appMethodApproach.trim() || !primaryActivityGoal.trim()}
-            className="px-6 py-2.5 border-2 border-black/20 text-black/90 rounded-full font-medium hover:bg-black/80 hover:text-white hover:scale-95 disabled:opacity-0 disabled:scale-90 transition-all duration-100 cursor-pointer"
+            disabled={!appMethodApproach.trim() || !primaryActivityGoal.trim()}
+            className="px-6 py-2.5 border-2 border-black/20 text-black/90 rounded-full font-medium hover:bg-black/80 hover:text-white hover:scale-95 disabled:opacity-0 disabled:scale-90 transition-all duration-100 cursor-pointer disabled:cursor-none"
           >
             {isLoading ? "Generating..." : "What is this?"}
           </button>
