@@ -19,7 +19,7 @@ export default function Research() {
         {/* Body */}
         <div className="max-w-5xl mx-auto text-center">
           <p className="text-4xl mx-auto font-semibold tracking-[-0.0em] leading-tight bg-gradient-to-t from-black/75 to-black/55 bg-clip-text text-transparent">
-            Bargaining with the Future is a Master's thesis by Chris Leow, a Graduate Student at the School of Visual Arts in New York City. It is a speculative design exercise that seeks to investigate user agency in a fully agentic future; with three main goals:  
+            Bargaining with the Future is a Master's thesis by <a href="https://www.ithinkitschris.com" target="_blank" rel="noopener noreferrer" className="inline-block underline text-black/10 transition-all duration-100 hover:scale-[0.97] hover:text-white/50">Chris Leow</a>, a Graduate Student at the School of Visual Arts in New York City. It is a speculative design exercise that seeks to investigate user agency in a fully agentic future; with three main goals:  
           </p>
           {/* <ul className="list-decimal list-inside text-lg mt-4" >
             <li>To investigate the role of agency in a fully agentic future</li>
