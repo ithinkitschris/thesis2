@@ -1,0 +1,45 @@
+<svg width="84" height="82" viewBox="0 0 84 82" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect x="17.1723" y="74.5887" width="41.3537" height="41.3537" rx="20.6768" transform="rotate(-120 17.1723 74.5887)" fill="white" fill-opacity="0.89"/>
+<rect x="17.1723" y="74.5887" width="41.3537" height="41.3537" rx="20.6768" transform="rotate(-120 17.1723 74.5887)" stroke="url(#paint0_linear_536_1220)" stroke-width="5.1312"/>
+<rect x="66.8199" y="73.1218" width="41.3537" height="41.3537" rx="20.6768" transform="rotate(165 66.8199 73.1218)" fill="white" fill-opacity="0.89"/>
+<rect x="66.8199" y="73.1218" width="41.3537" height="41.3537" rx="20.6768" transform="rotate(165 66.8199 73.1218)" stroke="url(#paint1_linear_536_1220)" stroke-width="5.1312"/>
+<rect x="4.62619" y="17.1723" width="41.3537" height="41.3537" rx="20.6768" transform="rotate(-30 4.62619 17.1723)" fill="white" fill-opacity="0.89"/>
+<rect x="4.62619" y="17.1723" width="41.3537" height="41.3537" rx="20.6768" transform="rotate(-30 4.62619 17.1723)" stroke="url(#paint2_linear_536_1220)" stroke-width="5.1312"/>
+<rect x="86.8245" y="38.7777" width="41.3537" height="41.3537" rx="20.6768" transform="rotate(120 86.8245 38.7777)" fill="white" fill-opacity="0.89"/>
+<rect x="86.8245" y="38.7777" width="41.3537" height="41.3537" rx="20.6768" transform="rotate(120 86.8245 38.7777)" stroke="url(#paint3_linear_536_1220)" stroke-width="5.1312"/>
+<rect x="42.9608" y="-3.50077" width="41.3537" height="41.3537" rx="20.6768" transform="rotate(30 42.9608 -3.50077)" fill="white" fill-opacity="0.89"/>
+<rect x="42.9608" y="-3.50077" width="41.3537" height="41.3537" rx="20.6768" transform="rotate(30 42.9608 -3.50077)" stroke="url(#paint4_linear_536_1220)" stroke-width="5.1312"/>
+<path d="M41.6865 30.75C47.263 30.7502 51.8066 35.2508 51.8066 40.8301C51.8066 46.4094 47.263 50.9099 41.6865 50.9102C36.1098 50.9102 31.5654 46.4096 31.5654 40.8301C31.5655 35.2506 36.1098 30.75 41.6865 30.75Z" fill="url(#paint5_radial_536_1220)"/>
+<path d="M41.6865 30.75C47.263 30.7502 51.8066 35.2508 51.8066 40.8301C51.8066 46.4094 47.263 50.9099 41.6865 50.9102C36.1098 50.9102 31.5654 46.4096 31.5654 40.8301C31.5655 35.2506 36.1098 30.75 41.6865 30.75Z" fill="url(#paint6_radial_536_1220)"/>
+<path d="M41.6865 30.75C47.263 30.7502 51.8066 35.2508 51.8066 40.8301C51.8066 46.4094 47.263 50.9099 41.6865 50.9102C36.1098 50.9102 31.5654 46.4096 31.5654 40.8301C31.5655 35.2506 36.1098 30.75 41.6865 30.75Z" stroke="white" stroke-width="5.00522"/>
+<defs>
+<linearGradient id="paint0_linear_536_1220" x1="36.2226" y1="71.084" x2="36.2226" y2="107.306" gradientUnits="userSpaceOnUse">
+<stop/>
+<stop offset="1" stop-color="white"/>
+</linearGradient>
+<linearGradient id="paint1_linear_536_1220" x1="81.789" y1="71.3076" x2="81.789" y2="107.53" gradientUnits="userSpaceOnUse">
+<stop/>
+<stop offset="1" stop-color="white"/>
+</linearGradient>
+<linearGradient id="paint2_linear_536_1220" x1="26.2421" y1="18.1113" x2="26.2421" y2="54.3338" gradientUnits="userSpaceOnUse">
+<stop/>
+<stop offset="1" stop-color="white"/>
+</linearGradient>
+<linearGradient id="paint3_linear_536_1220" x1="101.431" y1="39.7168" x2="101.431" y2="75.9393" gradientUnits="userSpaceOnUse">
+<stop/>
+<stop offset="1" stop-color="white"/>
+</linearGradient>
+<linearGradient id="paint4_linear_536_1220" x1="62.0111" y1="0.00390625" x2="62.0111" y2="36.2264" gradientUnits="userSpaceOnUse">
+<stop/>
+<stop offset="1" stop-color="white"/>
+</linearGradient>
+<radialGradient id="paint5_radial_536_1220" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(41.6861 40.8302) rotate(90) scale(7.57863 7.61915)">
+<stop offset="0.3125" stop-color="#838383"/>
+<stop offset="1" stop-color="#1D1D1D"/>
+</radialGradient>
+<radialGradient id="paint6_radial_536_1220" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(41.6861 40.8302) rotate(90) scale(7.57863 7.61915)">
+<stop offset="0.3125" stop-color="#5EBCFF"/>
+<stop offset="1" stop-color="#1A78DF"/>
+</radialGradient>
+</defs>
+</svg>

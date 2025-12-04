@@ -1,11 +1,15 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useInView } from "framer-motion";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
+
 export default function Home() {
+  const phonesRef = useRef(null);
+  const isInView = useInView(phonesRef, { once: true, margin: "-100px" });
+  
   const [appMethodApproach, setAppMethodApproach] = useState("");
   const [primaryActivityGoal, setPrimaryActivityGoal] = useState("");
   const [motivationNeed, setMotivationNeed] = useState("");
@@ -14,6 +18,11 @@ export default function Home() {
   const [emotionalOutcome, setEmotionalOutcome] = useState("");
   const [output, setOutput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [isAppMethodApproachFocused, setIsAppMethodApproachFocused] = useState(false);
+  const [isPrimaryActivityGoalFocused, setIsPrimaryActivityGoalFocused] = useState(false);
+  const [isMotivationNeedFocused, setIsMotivationNeedFocused] = useState(false);
+  const [isPositiveAspectsFocused, setIsPositiveAspectsFocused] = useState(false);
+  const [isFrictionPointsFocused, setIsFrictionPointsFocused] = useState(false);
 
   // Refs for inputs and hidden spans for measuring text width
   const inputRefs = {
@@ -219,12 +228,165 @@ export default function Home() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center px-8 py-16">
-      <main className="w-full max-w-4xl text-center">
-        {/* <h1 className="text-7xl tracking-[-0.02em] font-medium mb-12">
-          Bargaining with the Future.
-        </h1> */}
+    <div className="flex flex-col min-h-screen">
+      {/* Hero Section */}
+      <section className="relative w-full h-screen overflow-hidden">
+        {/* Background Image */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <img 
+            alt="" 
+            className="absolute h-[106.83%] left-[-9.48%] max-w-none top-[-0.62%] w-[117.71%] object-cover" 
+            src="/placeholderbg1.jpg" 
+          />
+        </div>
 
+        {/* Black Gradient Overlay at Top */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black via-black/50 to-transparent pointer-events-none z-[5] h-[20%]"></div>
+
+        {/* Logo and Slogan */}
+        <div className="absolute inset-0 flex flex-col items-center justify-center z-10 text-center px-8">
+          {/* LifeOS Logo */}
+          <div className="-mt-16 mb-3">
+            <img 
+              alt="LifeOS Logo" 
+              src="/lifeoswhite.svg" 
+              className="h-11 w-auto"
+            />
+          </div>
+          <div 
+            className="text-white text-6xl tracking-tight"
+            style={{
+              fontFamily: 'SF Pro Rounded, -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif',
+              lineHeight: '1.1'
+            }}
+          >
+            <p className="font-semibold">The human spirit.</p>
+            <p className="font-normal">Optimized.</p>
+          </div>
+        </div>
+      </section>
+
+      {/* Second Section - Stop Thinking Start Living */}
+      <section className="relative w-full min-h-screen bg-white pt-16 px-8">
+        <div className="max-w-7xl mx-auto">
+          {/* Text Content */}
+          <div className="text-center mb-14">
+            <div className="mb-5 flex justify-center">
+              <img 
+                alt="LifeOS Logo" 
+                src="/lifeosbadlogo.svg" 
+                className="h-20 w-auto"
+              />
+            </div>
+            <h2 
+              className="text-[38pt] font-semibold text-black mb-6 leading-none tracking-[-0.48px]"
+              style={{
+                fontFamily: 'SF Pro Rounded, -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif',
+                opacity: 0.67
+              }}
+            >
+              Stop thinking.
+              <br />
+              Start living.
+            </h2>
+          </div>
+
+          {/* iPhone Mockups */}
+          <div ref={phonesRef} className="relative flex items-center justify-center flex-wrap" style={{ perspective: 1000 }}>
+            {/* bezel-1 - Leftmost, slides out from middle */}
+            <motion.div 
+              className="relative w-[220px] h-[449px] z-10"
+              initial={{ x: 360, rotateY: 0 }}
+              animate={isInView ? { x: 0, rotateY: 10 } : { x: 500, rotateY: 0 }}
+              transition={{ duration: 0.8, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+            >
+              <img 
+                alt="iPhone bezel" 
+                className="w-full h-full object-contain" 
+                style={{ filter: 'drop-shadow(10px 15px 20px rgba(0, 0, 0, 0.2))' }}
+                src="/iPhone bezel-1.svg" 
+              />
+            </motion.div>
+            
+            {/* bezel-3 - Left of center, slides out from middle */}
+            <motion.div 
+              className="relative w-[241px] h-[491px] -ml-20 z-20"
+              initial={{ x: 200, rotateY: 0 }}
+              animate={isInView ? { x: 0, rotateY: 5 } : { x: 136, rotateY: 0 }}
+              transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+            >
+              <img 
+                alt="iPhone bezel" 
+                className="w-full h-full object-contain" 
+                style={{ filter: 'drop-shadow(10px 15px 20px rgba(0, 0, 0, 0.2))' }}
+                src="/iPhone bezel-3.svg" 
+              />
+            </motion.div>
+            
+            {/* bezel-4 - Center, appears first */}
+            <motion.div 
+              className="relative w-[272px] h-[554px] -ml-16 z-30"
+              initial={{ scale: 0.8 }}
+              animate={isInView ? { scale: 1 } : { scale: 0.8 }}
+              transition={{ duration: 0.5, delay: 0, ease: [0.16, 1, 0.3, 1] }}
+            >
+              <img 
+                alt="iPhone bezel" 
+                className="w-full h-full object-contain" 
+                style={{ filter: 'drop-shadow(10px 15px 20px rgba(0, 0, 0, 0.25))' }}
+                src="/iPhone bezel-4.svg" 
+              />
+            </motion.div>
+            
+            {/* bezel.svg - Right of center, slides out from middle */}
+            <motion.div 
+              className="relative w-[241px] h-[491px] -ml-16 z-20"
+              initial={{ x: -206, rotateY: 0 }}
+              animate={isInView ? { x: 0, rotateY: -5 } : { x: -136, rotateY: 0 }}
+              transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+            >
+              <img 
+                alt="iPhone bezel" 
+                className="w-full h-full object-contain" 
+                style={{ filter: 'drop-shadow(10px 15px 20px rgba(0, 0, 0, 0.2))' }}
+                src="/iPhone bezel.svg" 
+              />
+            </motion.div>
+            
+            {/* bezel-2 - Rightmost, slides out from middle */}
+            <motion.div 
+              className="relative w-[220px] h-[449px] -ml-20 z-10"
+              initial={{ x: -350, rotateY: 0 }}
+              animate={isInView ? { x: 0, rotateY: -10 } : { x: -300, rotateY: 0 }}
+              transition={{ duration: 0.8, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+            >
+              <img 
+                alt="iPhone bezel" 
+                className="w-full h-full object-contain" 
+                style={{ filter: 'drop-shadow(10px 15px 20px rgba(0, 0, 0, 0.2))' }}
+                src="/iPhone bezel-2.svg" 
+              />
+            </motion.div>
+          </div>
+          
+          {/* Subheading below mockups */}
+          <div className="text-center mt-20">
+            <p 
+              className="text-xl md:text-2xl font-medium text-black tracking-[0.22px]"
+              style={{
+                fontFamily: 'SF Pro Rounded, -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif',
+                opacity: 0.67
+              }}
+            >
+              The world's first fully agentic operating system.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Generator Section */}
+      <main className="flex min-h-screen items-center justify-center px-8 py-16">
+        <div className="w-full max-w-4xl text-center">
         <div className="space-y-10 mb-8">
           <div className="text-4xl font-semibold text-black/90 tracking-[-0.01em] text-left max-w-3xl mx-auto space-y-2">
             <p>
@@ -243,8 +405,10 @@ export default function Home() {
                     setAppMethodApproach(e.target.value);
                     updateInputWidth(inputRefs.appMethodApproach, measureRefs.appMethodApproach, e.target.value, 'appMethodApproach');
                   }}
-                  placeholder="Instagram"
-                  className="inline-block border-b-2 text-black/90 border-black/20 bg-transparent px-2 py-1 focus:outline-none focus:border-black/50 placeholder:text-black/20 placeholder:font-medium focus:placeholder:text-black/3 transition-all duration-200 focus:scale-102 origin-center"
+                  onFocus={() => setIsAppMethodApproachFocused(true)}
+                  onBlur={() => setIsAppMethodApproachFocused(false)}
+                  placeholder={isAppMethodApproachFocused ? "app" : "Instagram"}
+                  className="inline-block border-b-2 text-black/90 border-black/20 bg-transparent px-2 py-1 focus:outline-none focus:border-black/50 placeholder:text-black/20 placeholder:font-medium transition-all duration-200 focus:scale-102 origin-center"
                 />
               </span>{" "}
               to{" "}
@@ -262,8 +426,10 @@ export default function Home() {
                     setPrimaryActivityGoal(e.target.value);
                     updateInputWidth(inputRefs.primaryActivityGoal, measureRefs.primaryActivityGoal, e.target.value, 'primaryActivityGoal');
                   }}
-                  placeholder="check in on my friends"
-                  className="inline-block border-b-2 text-black/90 border-black/20 bg-transparent px-2 py-1 focus:outline-none focus:border-black/50 placeholder:text-black/20 placeholder:font-medium focus:placeholder:text-black/3 transition-all duration-200 focus:scale-102 origin-center"
+                  onFocus={() => setIsPrimaryActivityGoalFocused(true)}
+                  onBlur={() => setIsPrimaryActivityGoalFocused(false)}
+                  placeholder={isPrimaryActivityGoalFocused ? "goal" : "check in on my friends"}
+                  className="inline-block border-b-2 text-black/90 border-black/20 bg-transparent px-2 py-1 focus:outline-none focus:border-black/50 placeholder:text-black/20 placeholder:font-medium transition-all duration-200 focus:scale-102 origin-center"
                 />
               </span>
             </p>
@@ -283,8 +449,10 @@ export default function Home() {
                     setMotivationNeed(e.target.value);
                     updateInputWidth(inputRefs.motivationNeed, measureRefs.motivationNeed, e.target.value, 'motivationNeed');
                   }}
-                  placeholder="I am bored"
-                  className="inline-block border-b-2 text-black/90 border-black/20 bg-transparent px-2 py-1 focus:outline-none focus:border-black/50 placeholder:text-black/20 placeholder:font-medium focus:placeholder:text-black/3 transition-all duration-200 focus:scale-102 origin-center"
+                  onFocus={() => setIsMotivationNeedFocused(true)}
+                  onBlur={() => setIsMotivationNeedFocused(false)}
+                  placeholder={isMotivationNeedFocused ? "reason" : "I am bored"}
+                  className="inline-block border-b-2 text-black/90 border-black/20 bg-transparent px-2 py-1 focus:outline-none focus:border-black/50 placeholder:text-black/20 placeholder:font-medium transition-all duration-200 focus:scale-102 origin-center"
                 />
               </span>
             </p>
@@ -303,9 +471,11 @@ export default function Home() {
                     setPositiveAspects(e.target.value);
                     updateInputWidth(inputRefs.positiveAspects, measureRefs.positiveAspects, e.target.value, 'positiveAspects');
                   }}
-                  placeholder="it helps me feel connected"
+                  onFocus={() => setIsPositiveAspectsFocused(true)}
+                  onBlur={() => setIsPositiveAspectsFocused(false)}
+                  placeholder={isPositiveAspectsFocused ? "positive feeling" : "it helps me feel connected"}
                   rows={1}
-                  className="inline-block align-baseline border-b-2 text-black/90 border-black/20 bg-transparent px-2 py-1 focus:outline-none focus:border-black/50 resize-none overflow-hidden placeholder:text-black/20 placeholder:font-medium focus:placeholder:text-black/3 transition-all duration-200 focus:scale-[1.02] origin-left"
+                  className="inline-block align-baseline border-b-2 text-black/90 border-black/20 bg-transparent px-2 py-1 focus:outline-none focus:border-black/50 resize-none overflow-hidden placeholder:text-black/20 placeholder:font-medium transition-all duration-200 focus:scale-[1.02] origin-left"
                   style={{ wordWrap: 'break-word', overflowWrap: 'break-word' }}
                 />
               </span>
@@ -325,31 +495,12 @@ export default function Home() {
                     setFrictionPoints(e.target.value);
                     updateInputWidth(inputRefs.frictionPoints, measureRefs.frictionPoints, e.target.value, 'frictionPoints');
                   }}
-                  placeholder="I end up doomscrolling on corgi reels  "
+                  onFocus={() => setIsFrictionPointsFocused(true)}
+                  onBlur={() => setIsFrictionPointsFocused(false)}
+                  placeholder={isFrictionPointsFocused ? "negative feeling" : "I end up doomscrolling on corgi reels  "}
                   rows={1}
-                  className="inline-block align-baseline border-b-2 text-black/90 border-black/20 bg-transparent px-2 py-1 focus:outline-none focus:border-black/50 resize-none overflow-hidden placeholder:text-black/20 placeholder:font-medium focus:placeholder:text-black/3 transition-all duration-200 focus:scale-102 origin-center"
+                  className="inline-block align-baseline border-b-2 text-black/90 border-black/20 bg-transparent px-2 py-1 focus:outline-none focus:border-black/50 resize-none overflow-hidden placeholder:text-black/20 placeholder:font-medium transition-all duration-200 focus:scale-102 origin-center"
                   style={{ wordWrap: 'break-word', overflowWrap: 'break-word' }}
-                />
-              </span>
-            </p>
-            <p>
-              The whole thing makes me feel{" "}
-              <span className="relative inline-block focus-within:mx-1 transition-all duration-200">
-                <span
-                  ref={measureRefs.emotionalOutcome}
-                  className="invisible absolute whitespace-pre px-2 text-xl"
-                  style={{ font: 'inherit' }}
-                />
-                <input
-                  ref={inputRefs.emotionalOutcome}
-                  type="text"
-                  value={emotionalOutcome}
-                  onChange={(e) => {
-                    setEmotionalOutcome(e.target.value);
-                    updateInputWidth(inputRefs.emotionalOutcome, measureRefs.emotionalOutcome, e.target.value, 'emotionalOutcome');
-                  }}
-                  placeholder="dystopian, man"
-                  className="inline-block border-b-2 text-black/90 border-black/20 bg-transparent px-2 py-1 focus:outline-none focus:border-black/50 placeholder:text-black/20 placeholder:font-medium focus:placeholder:text-black/3 transition-all duration-200 focus:scale-102 origin-center"
                 />
               </span>
             </p>
@@ -379,6 +530,7 @@ export default function Home() {
             </motion.div>
           )}
         </AnimatePresence>
+        </div>
       </main>
     </div>
   );
