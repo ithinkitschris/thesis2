@@ -76,7 +76,7 @@ export default function Research() {
             }}
           >
             <a 
-              href="https://www.figma.com/deck/lDuqBcyzUYp4EIbKA8Busy/Thesis-Presentation--Dec-9-?node-id=2341-1431&t=pkUKckgAZfTuFGhJ-1" 
+              href="https://www.figma.com/deck/lDuqBcyzUYp4EIbKA8Busy/Thesis-Presentation--Dec-9-?node-id=1-42&t=pkUKckgAZfTuFGhJ-1" 
               target="_blank" 
               rel="noopener noreferrer"
               className="text-lg tracking-tight text-black/60 group-hover:text-white/90 font-semibold transition-colors duration-200 block"
