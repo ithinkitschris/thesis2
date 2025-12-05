@@ -1,4 +1,7 @@
+"use client";
+
 import Image from 'next/image';
+import { motion } from 'framer-motion';
 
 export default function Research() {
   return (
@@ -29,7 +32,7 @@ export default function Research() {
         </div>
 
         {/* Images */}
-        <div className="max-w-2xl mx-auto mt-20 mb-32">
+        <div className="max-w-2xl mx-auto mt-20 mb-12">
           <Image 
             src="/thesisobjective1.svg" 
             alt="Thesis Objective 1" 
@@ -59,8 +62,32 @@ export default function Research() {
           </p>
         </div> */}
 
+        {/* View Progress Link */}
+        <div className="flex justify-center items-center mt-4 mb-4">
+          <motion.div 
+            className="group bg-white hover:bg-black/70 rounded-4xl drop-shadow-xl hover:shadow-none px-6 py-2.5 inline-block cursor-pointer transition-colors duration-200"
+            whileHover={{ 
+              scale: 0.95
+            }}
+            transition={{
+              type: "spring",
+              stiffness: 600,
+              damping: 22
+            }}
+          >
+            <a 
+              href="https://www.figma.com/deck/lDuqBcyzUYp4EIbKA8Busy/Thesis-Presentation--Dec-9-?node-id=2341-1431&t=pkUKckgAZfTuFGhJ-1" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="text-lg tracking-tight text-black/60 group-hover:text-white/90 font-semibold transition-colors duration-200 block"
+            >
+              View the latest deck here
+            </a>
+          </motion.div>
+        </div>
+
         {/* Memoji Wave - Bottom of Content */}
-        <div className="flex justify-center items-center ml-24 drop-shadow-2xl mt-16 overflow-hidden" style={{ height: '340px' }}>
+        <div className="flex justify-center items-center ml-24 drop-shadow-2xl mt-48 overflow-hidden" style={{ height: '340px' }}>
           <Image 
             src="/memojiwave.svg" 
             alt="Memoji Wave" 

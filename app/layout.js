@@ -25,6 +25,13 @@ export default function RootLayout({ children }) {
       >
         <Navbar />
         {children}
+        
+        {/* Floating Footer Bar - Persistent across all pages */}
+        <div className="fixed bottom-6 left-1/2 transform -translate-x-1/2 h-auto flex items-center justify-center bg-white/5 backdrop-blur-sm border-t border-black/10 shadow-lg z-50 px-4 py-2.5 rounded-full">
+          <p className="text-xs text-black/60 text-center tracking-tight leading-tight">
+            v1.0. Work in Progress
+          </p>
+        </div>
       </body>
     </html>
   );
