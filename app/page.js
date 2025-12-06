@@ -231,13 +231,17 @@ export default function Home() {
     <div className="flex flex-col min-h-screen">
       {/* Hero Section */}
       <section className="relative w-full h-screen overflow-hidden">
-        {/* Background Image */}
+        {/* Background Video */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <img 
-            alt="" 
+          <video 
+            autoPlay
+            loop
+            muted
+            playsInline
             className="absolute h-[106.83%] left-[-9.48%] max-w-none top-[-0.62%] w-[117.71%] object-cover" 
-            src="/placeholderbg1.jpg" 
-          />
+          >
+            <source src="/lifeoscover.mp4" type="video/mp4" />
+          </video>
         </div>
 
         {/* Black Gradient Overlay at Top */}
@@ -250,17 +254,17 @@ export default function Home() {
             <img 
               alt="LifeOS Logo" 
               src="/lifeoswhite.svg" 
-              className="h-11 w-auto"
+              className="h-11 w-auto drop-shadow-[2px 4px 5px rgba(0, 0, 0, 1)]"
             />
           </div>
           <div 
-            className="text-white text-6xl tracking-tight"
+            className="text-white text-6xl tracking-tight "
             style={{
               fontFamily: 'SF Pro Rounded, -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif',
               lineHeight: '1.1'
             }}
           >
-            <p className="font-semibold">The human spirit.</p>
+            <p className="font-semibold ">The human spirit.</p>
             <p className="font-normal">Optimized.</p>
           </div>
         </div>
