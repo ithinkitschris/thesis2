@@ -1,251 +1,125 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { motion, AnimatePresence, useInView } from "framer-motion";
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
+import { motion, useInView } from "framer-motion";
 
 
 export default function Home() {
   const phonesRef = useRef(null);
   const isInView = useInView(phonesRef, { once: true, margin: "-100px" });
+
+  const carouselRef = useRef(null);
+
+  const carouselItems = [
+    {
+      image: "/energy.svg",
+      title: "We see what's coming.",
+      description: "Traffic patterns, weather shifts, energy levels, social dynamics. Thousands of simulations of your day are modeled before you even wake up."
+    },
+    {
+      image: "/carousel-2.jpg",
+      title: "Unified Intelligence.",
+      description: "Phone, watch, glasses, home. A unified multimodal experience that moves, learns, and acts across your every waking moment."
+    },
+    {
+      image: "/carousel-3.jpg",
+      title: "No notice required.",
+      description: "LifeOS handles your life in the background, so your attention stays where it belongs: on the one you're living, not the life you're managing."
+    },
+    {
+      image: "/carousel-4.jpg",
+      title: "We know you better than you do.",
+      description: "Twenty years of memory. Every preference, every pattern, every unspoken need. LifeOS just understands."
+    },
+    {
+      image: "/carousel-5.jpg",
+      title: "Proactive Care",
+      description: "LifeOS detects friction before it becomes failure: declining meetings that would drain you, reordering supplies before they run out, reaching out to friends before distance becomes drift."
+    }
+  ];
+
+  const handlePrevSlide = () => {
+    if (carouselRef.current) {
+      const scrollAmount = 420 + 24; // card width + gap
+      carouselRef.current.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+      // Update state after scroll animation completes
+      setTimeout(() => {
+        if (carouselRef.current) {
+          const { scrollLeft, scrollWidth, clientWidth } = carouselRef.current;
+          const threshold = 10;
+          setIsAtStart(scrollLeft <= threshold);
+          setIsAtEnd(scrollLeft + clientWidth >= scrollWidth - threshold);
+        }
+      }, 500); // Wait for smooth scroll to complete
+    }
+  };
+
+  const handleNextSlide = () => {
+    if (carouselRef.current) {
+      const scrollAmount = 420 + 24; // card width + gap
+      carouselRef.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+      // Update state after scroll animation completes
+      setTimeout(() => {
+        if (carouselRef.current) {
+          const { scrollLeft, scrollWidth, clientWidth } = carouselRef.current;
+          const threshold = 10;
+          setIsAtStart(scrollLeft <= threshold);
+          setIsAtEnd(scrollLeft + clientWidth >= scrollWidth - threshold);
+        }
+      }, 500); // Wait for smooth scroll to complete
+    }
+  };
   
-  const [appMethodApproach, setAppMethodApproach] = useState("");
-  const [primaryActivityGoal, setPrimaryActivityGoal] = useState("");
-  const [motivationNeed, setMotivationNeed] = useState("");
-  const [positiveAspects, setPositiveAspects] = useState("");
-  const [frictionPoints, setFrictionPoints] = useState("");
-  const [emotionalOutcome, setEmotionalOutcome] = useState("");
-  const [output, setOutput] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const [isAppMethodApproachFocused, setIsAppMethodApproachFocused] = useState(false);
-  const [isPrimaryActivityGoalFocused, setIsPrimaryActivityGoalFocused] = useState(false);
-  const [isMotivationNeedFocused, setIsMotivationNeedFocused] = useState(false);
-  const [isPositiveAspectsFocused, setIsPositiveAspectsFocused] = useState(false);
-  const [isFrictionPointsFocused, setIsFrictionPointsFocused] = useState(false);
+  const [isAtStart, setIsAtStart] = useState(true);
+  const [isAtEnd, setIsAtEnd] = useState(false);
 
-  // Refs for inputs and hidden spans for measuring text width
-  const inputRefs = {
-    appMethodApproach: useRef(null),
-    primaryActivityGoal: useRef(null),
-    motivationNeed: useRef(null),
-    positiveAspects: useRef(null),
-    frictionPoints: useRef(null),
-    emotionalOutcome: useRef(null),
-  };
-
-  const measureRefs = {
-    appMethodApproach: useRef(null),
-    primaryActivityGoal: useRef(null),
-    motivationNeed: useRef(null),
-    positiveAspects: useRef(null),
-    frictionPoints: useRef(null),
-    emotionalOutcome: useRef(null),
-  };
-
-  // Store minimum widths (placeholder widths) for each input
-  const minWidths = useRef({
-    appMethodApproach: null,
-    primaryActivityGoal: null,
-    motivationNeed: null,
-    positiveAspects: null,
-    frictionPoints: null,
-    emotionalOutcome: null,
-  });
-
-  // Function to get placeholder width
-  const getPlaceholderWidth = (inputRef, measureRef) => {
-    if (measureRef.current && inputRef.current) {
-      const placeholder = inputRef.current.placeholder || "";
-      measureRef.current.textContent = placeholder;
-      return measureRef.current.offsetWidth;
-    }
-    return 100; // fallback
-  };
-
-  // Function to auto-resize textarea height
-  const autoResizeTextarea = (textareaRef) => {
-    if (textareaRef.current) {
-      textareaRef.current.style.height = 'auto';
-      textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
-    }
-  };
-
-  // Function to update input width based on content
-  const updateInputWidth = (inputRef, measureRef, value, fieldName) => {
-    if (measureRef.current && inputRef.current) {
-      const text = value || "";
-      const placeholder = inputRef.current.placeholder || "";
-      
-      // For textarea, measure the longest line
-      if (inputRef.current.tagName === 'TEXTAREA') {
-        const lines = text ? text.split('\n') : [];
-        let maxWidth = 0;
-        
-        // If no text, measure placeholder
-        if (!text || lines.length === 0 || (lines.length === 1 && !lines[0])) {
-          measureRef.current.textContent = placeholder;
-          maxWidth = measureRef.current.offsetWidth;
-        } else {
-          // Measure each line, using placeholder for empty lines
-          lines.forEach(line => {
-            measureRef.current.textContent = line || placeholder;
-            const width = measureRef.current.offsetWidth;
-            maxWidth = Math.max(maxWidth, width);
-          });
-        }
-        
-        const minWidth = minWidths.current[fieldName] || 100;
-        // For positiveAspects and frictionPoints, allow wrapping by setting max-width based on container
-        if (fieldName === 'positiveAspects' || fieldName === 'frictionPoints') {
-          // Get the paragraph container width (go up to <p> element)
-          let container = inputRef.current.parentElement;
-          while (container && container.tagName !== 'P') {
-            container = container.parentElement;
-          }
-          const containerWidth = container?.offsetWidth || window.innerWidth - 200; // Fallback to viewport width minus margins
-          const maxAllowedWidth = Math.max(containerWidth - 150, minWidth); // Leave margin for padding/spacing
-          inputRef.current.style.width = `${Math.min(Math.max(minWidth, maxWidth), maxAllowedWidth)}px`;
-          inputRef.current.style.maxWidth = `${maxAllowedWidth}px`;
-        } else {
-          inputRef.current.style.width = `${Math.max(minWidth, maxWidth)}px`;
-        }
-        
-        // Auto-resize height for textareas
-        autoResizeTextarea(inputRef);
-      } else {
-        // For regular inputs, use placeholder if empty
-        const measureText = text || placeholder;
-        measureRef.current.textContent = measureText;
-        const width = measureRef.current.offsetWidth;
-        const minWidth = minWidths.current[fieldName] || 100;
-        inputRef.current.style.width = `${Math.max(minWidth, width)}px`;
-      }
-    }
-  };
-
-  // Initialize widths on mount
+  // Track carousel scroll position
   useEffect(() => {
-    // Small delay to ensure refs are attached
-    const timer = setTimeout(() => {
-      // Calculate and store placeholder widths
-      minWidths.current.appMethodApproach = getPlaceholderWidth(inputRefs.appMethodApproach, measureRefs.appMethodApproach);
-      minWidths.current.primaryActivityGoal = getPlaceholderWidth(inputRefs.primaryActivityGoal, measureRefs.primaryActivityGoal);
-      minWidths.current.motivationNeed = getPlaceholderWidth(inputRefs.motivationNeed, measureRefs.motivationNeed);
-      minWidths.current.positiveAspects = getPlaceholderWidth(inputRefs.positiveAspects, measureRefs.positiveAspects);
-      minWidths.current.frictionPoints = getPlaceholderWidth(inputRefs.frictionPoints, measureRefs.frictionPoints);
-      minWidths.current.emotionalOutcome = getPlaceholderWidth(inputRefs.emotionalOutcome, measureRefs.emotionalOutcome);
+    const carousel = carouselRef.current;
+    if (!carousel) return;
 
-      // Set initial widths based on placeholder
-      updateInputWidth(inputRefs.appMethodApproach, measureRefs.appMethodApproach, appMethodApproach, 'appMethodApproach');
-      updateInputWidth(inputRefs.primaryActivityGoal, measureRefs.primaryActivityGoal, primaryActivityGoal, 'primaryActivityGoal');
-      updateInputWidth(inputRefs.motivationNeed, measureRefs.motivationNeed, motivationNeed, 'motivationNeed');
-      updateInputWidth(inputRefs.positiveAspects, measureRefs.positiveAspects, positiveAspects, 'positiveAspects');
-      updateInputWidth(inputRefs.frictionPoints, measureRefs.frictionPoints, frictionPoints, 'frictionPoints');
-      updateInputWidth(inputRefs.emotionalOutcome, measureRefs.emotionalOutcome, emotionalOutcome, 'emotionalOutcome');
-    }, 0);
-    return () => clearTimeout(timer);
+    const checkScrollPosition = () => {
+      const { scrollLeft, scrollWidth, clientWidth } = carousel;
+      const threshold = 10; // Small threshold to account for rounding
+
+      setIsAtStart(scrollLeft <= threshold);
+      setIsAtEnd(scrollLeft + clientWidth >= scrollWidth - threshold);
+    };
+
+    // Check initial position
+    checkScrollPosition();
+
+    // Listen to scroll events
+    carousel.addEventListener('scroll', checkScrollPosition);
+    
+    // Also check on resize
+    window.addEventListener('resize', checkScrollPosition);
+
+    return () => {
+      carousel.removeEventListener('scroll', checkScrollPosition);
+      window.removeEventListener('resize', checkScrollPosition);
+    };
   }, []);
 
-  // Update widths when values change
-  useEffect(() => {
-    updateInputWidth(inputRefs.appMethodApproach, measureRefs.appMethodApproach, appMethodApproach, 'appMethodApproach');
-  }, [appMethodApproach]);
-
-  useEffect(() => {
-    updateInputWidth(inputRefs.primaryActivityGoal, measureRefs.primaryActivityGoal, primaryActivityGoal, 'primaryActivityGoal');
-  }, [primaryActivityGoal]);
-
-  useEffect(() => {
-    updateInputWidth(inputRefs.motivationNeed, measureRefs.motivationNeed, motivationNeed, 'motivationNeed');
-  }, [motivationNeed]);
-
-  useEffect(() => {
-    updateInputWidth(inputRefs.positiveAspects, measureRefs.positiveAspects, positiveAspects, 'positiveAspects');
-  }, [positiveAspects]);
-
-  // Handle window resize for positiveAspects textarea
-  useEffect(() => {
-    const handleResize = () => {
-      if (inputRefs.positiveAspects.current && inputRefs.positiveAspects.current.tagName === 'TEXTAREA') {
-        updateInputWidth(inputRefs.positiveAspects, measureRefs.positiveAspects, positiveAspects, 'positiveAspects');
-      }
-    };
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, [positiveAspects]);
-
-  useEffect(() => {
-    updateInputWidth(inputRefs.frictionPoints, measureRefs.frictionPoints, frictionPoints, 'frictionPoints');
-  }, [frictionPoints]);
-
-  // Handle window resize for frictionPoints textarea
-  useEffect(() => {
-    const handleResize = () => {
-      if (inputRefs.frictionPoints.current && inputRefs.frictionPoints.current.tagName === 'TEXTAREA') {
-        updateInputWidth(inputRefs.frictionPoints, measureRefs.frictionPoints, frictionPoints, 'frictionPoints');
-      }
-    };
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, [frictionPoints]);
-
-  useEffect(() => {
-    updateInputWidth(inputRefs.emotionalOutcome, measureRefs.emotionalOutcome, emotionalOutcome, 'emotionalOutcome');
-  }, [emotionalOutcome]);
-
-  const handleGenerate = async () => {
-    if (!appMethodApproach.trim() || !primaryActivityGoal.trim()) {
-      return;
-    }
-
-    setIsLoading(true);
-    setOutput("");
-
-    const filledPrompt = `I use ${appMethodApproach} to ${primaryActivityGoal}${motivationNeed ? ` I do this because ${motivationNeed}` : ""}${positiveAspects ? ` What I like about it is ${positiveAspects},` : ""}${frictionPoints ? ` but what's frustrating or takes effort is ${frictionPoints}` : ""}${emotionalOutcome ? ` The whole thing makes me feel ${emotionalOutcome}` : ""}`;
-
-    try {
-      const response = await fetch("/api/generate", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ prompt: filledPrompt }),
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        setOutput(data.result);
-      } else {
-        setOutput("Error: Failed to generate response. Please try again.");
-      }
-    } catch (error) {
-      setOutput("Error: Failed to generate response. Please try again.");
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen overflow-x-hidden">
       {/* Hero Section */}
       <section className="relative w-full h-screen overflow-hidden">
         {/* Background Video */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute inset-0 pointer-events-none z-[1] shadow-2xl">
           <video 
             autoPlay
             loop
             muted
             playsInline
-            className="absolute h-[106.83%] left-[-9.48%] max-w-none top-[-0.62%] w-[117.71%] object-cover" 
+            className="absolute h-[106.83%] left-[-9.48%] max-w-none top-[-0.62%] w-[117.71%] object-cover " 
           >
             <source src="/lifeoscover.mp4" type="video/mp4" />
           </video>
         </div>
 
         {/* Black Gradient Overlay at Top */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black via-black/50 to-transparent pointer-events-none z-[5] h-[20%]"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-black via-black/50 to-transparent pointer-events-none h-[20%] z-[2]"></div>
 
         {/* Logo and Slogan */}
         <div className="absolute inset-0 flex flex-col items-center justify-center z-10 text-center px-8">
@@ -258,9 +132,8 @@ export default function Home() {
             />
           </div>
           <div 
-            className="text-white text-6xl tracking-tight "
+            className="text-white text-6xl tracking-tight"
             style={{
-              fontFamily: 'SF Pro Rounded, -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif',
               lineHeight: '1.1'
             }}
           >
@@ -271,21 +144,28 @@ export default function Home() {
       </section>
 
       {/* Second Section - Stop Thinking Start Living */}
-      <section className="relative w-full min-h-screen bg-white pt-16 px-8">
-        <div className="max-w-7xl mx-auto">
+      <section className="relative w-full bg-white pt-18 pb-32 px-8 ">
+        {/* Background Image */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-0 scale-[125%]">
+          <img 
+            src="/lotus.svg" 
+            alt="" 
+            className="absolute inset-0 w-full h-full object-cover object-center"
+          />
+        </div>
+        <div className="max-w-7xl mx-auto relative z-10">
           {/* Text Content */}
           <div className="text-center mb-14">
             <div className="mb-5 flex justify-center">
               <img 
                 alt="LifeOS Logo" 
                 src="/lifeosbadlogo.svg" 
-                className="h-20 w-auto"
+                className="h-20 w-auto drop-shadow-md"
               />
             </div>
             <h2 
-              className="text-[38pt] font-semibold text-black mb-6 leading-none tracking-[-0.48px]"
+              className="text-[38pt] font-semibold text-black mb-6 leading-none tracking-[-0.48px] drop-shadow-md"
               style={{
-                fontFamily: 'SF Pro Rounded, -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif',
                 opacity: 0.67
               }}
             >
@@ -374,168 +254,202 @@ export default function Home() {
           </div>
           
           {/* Subheading below mockups */}
-          <div className="text-center mt-20">
-            <p 
-              className="text-xl md:text-2xl font-medium text-black tracking-[0.22px]"
-              style={{
-                fontFamily: 'SF Pro Rounded, -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif',
-                opacity: 0.67
-              }}
+          <div className="text-center mt-20 w-full">
+            <p className="text-xl md:text-2xl font-semibold text-black/70 tracking-[-0.01em] mb-4">
+              Meet the world's first fully agentic operating system.
+            </p>
+            <p className="text-xl font-medium text-black/70 tracking-[-0.01em] w-[55%] mx-auto">
+            LifeOS anticipates what you need, acts on your behalf, and quietly handles the thousands of small decisions that used to fill your day.
+            </p>
+            <p className="text-xl font-medium text-black/70 tracking-[-0.01em] w-[55%] mx-auto">Less screen time. Less decision fatigue. More you.</p>
+          </div>
+        </div>
+      </section>
+
+      {/* Third Section - Carousel */}
+      <section className="relative w-full py-0 mb-20 overflow-hidden">
+
+        {/* Section Title */}
+        <div className="px-8 max-w-8xl mx-auto">
+          <div className="text-left mt-4 mb-10 ml-4">
+            <h2
+              className="text-6xl font-semibold tracking-tight bg-gradient-to-br from-[#777777] to-[#292929] bg-clip-text text-transparent pb-2 drop-shadow-md"
             >
-              The world's first fully agentic operating system.
+              Intelligence that <br/>finally works for you.
+            </h2>
+          </div>
+        </div>
+
+        {/* Carousel Container - extends beyond viewport */}
+        <div className="relative pl-[6%]">
+          {/* Carousel Items */}
+          <div ref={carouselRef} className="flex gap-5 overflow-x-scroll snap-x snap-mandatory pb-8 pr-8 rounded-[28pt]"
+               style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+            {carouselItems.map((item, index) => (
+              <div
+                key={index}
+                className="snap-start flex-shrink-0"
+                style={{ width: '420px' }}
+              >
+                {/* Rounded Rectangle Card */}
+                <div className=" overflow-hidden h-full">
+                  {/* Image */}
+                  <div className={`aspect-[4/5] rounded-[28pt] overflow-hidden flex items-center justify-center ${
+                    index === 0 
+                      ? 'bg-gradient-to-b from-[#ffd68f] to-[#ff9372]' 
+                      : index === 1
+                      ? 'bg-gradient-to-b from-[#79dbff] to-[#2fa1ff]'
+                      : index === 2
+                      ? 'bg-gradient-to-b from-[#ff9dd8] to-[#ff7394]'
+                      : index === 3
+                      ? 'bg-gradient-to-b from-[#5573f7] to-[#7c3aed]'
+                      : index === 4
+                      ? 'bg-gradient-to-b from-[#ffd36e] to-[#ff8c78]'
+                      : 'bg-black/10'
+                  }`}>
+                    {index === 0 && (
+                      <img
+                        src={item.image}
+                        alt={item.title}
+                        className="w-full h-full object-contain p-8"
+                      />
+                    )}
+                  </div>
+
+                  {/* Text Content */}
+                  <div className="mt-6 ml-3">
+                    <h3 className="text-black/65 text-xl font-semibold tracking-[-0.01em] mb-3">
+                      {item.title}
+                    </h3>
+                    <p className="text-black/50 text-md tracking-[-0.01em]">
+                      {item.description}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Navigation Arrows */}
+          <div className="flex justify-end gap-3 mt-8 mr-10">
+            <button
+              onClick={handlePrevSlide}
+              className={`w-9 h-9 rounded-full bg-black/40 hover:bg-black/60 cursor-pointer transition-all duration-100 flex items-center justify-center ${isAtStart ? 'opacity-30' : ''}`}
+              aria-label="Previous slide"
+            >
+              <svg className="w-6 h-6 mr-0.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M15 19l-7-7 7-7" />
+              </svg>
+            </button>
+
+            <button
+              onClick={handleNextSlide}
+              className={`w-9 h-9 rounded-full bg-black/40 hover:bg-black/60 cursor-pointer transition-all duration-100 flex items-center justify-center ${isAtEnd ? 'opacity-30' : ''}`}
+              aria-label="Next slide"
+            >
+              <svg className="w-6 h-6 ml-0.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M9 5l7 7-7 7" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* Fourth Section - Orchestrator */}
+      <section className="relative w-full pt-10 pb-28">
+        <div className="max-w-8xl mx-auto flex flex-col items-center px-10">
+
+          {/* Header */}
+          <div className="text-center max-w-3xl">
+            <h2
+              className="text-6xl font-semibold mb-32 tracking-tight bg-gradient-to-br from-[#777777] to-[#171717] bg-clip-text text-transparent drop-shadow-md"
+            >
+              One intelligence.
+              <br />
+              Infinite coordination.
+            </h2>
+          </div>
+          
+          {/* Placeholder for Orchestrator visual */}
+          <div className="flex justify-center">
+            <img
+              src="/orchestratorvisual.svg"
+              alt="Orchestrator Visual"
+              className="w-full h-auto max-w-7xl scale-115"
+              style={{ filter: 'drop-shadow(2px 5px 10px rgba(0, 0, 0, 0.09))' }}
+            />
+          </div>
+          
+          {/* Description */}
+          <div className="text-center max-w-3xl mt-28">
+            <p className="text-black/65 text-3xl mb-4 font-semibold tracking-[-0.01em] leading-tight">
+            Meet the Orchestrator.
+            </p>
+            <p className="text-black/50 text-2xl font-medium tracking-[-0.01em] leading-tight">
+            Anticipating what you need, coordinating every subsystem, and executing decisions across every domain of your life. The Orchestrator handles life's complexity while keeping yours beautifully simple.
             </p>
           </div>
         </div>
       </section>
 
-      {/* Generator Section */}
-      <main className="flex min-h-screen items-center justify-center px-8 py-16">
-        <div className="w-full max-w-4xl text-center">
-        <div className="space-y-10 mb-8">
-          <div className="text-4xl font-semibold text-black/90 tracking-[-0.01em] text-left max-w-3xl mx-auto space-y-2">
-            <p>
-              I use{" "}
-              <span className="relative inline-block focus-within:mx-1 transition-all duration-200">
-                <span
-                  ref={measureRefs.appMethodApproach}
-                  className="invisible absolute whitespace-pre px-2 text-xl"
-                  style={{ font: 'inherit' }}
-                />
-                <input
-                  ref={inputRefs.appMethodApproach}
-                  type="text"
-                  value={appMethodApproach}
-                  onChange={(e) => {
-                    setAppMethodApproach(e.target.value);
-                    updateInputWidth(inputRefs.appMethodApproach, measureRefs.appMethodApproach, e.target.value, 'appMethodApproach');
-                  }}
-                  onFocus={() => setIsAppMethodApproachFocused(true)}
-                  onBlur={() => setIsAppMethodApproachFocused(false)}
-                  placeholder={isAppMethodApproachFocused ? "app" : "Instagram"}
-                  className="inline-block border-b-2 text-black/90 border-black/20 bg-transparent px-2 py-1 focus:outline-none focus:border-black/50 placeholder:text-black/20 placeholder:font-medium transition-all duration-200 focus:scale-102 origin-center"
-                />
-              </span>{" "}
-              to{" "}
-              <span className="relative inline-block focus-within:mx-1 transition-all duration-200">
-                <span
-                  ref={measureRefs.primaryActivityGoal}
-                  className="invisible absolute whitespace-pre px-2 text-xl"
-                  style={{ font: 'inherit' }}
-                />
-                <input
-                  ref={inputRefs.primaryActivityGoal}
-                  type="text"
-                  value={primaryActivityGoal}
-                  onChange={(e) => {
-                    setPrimaryActivityGoal(e.target.value);
-                    updateInputWidth(inputRefs.primaryActivityGoal, measureRefs.primaryActivityGoal, e.target.value, 'primaryActivityGoal');
-                  }}
-                  onFocus={() => setIsPrimaryActivityGoalFocused(true)}
-                  onBlur={() => setIsPrimaryActivityGoalFocused(false)}
-                  placeholder={isPrimaryActivityGoalFocused ? "goal" : "check in on my friends"}
-                  className="inline-block border-b-2 text-black/90 border-black/20 bg-transparent px-2 py-1 focus:outline-none focus:border-black/50 placeholder:text-black/20 placeholder:font-medium transition-all duration-200 focus:scale-102 origin-center"
-                />
-              </span>
-            </p>
-            <p>
-              I do this because{" "}
-              <span className="relative inline-block focus-within:mx-1 transition-all duration-200">
-                <span
-                  ref={measureRefs.motivationNeed}
-                  className="invisible absolute whitespace-pre px-2 text-xl"
-                  style={{ font: 'inherit' }}
-                />
-                <input
-                  ref={inputRefs.motivationNeed}
-                  type="text"
-                  value={motivationNeed}
-                  onChange={(e) => {
-                    setMotivationNeed(e.target.value);
-                    updateInputWidth(inputRefs.motivationNeed, measureRefs.motivationNeed, e.target.value, 'motivationNeed');
-                  }}
-                  onFocus={() => setIsMotivationNeedFocused(true)}
-                  onBlur={() => setIsMotivationNeedFocused(false)}
-                  placeholder={isMotivationNeedFocused ? "reason" : "I am bored"}
-                  className="inline-block border-b-2 text-black/90 border-black/20 bg-transparent px-2 py-1 focus:outline-none focus:border-black/50 placeholder:text-black/20 placeholder:font-medium transition-all duration-200 focus:scale-102 origin-center"
-                />
-              </span>
-            </p>
-            <p>
-              What I like about it is{" "}
-              <span className="relative inline-block focus-within:mx-1 transition-all duration-200">
-                <span
-                  ref={measureRefs.positiveAspects}
-                  className="invisible absolute whitespace-pre px-2 text-xl"
-                  style={{ font: 'inherit' }}
-                />
-                <textarea
-                  ref={inputRefs.positiveAspects}
-                  value={positiveAspects}
-                  onChange={(e) => {
-                    setPositiveAspects(e.target.value);
-                    updateInputWidth(inputRefs.positiveAspects, measureRefs.positiveAspects, e.target.value, 'positiveAspects');
-                  }}
-                  onFocus={() => setIsPositiveAspectsFocused(true)}
-                  onBlur={() => setIsPositiveAspectsFocused(false)}
-                  placeholder={isPositiveAspectsFocused ? "positive feeling" : "it helps me feel connected"}
-                  rows={1}
-                  className="inline-block align-baseline border-b-2 text-black/90 border-black/20 bg-transparent px-2 py-1 focus:outline-none focus:border-black/50 resize-none overflow-hidden placeholder:text-black/20 placeholder:font-medium transition-all duration-200 focus:scale-[1.02] origin-left"
-                  style={{ wordWrap: 'break-word', overflowWrap: 'break-word' }}
-                />
-              </span>
-            </p>
-            <p>
-              But what's frustrating is{" "}
-              <span className="relative inline-block focus-within:mx-1 transition-all duration-200">
-                <span
-                  ref={measureRefs.frictionPoints}
-                  className="invisible absolute whitespace-pre px-2 text-xl"
-                  style={{ font: 'inherit' }}
-                />
-                <textarea
-                  ref={inputRefs.frictionPoints}
-                  value={frictionPoints}
-                  onChange={(e) => {
-                    setFrictionPoints(e.target.value);
-                    updateInputWidth(inputRefs.frictionPoints, measureRefs.frictionPoints, e.target.value, 'frictionPoints');
-                  }}
-                  onFocus={() => setIsFrictionPointsFocused(true)}
-                  onBlur={() => setIsFrictionPointsFocused(false)}
-                  placeholder={isFrictionPointsFocused ? "negative feeling" : "I end up doomscrolling on corgi reels  "}
-                  rows={1}
-                  className="inline-block align-baseline border-b-2 text-black/90 border-black/20 bg-transparent px-2 py-1 focus:outline-none focus:border-black/50 resize-none overflow-hidden placeholder:text-black/20 placeholder:font-medium transition-all duration-200 focus:scale-102 origin-center"
-                  style={{ wordWrap: 'break-word', overflowWrap: 'break-word' }}
-                />
-              </span>
-            </p>
+      {/* Fifth Section - Personal Knowledge Graph */}
+      <section className="relative w-full pt-20 pb-32 bg-black/3">
+        <div className="max-w-8xl mx-auto flex flex-col items-center px-10">
+          {/* Title - Center Aligned at Top */}
+          <h2
+            className="text-6xl font-semibold bg-gradient-to-br from-[#66d6ff] to-[#008cff] bg-clip-text text-transparent pb-16 tracking-tight text-center drop-shadow-md"
+          >
+            Wake up to a day <br /> that's already solved.
+          </h2>
+
+          {/* iPad Image */}
+          <div className="flex justify-center mb-16">
+            <img
+              src="/day.png"
+              alt="Personal Knowledge Graph Interface"
+              className="w-full h-auto drop-shadow-xl max-w-4xl scale-110"
+            />
           </div>
 
-          <button
-            onClick={handleGenerate}
-            disabled={!appMethodApproach.trim() || !primaryActivityGoal.trim()}
-            className="px-6 py-2.5 border-2 border-black/20 text-black/90 rounded-full font-medium hover:bg-black/80 hover:text-white hover:scale-95 disabled:opacity-0 disabled:scale-90 transition-all duration-100 cursor-pointer disabled:cursor-none"
-          >
-            {isLoading ? "Generating..." : "What is this?"}
-          </button>
+          {/* Description Below iPad */}
+          <p className="text-black/65 text-2xl mb-4 font-semibold tracking-[-0.01em] leading-tight">
+          No planning. No prioritizing. No wondering what comes next.
+          </p>
+          <p className="text-black/50 text-2xl font-medium tracking-[-0.01em] leading-tight">
+          LifeOS simulates thousands of possible days and delivers one day designed around <br/>who you are and what you need. No decisions required. All that's left is living it.
+          </p>
         </div>
+      </section>
 
-        <AnimatePresence>
-          {output && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.5 }}
-              className="markdown-content mt-28"
-            >
-              <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                {output}
-              </ReactMarkdown>
-            </motion.div>
-          )}
-        </AnimatePresence>
+      {/* Sixth Section - Personal Knowledge Graph (Left-Right Layout) */}
+      <section className="relative w-full pt-48 pb-64 bg-black/98">
+        <div className="max-w-8xl mx-auto pl-10 pr-4">
+          <div className="flex flex-col lg:flex-row items-start gap-12 lg:gap-16">
+
+            {/* Left Side - Header and Description */}
+            <div className="flex-1">
+              <h2
+                className="text-7xl font-medium bg-gradient-to-br from-[#30c8ff] to-[#008cff] bg-clip-text text-transparent mb-6 tracking-tight"
+              >
+                Personal <br/>Knowledge<br/> Graph
+              </h2>
+              <p className="text-white/80 text-xl w-[80%]">
+                Your entire life, relationships, preferences, and patterns—all connected in one intelligent graph that understands context, learns continuously, and anticipates your needs before you do.
+              </p>
+            </div>
+
+            {/* Right Side - iPad Image */}
+            <div className="flex-[1.5] flex justify-center lg:justify-end items-start">
+              <img
+                src="/pkg.svg"
+                alt="Personal Knowledge Graph Interface"
+                className="w-full h-auto drop-shadow-xl"
+              />
+            </div>
+          </div>
         </div>
-      </main>
+      </section>
+
     </div>
   );
 }

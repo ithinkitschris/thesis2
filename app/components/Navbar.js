@@ -32,10 +32,10 @@ export default function Navbar() {
 
   return (
     <nav
-      className={`fixed top-4 left-1/2 -translate-x-1/2 z-50 rounded-full px-1 py-1 shadow-lg backdrop-blur-[4px] transition-colors duration-300 ${
+      className={`fixed top-4 left-1/2 -translate-x-1/2 z-50 border-b-1 border-r-1 rounded-full px-0.5 py-0.5 shadow-lg backdrop-blur-[10px] transition-colors duration-300 ${
         isOverDark
-          ? "bg-black/50 text-white"
-          : "bg-white/50 text-black"
+          ? "bg-black/50 text-white border-white/10"
+          : "bg-white/50 text-black border-white/40"
       }`}
     >
       <div className="flex justify-center -space-x-2">
@@ -58,6 +58,16 @@ export default function Navbar() {
           }`}
         >
           About
+        </Link>
+        <Link
+          href="/sandbox"
+          className={`text-base font-medium tracking-tight transition-all duration-100 hover:scale-90 rounded-full px-4 py-2 ${
+            isOverDark
+              ? "hover:bg-white/20"
+              : "hover:bg-black/20"
+          }`}
+        >
+          Sandbox
         </Link>
       </div>
     </nav>
