@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { motion, useInView } from "framer-motion";
+import OrchestratorVisual from "./components/OrchestratorVisual";
 
 
 export default function Home() {
@@ -9,6 +10,7 @@ export default function Home() {
   const isInView = useInView(phonesRef, { once: true, margin: "-100px" });
 
   const carouselRef = useRef(null);
+  const orchestratorSectionRef = useRef(null);
 
   const carouselItems = [
     {
@@ -17,19 +19,19 @@ export default function Home() {
       description: "Traffic patterns, weather shifts, energy levels, social dynamics. Thousands of simulations of your day are modeled before you even wake up."
     },
     {
-      image: "/carousel-2.jpg",
-      title: "Unified Intelligence.",
-      description: "Phone, watch, glasses, home. A unified multimodal experience that moves, learns, and acts across your every waking moment."
+      image: "/spotify.jpg",
+      title: "We know you better than you do.",
+      description: "Twenty years of memory. Every preference, every pattern, every unspoken need. LifeOS just understands."
     },
     {
-      image: "/carousel-3.jpg",
+      image: "/igmessages.svg",
       title: "No notice required.",
       description: "LifeOS handles your life in the background, so your attention stays where it belongs: on the one you're living, not the life you're managing."
     },
     {
-      image: "/carousel-4.jpg",
-      title: "We know you better than you do.",
-      description: "Twenty years of memory. Every preference, every pattern, every unspoken need. LifeOS just understands."
+      image: "/carousel-2.jpg",
+      title: "Unified Intelligence.",
+      description: "Phone, watch, glasses, home. A unified multimodal experience that moves, learns, and acts across your every waking moment."
     },
     {
       image: "/carousel-5.jpg",
@@ -314,6 +316,20 @@ export default function Home() {
                         className="w-full h-full object-contain p-8"
                       />
                     )}
+                    {index === 1 && (
+                      <img
+                        src={item.image}
+                        alt={item.title}
+                        className="w-full h-full object-cover scale-[115%] ml-1 mt-4"
+                      />
+                    )}
+                    {index === 2 && (
+                      <img
+                        src={item.image}
+                        alt={item.title}
+                        className="w-full h-full object-contain pt-5 p-4 scale-100"
+                      />
+                    )}
                   </div>
 
                   {/* Text Content */}
@@ -356,7 +372,7 @@ export default function Home() {
       </section>
 
       {/* Fourth Section - Orchestrator */}
-      <section className="relative w-full pt-10 pb-28">
+      <section ref={orchestratorSectionRef} className="relative w-full pt-10 pb-28">
         <div className="max-w-8xl mx-auto flex flex-col items-center px-10">
 
           {/* Header */}
@@ -370,14 +386,11 @@ export default function Home() {
             </h2>
           </div>
           
-          {/* Placeholder for Orchestrator visual */}
+          {/* Orchestrator visual with orbiting animation */}
           <div className="flex justify-center">
-            <img
-              src="/orchestratorvisual.svg"
-              alt="Orchestrator Visual"
-              className="w-full h-auto max-w-7xl scale-115"
-              style={{ filter: 'drop-shadow(2px 5px 10px rgba(0, 0, 0, 0.09))' }}
-            />
+            <div className="w-full h-auto max-w-7xl scale-115" style={{ filter: 'drop-shadow(2px 5px 10px rgba(0, 0, 0, 0.09))' }}>
+              <OrchestratorVisual sectionRef={orchestratorSectionRef} />
+            </div>
           </div>
           
           {/* Description */}
