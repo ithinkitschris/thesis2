@@ -24,7 +24,7 @@ export default function Home() {
       description: "Twenty years of memory. Every preference, every pattern, every unspoken need. LifeOS just understands."
     },
     {
-      image: "/igmessages.svg",
+      image: "/igmessages.jpg",
       title: "No notice required.",
       description: "LifeOS handles your life in the background, so your attention stays where it belongs: on the one you're living, not the life you're managing."
     },
@@ -34,7 +34,7 @@ export default function Home() {
       description: "Phone, watch, glasses, home. A unified multimodal experience that moves, learns, and acts across your every waking moment."
     },
     {
-      image: "/carousel-5.jpg",
+      image: "/care.jpg",
       title: "Proactive Care",
       description: "LifeOS detects friction before it becomes failure: declining meetings that would drain you, reordering supplies before they run out, reaching out to friends before distance becomes drift."
     }
@@ -166,14 +166,11 @@ export default function Home() {
               />
             </div>
             <h2 
-              className="text-[38pt] font-semibold text-black mb-6 leading-none tracking-[-0.48px] drop-shadow-md"
-              style={{
-                opacity: 0.67
-              }}
+              className="text-[42pt] font-semibold bg-gradient-to-br from-[#66d6ff] to-[#008cff] bg-clip-text text-transparent mb-6 leading-none tracking-[-0.48px] drop-shadow-sm pb-2"
             >
-              Stop thinking.
+              Less thinking.
               <br />
-              Start living.
+              More living.
             </h2>
           </div>
 
@@ -257,13 +254,13 @@ export default function Home() {
           
           {/* Subheading below mockups */}
           <div className="text-center mt-20 w-full">
-            <p className="text-xl md:text-2xl font-semibold text-black/70 tracking-[-0.01em] mb-4">
+            <p className="text-black/80 text-3xl mb-4 font-semibold tracking-[-0.01em] leading-tight">
               Meet the world's first fully agentic operating system.
             </p>
-            <p className="text-xl font-medium text-black/70 tracking-[-0.01em] w-[55%] mx-auto">
+            <p className="text-black/50 text-xl font-medium tracking-[-0.01em] leading-tight w-[50%] mx-auto">
             LifeOS anticipates what you need, acts on your behalf, and quietly handles the thousands of small decisions that used to fill your day.
             </p>
-            <p className="text-xl font-medium text-black/70 tracking-[-0.01em] w-[55%] mx-auto">Less screen time. Less decision fatigue. More you.</p>
+            <p className="text-black/50 text-xl font-medium tracking-[-0.01em] leading-tight">Less screen time. Less decision fatigue. More you.</p>
           </div>
         </div>
       </section>
@@ -271,34 +268,58 @@ export default function Home() {
       {/* Third Section - Carousel */}
       <section className="relative w-full py-0 mb-20 overflow-hidden">
 
-        {/* Section Title */}
+        {/* Section Title and Navigation Arrows */}
         <div className="px-8 max-w-8xl mx-auto">
-          <div className="text-left mt-4 mb-10 ml-4">
-            <h2
-              className="text-6xl font-semibold tracking-tight bg-gradient-to-br from-[#777777] to-[#292929] bg-clip-text text-transparent pb-2 drop-shadow-md"
-            >
-              Intelligence that <br/>finally works for you.
-            </h2>
+          <div className="flex items-end justify-between mt-4 mb-10 ml-4">
+            <div className="text-left">
+              <h2
+                className="text-6xl font-semibold tracking-tight bg-gradient-to-br from-[#777777] to-[#292929] bg-clip-text text-transparent pb-2 drop-shadow-md"
+              >
+                Intelligence that <br/>finally works for you.
+              </h2>
+            </div>
+            {/* Navigation Arrows */}
+            <div className="flex justify-end gap-3">
+              <button
+                onClick={handlePrevSlide}
+                className={`w-9 h-9 rounded-full bg-black/40 hover:bg-black/60 cursor-pointer transition-all duration-100 flex items-center justify-center ${isAtStart ? 'opacity-30' : ''}`}
+                aria-label="Previous slide"
+              >
+                <svg className="w-6 h-6 mr-0.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M15 19l-7-7 7-7" />
+                </svg>
+              </button>
+
+              <button
+                onClick={handleNextSlide}
+                className={`w-9 h-9 rounded-full bg-black/40 hover:bg-black/60 cursor-pointer transition-all duration-100 flex items-center justify-center ${isAtEnd ? 'opacity-30' : ''}`}
+                aria-label="Next slide"
+              >
+                <svg className="w-6 h-6 ml-0.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M9 5l7 7-7 7" />
+                </svg>
+              </button>
+            </div>
           </div>
         </div>
 
         {/* Carousel Container - extends beyond viewport */}
         <div className="relative pl-[6%]">
           {/* Carousel Items */}
-          <div ref={carouselRef} className="flex gap-5 overflow-x-scroll snap-x snap-mandatory pb-8 pr-8 rounded-[28pt]"
+          <div ref={carouselRef} className="flex gap-5 overflow-x-scroll snap-x snap-mandatory pb-8 pr-8 rounded-[22pt]"
                style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
             {carouselItems.map((item, index) => (
               <div
                 key={index}
                 className="snap-start flex-shrink-0"
-                style={{ width: '420px' }}
+                style={{ width: '360px' }}
               >
                 {/* Rounded Rectangle Card */}
                 <div className=" overflow-hidden h-full">
                   {/* Image */}
-                  <div className={`aspect-[4/5] rounded-[28pt] overflow-hidden flex items-center justify-center ${
+                  <div className={`aspect-[3.5/5] rounded-[22pt] overflow-hidden flex items-center justify-center ${
                     index === 0 
-                      ? 'bg-gradient-to-b from-[#ffd68f] to-[#ff9372]' 
+                      ? 'bg-gradient-to-b from-[#9ee5ff] to-[#247cff]' 
                       : index === 1
                       ? 'bg-gradient-to-b from-[#79dbff] to-[#2fa1ff]'
                       : index === 2
@@ -313,60 +334,44 @@ export default function Home() {
                       <img
                         src={item.image}
                         alt={item.title}
-                        className="w-full h-full object-contain p-8"
+                        className="w-full h-full object-contain p-5"
                       />
                     )}
                     {index === 1 && (
                       <img
                         src={item.image}
                         alt={item.title}
-                        className="w-full h-full object-cover scale-[115%] ml-1 mt-4"
+                        className="w-full h-full object-cover "
                       />
                     )}
                     {index === 2 && (
                       <img
                         src={item.image}
                         alt={item.title}
-                        className="w-full h-full object-contain pt-5 p-4 scale-100"
+                        className="w-full h-full object-cover scale-100"
+                      />
+                    )}
+                    {index === 4 && (
+                      <img
+                        src={item.image}
+                        alt={item.title}
+                        className="w-full h-full object-cover"
                       />
                     )}
                   </div>
 
                   {/* Text Content */}
                   <div className="mt-6 ml-3">
-                    <h3 className="text-black/65 text-xl font-semibold tracking-[-0.01em] mb-3">
+                    <h3 className="text-black/80 text-xl font-semibold tracking-[-0.02em] mb-3">
                       {item.title}
                     </h3>
-                    <p className="text-black/50 text-md tracking-[-0.01em]">
+                    <p className="text-black/60 text-md tracking-[-0.01em] w-[95%]">
                       {item.description}
                     </p>
                   </div>
                 </div>
               </div>
             ))}
-          </div>
-
-          {/* Navigation Arrows */}
-          <div className="flex justify-end gap-3 mt-8 mr-10">
-            <button
-              onClick={handlePrevSlide}
-              className={`w-9 h-9 rounded-full bg-black/40 hover:bg-black/60 cursor-pointer transition-all duration-100 flex items-center justify-center ${isAtStart ? 'opacity-30' : ''}`}
-              aria-label="Previous slide"
-            >
-              <svg className="w-6 h-6 mr-0.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M15 19l-7-7 7-7" />
-              </svg>
-            </button>
-
-            <button
-              onClick={handleNextSlide}
-              className={`w-9 h-9 rounded-full bg-black/40 hover:bg-black/60 cursor-pointer transition-all duration-100 flex items-center justify-center ${isAtEnd ? 'opacity-30' : ''}`}
-              aria-label="Next slide"
-            >
-              <svg className="w-6 h-6 ml-0.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M9 5l7 7-7 7" />
-              </svg>
-            </button>
           </div>
         </div>
       </section>
@@ -378,9 +383,9 @@ export default function Home() {
           {/* Header */}
           <div className="text-center max-w-3xl">
             <h2
-              className="text-6xl font-semibold mb-32 tracking-tight bg-gradient-to-br from-[#777777] to-[#171717] bg-clip-text text-transparent drop-shadow-md"
+              className="text-6xl font-semibold mb-32 pb-2 tracking-tight bg-gradient-to-br from-[#777777] to-[#171717] bg-clip-text text-transparent drop-shadow-md"
             >
-              One intelligence.
+              Finite life.
               <br />
               Infinite coordination.
             </h2>
@@ -406,11 +411,11 @@ export default function Home() {
       </section>
 
       {/* Fifth Section - Personal Knowledge Graph */}
-      <section className="relative w-full pt-20 pb-32 bg-black/3">
+      <section className="relative w-full pt-20 pb-32 bg-gradient-to-b from-[#fff6ef]  via-[#b2e0eb] to-[#abd8ff]">
         <div className="max-w-8xl mx-auto flex flex-col items-center px-10">
           {/* Title - Center Aligned at Top */}
           <h2
-            className="text-6xl font-semibold bg-gradient-to-br from-[#66d6ff] to-[#008cff] bg-clip-text text-transparent pb-16 tracking-tight text-center drop-shadow-md"
+            className="text-6xl font-semibold bg-gradient-to-br from-[#66d6ff] to-[#008cff] bg-clip-text text-transparent pb-16 tracking-tight text-center"
           >
             Wake up to a day <br /> that's already solved.
           </h2>
@@ -425,10 +430,10 @@ export default function Home() {
           </div>
 
           {/* Description Below iPad */}
-          <p className="text-black/65 text-2xl mb-4 font-semibold tracking-[-0.01em] leading-tight">
+          <p className="text-black/80 text-2xl mb-4 font-semibold tracking-[-0.01em] leading-tight">
           No planning. No prioritizing. No wondering what comes next.
           </p>
-          <p className="text-black/50 text-2xl font-medium tracking-[-0.01em] leading-tight">
+          <p className="text-black/60 text-2xl font-medium tracking-[-0.01em] leading-tight">
           LifeOS simulates thousands of possible days and delivers one day designed around <br/>who you are and what you need. No decisions required. All that's left is living it.
           </p>
         </div>
