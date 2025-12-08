@@ -29,13 +29,13 @@ export default function Home() {
       description: "LifeOS handles your life in the background, so your attention stays where it belongs: on the one you're living, not the life you're managing."
     },
     {
-      image: "/carousel-2.jpg",
-      title: "Unified Intelligence.",
+      image: "/multimodal.jpg",
+      title: "Uni-modal.",
       description: "Phone, watch, glasses, home. A unified multimodal experience that moves, learns, and acts across your every waking moment."
     },
     {
       image: "/care.jpg",
-      title: "Proactive Care",
+      title: "Pro Active.",
       description: "LifeOS detects friction before it becomes failure: declining meetings that would drain you, reordering supplies before they run out, reaching out to friends before distance becomes drift."
     }
   ];
@@ -317,7 +317,7 @@ export default function Home() {
                 {/* Rounded Rectangle Card */}
                 <div className=" overflow-hidden h-full">
                   {/* Image */}
-                  <div className={`aspect-[3.5/5] rounded-[22pt] overflow-hidden flex items-center justify-center ${
+                  <div className={`aspect-[3.5/4.8] rounded-[22pt] overflow-hidden flex items-center justify-center ${
                     index === 0 
                       ? 'bg-gradient-to-b from-[#9ee5ff] to-[#247cff]' 
                       : index === 1
@@ -349,6 +349,13 @@ export default function Home() {
                         src={item.image}
                         alt={item.title}
                         className="w-full h-full object-cover scale-100"
+                      />
+                    )}
+                    {index === 3 && (
+                      <img
+                        src={item.image}
+                        alt={item.title}
+                        className="w-full h-full object-cover"
                       />
                     )}
                     {index === 4 && (
