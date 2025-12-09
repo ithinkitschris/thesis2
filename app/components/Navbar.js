@@ -16,7 +16,21 @@ export default function Navbar() {
       return;
     }
 
+    // Find section 6 element
+    const section6 = document.getElementById("section-6");
+    
     const handleScroll = () => {
+      // Check if section 6 is in viewport
+      if (section6) {
+        const rect = section6.getBoundingClientRect();
+        const isInSection6 = rect.top < window.innerHeight && rect.bottom > 0;
+        
+        if (isInSection6) {
+          setIsOverDark(true);
+          return;
+        }
+      }
+
       // Hero section is 100vh, so when scrolled past that, navbar is over light background
       const scrollY = window.scrollY;
       const viewportHeight = window.innerHeight;

@@ -3,6 +3,10 @@
 import { useState, useRef, useEffect } from "react";
 import { motion, useInView } from "framer-motion";
 import OrchestratorVisual from "./components/OrchestratorVisual";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 
 export default function Home() {
@@ -11,6 +15,12 @@ export default function Home() {
 
   const carouselRef = useRef(null);
   const orchestratorSectionRef = useRef(null);
+  const contextCategoriesRef = useRef(null);
+  const categoryItemsRef = useRef([]);
+  const section6Ref = useRef(null);
+  const section6HeaderRef = useRef(null);
+  const section6DescriptionRef = useRef(null);
+  const section6IpadRef = useRef(null);
 
   const carouselItems = [
     {
@@ -19,14 +29,14 @@ export default function Home() {
       description: "Traffic patterns, weather shifts, energy levels, social dynamics. Thousands of simulations of your day are modeled before you even wake up."
     },
     {
-      image: "/spotify.jpg",
-      title: "We know you better than you do.",
-      description: "Twenty years of memory. Every preference, every pattern, every unspoken need. LifeOS just understands."
-    },
-    {
       image: "/igmessages.jpg",
       title: "No notice required.",
       description: "LifeOS handles your life in the background, so your attention stays where it belongs: on the one you're living, not the life you're managing."
+    },
+    {
+      image: "/spotify.jpg",
+      title: "We know you better than you do.",
+      description: "Twenty years of memory. Every preference, every pattern, every unspoken need. LifeOS just understands."
     },
     {
       image: "/multimodal.jpg",
@@ -34,7 +44,7 @@ export default function Home() {
       description: "Phone, watch, glasses, home. A unified multimodal experience that moves, learns, and acts across your every waking moment."
     },
     {
-      image: "/care.jpg",
+      image: "/proactive.jpg",
       title: "Pro Active.",
       description: "LifeOS detects friction before it becomes failure: declining meetings that would drain you, reordering supplies before they run out, reaching out to friends before distance becomes drift."
     }
@@ -100,6 +110,315 @@ export default function Home() {
     return () => {
       carousel.removeEventListener('scroll', checkScrollPosition);
       window.removeEventListener('resize', checkScrollPosition);
+    };
+  }, []);
+
+  // GSAP ScrollTrigger animation for context categories
+  useEffect(() => {
+    if (!contextCategoriesRef.current || !section6Ref.current) return;
+
+    const items = categoryItemsRef.current.filter(Boolean);
+    if (items.length === 0) return;
+
+    // Clear any existing ScrollTriggers
+    ScrollTrigger.getAll().forEach(trigger => {
+      if (trigger.vars.id === 'categories-scroll') {
+        trigger.kill();
+      }
+    });
+
+    // Set initial states - first item visible, rest hidden
+    gsap.set(contextCategoriesRef.current, { y: 0, scale: 1.5 });
+    gsap.set(items[0], { opacity: 1 });
+    items.slice(1).forEach(item => {
+      gsap.set(item, { opacity: 0.25 });
+    });
+
+    // Set initial states for header, description, and iPad - hidden and positioned below
+    gsap.set(section6HeaderRef.current, { opacity: 0, y: 50 });
+    gsap.set(section6DescriptionRef.current, { opacity: 0, y: 50 });
+    gsap.set(section6IpadRef.current, { opacity: 0, y: 50 });
+
+    // Create ScrollTrigger with phases for each item
+    ScrollTrigger.create({
+      id: 'categories-scroll',
+      trigger: section6Ref.current,
+      start: 'top top',
+      end: '+=150%',
+      pin: true,
+      pinSpacing: true,
+      anticipatePin: 1,
+      scrub: 1,
+      invalidateOnRefresh: true,
+      onUpdate: (self) => {
+        const progress = self.progress; // 0 to 1
+
+        // Phase 1: 0-12% (Context → Environment) - 20% of Phase 1 (6 lines)
+        if (progress <= 0.12) {
+          const phase1Progress = progress / 0.12;
+          const easedProgress = gsap.parseEase("power3.inOut")(phase1Progress);
+
+          // Scale from 1.5 to 1 over 0-80% progress (independent easing: power2.inOut)
+          const scaleProgress = Math.min(1, progress / 0.8);
+          const scaleEased = gsap.parseEase("power2.inOut")(scaleProgress);
+          const scale = 1.5 - (0.5 * scaleEased);
+
+          // Container moves upward and scales
+          gsap.set(contextCategoriesRef.current, {
+            y: -65 * easedProgress,
+            scale: scale
+          });
+
+          gsap.set(items[0], {
+            opacity: 1 - (0.75 * easedProgress)
+          });
+
+          gsap.set(items[1], {
+            opacity: 0.25 + (0.75 * easedProgress)
+          });
+
+          // Keep rest at initial state
+          items.slice(2).forEach(item => gsap.set(item, { opacity: 0.25 }));
+
+          // Ensure header, description, and iPad are hidden in Phase 1
+          gsap.set(section6HeaderRef.current, { opacity: 0, y: 50 });
+          gsap.set(section6DescriptionRef.current, { opacity: 0, y: 50 });
+          gsap.set(section6IpadRef.current, { opacity: 0, y: 50 });
+        }
+        // Phase 2: 12-24% (Environment → Psychology) - 20% of Phase 1
+        else if (progress <= 0.24) {
+          const phase2Progress = (progress - 0.12) / 0.12;
+          const easedProgress = gsap.parseEase("power3.inOut")(phase2Progress);
+
+          // Scale from 1.5 to 1 over 0-80% progress (independent easing: power2.inOut)
+          const scaleProgress = Math.min(1, progress / 0.8);
+          const scaleEased = gsap.parseEase("power2.inOut")(scaleProgress);
+          const scale = 1.5 - (0.5 * scaleEased);
+
+          // Container moves upward (cumulative -130px) and scales
+          gsap.set(contextCategoriesRef.current, {
+            y: -65 - (65 * easedProgress),
+            scale: scale
+          });
+
+          gsap.set(items[0], { opacity: 0.25 });
+
+          gsap.set(items[1], {
+            opacity: 1 - (0.75 * easedProgress)
+          });
+
+          gsap.set(items[2], {
+            opacity: 0.25 + (0.75 * easedProgress)
+          });
+
+          items.slice(3).forEach(item => gsap.set(item, { opacity: 0.25 }));
+
+          // Ensure header, description, and iPad are hidden in Phase 2
+          gsap.set(section6HeaderRef.current, { opacity: 0, y: 50 });
+          gsap.set(section6DescriptionRef.current, { opacity: 0, y: 50 });
+          gsap.set(section6IpadRef.current, { opacity: 0, y: 50 });
+        }
+        // Phase 3: 24-36% (Psychology → Biometrics) - 20% of Phase 1
+        else if (progress <= 0.36) {
+          const phase3Progress = (progress - 0.24) / 0.12;
+          const easedProgress = gsap.parseEase("power3.inOut")(phase3Progress);
+
+          // Scale from 1.5 to 1 over 0-80% progress (independent easing: power2.inOut)
+          const scaleProgress = Math.min(1, progress / 0.8);
+          const scaleEased = gsap.parseEase("power2.inOut")(scaleProgress);
+          const scale = 1.5 - (0.5 * scaleEased);
+
+          // Container moves upward (cumulative -195px) and scales
+          gsap.set(contextCategoriesRef.current, {
+            y: -130 - (65 * easedProgress),
+            scale: scale
+          });
+
+          gsap.set(items[0], { opacity: 0.25 });
+          gsap.set(items[1], { opacity: 0.25 });
+
+          gsap.set(items[2], {
+            opacity: 1 - (0.75 * easedProgress)
+          });
+
+          gsap.set(items[3], {
+            opacity: 0.25 + (0.75 * easedProgress)
+          });
+
+          items.slice(4).forEach(item => gsap.set(item, { opacity: 0.25 }));
+
+          // Ensure header, description, and iPad are hidden in Phase 3
+          gsap.set(section6HeaderRef.current, { opacity: 0, y: 50 });
+          gsap.set(section6DescriptionRef.current, { opacity: 0, y: 50 });
+          gsap.set(section6IpadRef.current, { opacity: 0, y: 50 });
+        }
+        // Phase 4: 36-48% (Biometrics → Relationships) - 20% of Phase 1
+        else if (progress <= 0.48) {
+          const phase4Progress = (progress - 0.36) / 0.12;
+          const easedProgress = gsap.parseEase("power3.inOut")(phase4Progress);
+
+          // Scale from 1.5 to 1 over 0-80% progress (independent easing: power2.inOut)
+          const scaleProgress = Math.min(1, progress / 0.8);
+          const scaleEased = gsap.parseEase("power2.inOut")(scaleProgress);
+          const scale = 1.5 - (0.5 * scaleEased);
+
+          // Container moves upward (cumulative -260px) and scales
+          gsap.set(contextCategoriesRef.current, {
+            y: -195 - (65 * easedProgress),
+            scale: scale
+          });
+
+          items.slice(0, 3).forEach(item => gsap.set(item, { opacity: 0.25 }));
+
+          gsap.set(items[3], {
+            opacity: 1 - (0.75 * easedProgress)
+          });
+
+          gsap.set(items[4], {
+            opacity: 0.25 + (0.75 * easedProgress)
+          });
+
+          gsap.set(items[5], { opacity: 0.25 });
+
+          // Ensure header, description, and iPad are hidden in Phase 4
+          gsap.set(section6HeaderRef.current, { opacity: 0, y: 50 });
+          gsap.set(section6DescriptionRef.current, { opacity: 0, y: 50 });
+          gsap.set(section6IpadRef.current, { opacity: 0, y: 50 });
+        }
+        // Phase 5: 48-60% (Relationships → Communication) - 20% of Phase 1
+        else if (progress <= 0.6) {
+          const phase5Progress = (progress - 0.48) / 0.12;
+          const easedProgress = gsap.parseEase("power3.inOut")(phase5Progress);
+
+          // Scale from 1.5 to 1 over 0-80% progress (independent easing: power2.inOut)
+          const scaleProgress = Math.min(1, progress / 0.8);
+          const scaleEased = gsap.parseEase("power2.inOut")(scaleProgress);
+          const scale = 1.5 - (0.5 * scaleEased);
+
+          // Container moves upward (cumulative -325px) and scales
+          gsap.set(contextCategoriesRef.current, {
+            y: -260 - (65 * easedProgress),
+            scale: scale
+          });
+
+          items.slice(0, 4).forEach(item => gsap.set(item, { opacity: 0.25 }));
+
+          gsap.set(items[4], {
+            opacity: 1 - (0.75 * easedProgress)
+          });
+
+          gsap.set(items[5], {
+            opacity: 0.25 + (0.75 * easedProgress)
+          });
+
+          // Ensure header, description, and iPad are hidden in Phase 5
+          gsap.set(section6HeaderRef.current, { opacity: 0, y: 50 });
+          gsap.set(section6DescriptionRef.current, { opacity: 0, y: 50 });
+          gsap.set(section6IpadRef.current, { opacity: 0, y: 50 });
+        }
+        // Transition Phase: 60-70% (Fade out all categories completely)
+        else if (progress <= 0.7) {
+          const transitionProgress = (progress - 0.6) / 0.1;
+          const easedProgress = gsap.parseEase("power3.inOut")(transitionProgress);
+
+          // Fade out all category items completely
+          items.forEach(item => {
+            gsap.set(item, { opacity: 0.25 - (0.25 * easedProgress) });
+          });
+
+          // Fade out the categories container completely, maintain scale at 1
+          gsap.set(contextCategoriesRef.current, {
+            opacity: 1 - easedProgress,
+            scale: 1
+          });
+
+          // Start fading in header during transition phase (overlap with category fade-out)
+          // Header starts fading in at 65% overall progress (50% through transition phase)
+          // Use same calculation as Phase 6 for continuity: 65% to 85% overall
+          const headerOverallStart = 0.65;
+          const headerOverallEnd = 0.85;
+          if (progress >= headerOverallStart) {
+            const headerProgress = Math.max(0, Math.min(1, (progress - headerOverallStart) / (headerOverallEnd - headerOverallStart)));
+            const headerEased = gsap.parseEase("power3.out")(headerProgress);
+            gsap.set(section6HeaderRef.current, {
+              opacity: headerEased,
+              y: 50 - (50 * headerEased)
+            });
+          } else {
+            gsap.set(section6HeaderRef.current, { opacity: 0, y: 50 });
+          }
+
+          // Ensure description and iPad remain hidden
+          gsap.set(section6DescriptionRef.current, { opacity: 0, y: 50 });
+          gsap.set(section6IpadRef.current, { opacity: 0, y: 50 });
+        }
+        // Phase 6: 70-100% (Animate in header/description/iPad) - Phase 2 (30%)
+        else {
+          const phase6Progress = (progress - 0.7) / 0.3;
+
+          // Ensure categories stay completely faded out (already faded in transition phase)
+          items.forEach(item => {
+            gsap.set(item, { opacity: 0 });
+          });
+          gsap.set(contextCategoriesRef.current, {
+            opacity: 0,
+            scale: 1
+          });
+
+          // Animate in header, description, and iPad from below (staggered/overlapping)
+          // Header: continues from transition phase overlap, completes at 50% of phase 6
+          // Header already started at 65% overall (during transition), so at 70% it's partially visible
+          // Calculate header progress from 65% to 85% overall (continuous from transition phase)
+          const headerOverallStart = 0.65;
+          const headerOverallEnd = 0.85; // 70% + (50% of 30% = 15%)
+          const headerProgress = Math.max(0, Math.min(1, (progress - headerOverallStart) / (headerOverallEnd - headerOverallStart)));
+          const headerEased = gsap.parseEase("power3.out")(headerProgress);
+          gsap.set(section6HeaderRef.current, {
+            opacity: headerEased,
+            y: 50 - (50 * headerEased)
+          });
+
+          // Description: 20-70% of phase 6 (starts while header is animating)
+          const descStart = 0.2;
+          const descEnd = 0.7;
+          let descProgress = 0;
+          if (phase6Progress >= descStart) {
+            descProgress = Math.max(0, Math.min(1, (phase6Progress - descStart) / (descEnd - descStart)));
+          }
+          const descEased = gsap.parseEase("power3.out")(descProgress);
+          gsap.set(section6DescriptionRef.current, {
+            opacity: descEased,
+            y: 50 - (50 * descEased)
+          });
+
+          // iPad: 40-100% of phase 6 (starts while description is animating)
+          const ipadStart = 0.4;
+          const ipadEnd = 1.0;
+          let ipadProgress = 0;
+          if (phase6Progress >= ipadStart) {
+            ipadProgress = Math.max(0, Math.min(1, (phase6Progress - ipadStart) / (ipadEnd - ipadStart)));
+          }
+          const ipadEased = gsap.parseEase("power3.out")(ipadProgress);
+          gsap.set(section6IpadRef.current, {
+            opacity: ipadEased,
+            y: 50 - (50 * ipadEased)
+          });
+        }
+      }
+    });
+
+    // Refresh ScrollTrigger after a brief delay to ensure layout is stable
+    const refreshTimer = setTimeout(() => {
+      ScrollTrigger.refresh();
+    }, 100);
+
+    return () => {
+      clearTimeout(refreshTimer);
+      ScrollTrigger.getAll().forEach(trigger => {
+        if (trigger.vars.id === 'categories-scroll') {
+          trigger.kill();
+        }
+      });
     };
   }, []);
 
@@ -270,29 +589,28 @@ export default function Home() {
 
         {/* Section Title and Navigation Arrows */}
         <div className="px-8 max-w-8xl mx-auto">
-          <div className="flex items-end justify-between mt-4 mb-10 ml-4">
-            <div className="text-left">
-              <h2
-                className="text-6xl font-semibold tracking-tight bg-gradient-to-br from-[#777777] to-[#292929] bg-clip-text text-transparent pb-2 drop-shadow-md"
-              >
-                Intelligence that <br/>finally works for you.
-              </h2>
-            </div>
+
+          <div className="flex items-end justify-between mt-4 mb-10 pl-12">
+
+            {/* Header */}
+            <h2 className="text-[38pt] leading-none font-semibold tracking-tight bg-gradient-to-br from-[#777777] to-[#343434] bg-clip-text text-transparent pb-2 drop-shadow-md opacity-00">
+              Intelligence that <br/>finally works for you.
+            </h2>
+            
             {/* Navigation Arrows */}
-            <div className="flex justify-end gap-3">
+            <div className="flex gap-3">
               <button
                 onClick={handlePrevSlide}
-                className={`w-9 h-9 rounded-full bg-black/40 hover:bg-black/60 cursor-pointer transition-all duration-100 flex items-center justify-center ${isAtStart ? 'opacity-30' : ''}`}
+                className={`w-9 h-9 rounded-full bg-black/40 hover:bg-black/60 transition-all duration-100 flex items-center justify-center ${isAtStart ? 'opacity-30' : ''}`}
                 aria-label="Previous slide"
               >
                 <svg className="w-6 h-6 mr-0.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M15 19l-7-7 7-7" />
                 </svg>
               </button>
-
               <button
                 onClick={handleNextSlide}
-                className={`w-9 h-9 rounded-full bg-black/40 hover:bg-black/60 cursor-pointer transition-all duration-100 flex items-center justify-center ${isAtEnd ? 'opacity-30' : ''}`}
+                className={`w-9 h-9 rounded-full bg-black/40 hover:bg-black/60 transition-all duration-100 flex items-center justify-center ${isAtEnd ? 'opacity-30' : ''}`}
                 aria-label="Next slide"
               >
                 <svg className="w-6 h-6 ml-0.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -300,11 +618,13 @@ export default function Home() {
                 </svg>
               </button>
             </div>
+
           </div>
+
         </div>
 
         {/* Carousel Container - extends beyond viewport */}
-        <div className="relative pl-[6%]">
+        <div className="relative pl-12 max-w-8xl mx-auto">
           {/* Carousel Items */}
           <div ref={carouselRef} className="flex gap-5 overflow-x-scroll snap-x snap-mandatory pb-8 pr-8 rounded-[22pt]"
                style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
@@ -319,11 +639,11 @@ export default function Home() {
                   {/* Image */}
                   <div className={`aspect-[3.5/4.8] rounded-[22pt] overflow-hidden flex items-center justify-center ${
                     index === 0 
-                      ? 'bg-gradient-to-b from-[#9ee5ff] to-[#247cff]' 
+                      ? 'bg-gradient-to-b from-[#ffd289] to-[#ff8e61]' 
                       : index === 1
-                      ? 'bg-gradient-to-b from-[#79dbff] to-[#2fa1ff]'
-                      : index === 2
                       ? 'bg-gradient-to-b from-[#ff9dd8] to-[#ff7394]'
+                      : index === 2
+                      ? 'bg-gradient-to-b from-[#79dbff] to-[#2fa1ff]'
                       : index === 3
                       ? 'bg-gradient-to-b from-[#5573f7] to-[#7c3aed]'
                       : index === 4
@@ -341,14 +661,14 @@ export default function Home() {
                       <img
                         src={item.image}
                         alt={item.title}
-                        className="w-full h-full object-cover "
+                        className="w-full h-full object-cover scale-100"
                       />
                     )}
                     {index === 2 && (
                       <img
                         src={item.image}
                         alt={item.title}
-                        className="w-full h-full object-cover scale-100"
+                        className="w-full h-full object-cover "
                       />
                     )}
                     {index === 3 && (
@@ -407,7 +727,7 @@ export default function Home() {
           
           {/* Description */}
           <div className="text-center max-w-3xl mt-28">
-            <p className="text-black/65 text-3xl mb-4 font-semibold tracking-[-0.01em] leading-tight">
+            <p className="text-black/80 text-3xl mb-4 font-semibold tracking-[-0.01em] leading-tight">
             Meet the Orchestrator.
             </p>
             <p className="text-black/50 text-2xl font-medium tracking-[-0.01em] leading-tight">
@@ -418,7 +738,7 @@ export default function Home() {
       </section>
 
       {/* Fifth Section - Personal Knowledge Graph */}
-      <section className="relative w-full pt-20 pb-32 bg-gradient-to-b from-[#fff6ef]  via-[#b2e0eb] to-[#abd8ff]">
+      <section className="relative w-full pt-20 pb-32 bg-gradient-to-b from-[#ffffff]  via-[#ddfeff] to-[#abd8ff]">
         <div className="max-w-8xl mx-auto flex flex-col items-center px-10">
           {/* Title - Center Aligned at Top */}
           <h2
@@ -446,34 +766,84 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Sixth Section - Personal Knowledge Graph (Left-Right Layout) */}
-      <section className="relative w-full pt-48 pb-64 bg-black/98">
-        <div className="max-w-8xl mx-auto pl-10 pr-4">
-          <div className="flex flex-col lg:flex-row items-start gap-12 lg:gap-16">
+      {/* Sixth Section - Personal Knowledge Graph (Center Aligned) */}
+      <section id="section-6" ref={section6Ref} className="relative w-full bg-black/98" style={{ minHeight: '100vh' }}>
 
-            {/* Left Side - Header and Description */}
-            <div className="flex-1">
-              <h2
-                className="text-7xl font-medium bg-gradient-to-br from-[#30c8ff] to-[#008cff] bg-clip-text text-transparent mb-6 tracking-tight"
-              >
-                Personal <br/>Knowledge<br/> Graph
-              </h2>
-              <p className="text-white/80 text-xl w-[80%]">
-                Your entire life, relationships, preferences, and patterns—all connected in one intelligent graph that understands context, learns continuously, and anticipates your needs before you do.
-              </p>
+        {/* Black gradient overlay at top of section */}
+        <div className="absolute top-0 left-0 right-0 h-[45%] bg-gradient-to-b from-black via-black/60 to-transparent pointer-events-none z-20"></div>
+        {/* Black gradient overlay at bottom of section */}
+        <div className="absolute bottom-0 left-0 right-0 h-[45%] bg-gradient-to-t from-black via-black/60 to-transparent pointer-events-none z-20"></div>
+
+        <div className="max-w-8xl mx-auto px-10 h-full pt-[30vh]">
+
+          <div className="relative flex flex-col items-center justify-center h-full">
+
+            {/* Context Categories - positioned absolutely */}
+            <div className="absolute top-1/2 left-[51%] transform -translate-x-1/2 -translate-y-1/2 z-10">
+              <div ref={contextCategoriesRef} className="flex flex-col items-start text-left gap-4">
+                <div ref={el => categoryItemsRef.current[0] = el} className="flex items-center gap-5">
+                  <div className="w-12 h-12 bg-gradient-to-br from-[#30c8ff] to-[#008cff]" style={{ WebkitMaskImage: `url(/eye.svg)`, WebkitMaskSize: 'contain', WebkitMaskRepeat: 'no-repeat', WebkitMaskPosition: 'center', maskImage: `url(/eye.svg)`, maskSize: 'contain', maskRepeat: 'no-repeat', maskPosition: 'center' }}></div>
+                  <p className="text-5xl text-white tracking-[-0.01em]">Context</p>
+                </div>
+                <div ref={el => categoryItemsRef.current[1] = el} className="flex items-center gap-5">
+                  <div className="w-12 h-12 bg-gradient-to-br from-[#30c8ff] to-[#008cff]" style={{ WebkitMaskImage: `url(/home.svg)`, WebkitMaskSize: 'contain', WebkitMaskRepeat: 'no-repeat', WebkitMaskPosition: 'center', maskImage: `url(/home.svg)`, maskSize: 'contain', maskRepeat: 'no-repeat', maskPosition: 'center' }}></div>
+                  <p className="text-5xl text-white tracking-[-0.01em]">Environment</p>
+                </div>
+                <div ref={el => categoryItemsRef.current[2] = el} className="flex items-center gap-5">
+                  <div className="w-12 h-12 bg-gradient-to-br from-[#30c8ff] to-[#008cff]" style={{ WebkitMaskImage: `url(/thinking.svg)`, WebkitMaskSize: 'contain', WebkitMaskRepeat: 'no-repeat', WebkitMaskPosition: 'center', maskImage: `url(/thinking.svg)`, maskSize: 'contain', maskRepeat: 'no-repeat', maskPosition: 'center' }}></div>
+                  <p className="text-5xl text-white tracking-[-0.01em]">Psychology</p>
+                </div>
+                <div ref={el => categoryItemsRef.current[3] = el} className="flex items-center gap-5">
+                  <div className="w-12 h-12 bg-gradient-to-br from-[#30c8ff] to-[#008cff]" style={{ WebkitMaskImage: `url(/bio.svg)`, WebkitMaskSize: 'contain', WebkitMaskRepeat: 'no-repeat', WebkitMaskPosition: 'center', maskImage: `url(/bio.svg)`, maskSize: 'contain', maskRepeat: 'no-repeat', maskPosition: 'center' }}></div>
+                  <p className="text-5xl text-white tracking-[-0.01em]">Biometrics</p>
+                </div>
+                <div ref={el => categoryItemsRef.current[4] = el} className="flex items-center gap-5">
+                  <div className="w-12 h-12 bg-gradient-to-br from-[#30c8ff] to-[#008cff]" style={{ WebkitMaskImage: `url(/relationships.svg)`, WebkitMaskSize: 'contain', WebkitMaskRepeat: 'no-repeat', WebkitMaskPosition: 'center', maskImage: `url(/relationships.svg)`, maskSize: 'contain', maskRepeat: 'no-repeat', maskPosition: 'center' }}></div>
+                  <p className="text-5xl text-white tracking-[-0.01em]">Relationships</p>
+                </div>
+                <div ref={el => categoryItemsRef.current[5] = el} className="flex items-center gap-5">
+                  <div className="w-12 h-12 bg-gradient-to-br from-[#30c8ff] to-[#008cff]" style={{ WebkitMaskImage: `url(/conversation.svg)`, WebkitMaskSize: 'contain', WebkitMaskRepeat: 'no-repeat', WebkitMaskPosition: 'center', maskImage: `url(/conversation.svg)`, maskSize: 'contain', maskRepeat: 'no-repeat', maskPosition: 'center' }}></div>
+                  <p className="text-5xl text-white tracking-[-0.01em]">Communication</p>
+                </div>
+              </div>
             </div>
 
-            {/* Right Side - iPad Image */}
-            <div className="flex-[1.5] flex justify-center lg:justify-end items-start">
-              <img
-                src="/pkg.svg"
-                alt="Personal Knowledge Graph Interface"
-                className="w-full h-auto drop-shadow-xl"
-              />
+            {/* Header, Description, and iPad - positioned absolutely at the same location to overlap */}
+            <div className="absolute top-[40%] left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex flex-col items-center text-center max-w-8xl z-30">
+              <h2
+                ref={section6HeaderRef}
+                className="text-[48pt] leading-none font-medium bg-gradient-to-br from-[#30c8ff] to-[#008cff] bg-clip-text text-transparent mb-3 tracking-tight pb-2"
+              >
+                Personal<br/>Knowledge Graph
+              </h2>
+              <p ref={section6DescriptionRef} className="text-white/70 text-lg mb-14 ">
+                Your entire life, relationships, preferences, and patterns consolidated in one intelligent archive <br/>that understands context, learns continuously, and anticipates your needs before you do.
+              </p>
+              <div ref={section6IpadRef} className="justify-center items-start w-[97vh] max-w-[1200px]">
+                <img
+                  src="/pkg.svg"
+                  alt="Personal Knowledge Graph Interface"
+                  className="w-full h-auto drop-shadow-xl"
+                />
+              </div>
             </div>
           </div>
         </div>
       </section>
+
+      {/* Seventh Section - Placeholder */}
+      {/* <section className="relative w-full bg-white min-h-screen">
+        <div className="max-w-8xl mx-auto px-10 py-20">
+          <div className="flex flex-col items-center justify-center min-h-screen">
+            <h2 className="text-6xl font-semibold text-black mb-8">
+              Placeholder Section
+            </h2>
+            <p className="text-black/60 text-xl text-center max-w-3xl">
+              This is a placeholder section. Add your content here.
+            </p>
+          </div>
+        </div>
+      </section> */}
 
     </div>
   );
