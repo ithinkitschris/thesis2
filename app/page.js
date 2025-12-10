@@ -120,6 +120,69 @@ export default function Home() {
     const items = categoryItemsRef.current.filter(Boolean);
     if (items.length === 0) return;
 
+    // Configuration - single source of truth for all animation values
+    const CONFIG = {
+      phases: {
+        categoryTransition: { start: 0, end: 0.6, duration: 0.12, count: 5 },
+        fadeOut: { start: 0.6, end: 0.7 },
+        contentReveal: { start: 0.7, end: 1.0 }
+      },
+      container: {
+        initialScale: 1.5,
+        finalScale: 1,
+        scaleEndProgress: 0.8,
+        yEndPosition: -325,
+        yEndProgress: 0.6
+      },
+      opacity: { active: 1, inactive: 0.25, hidden: 0 },
+      contentReveal: {
+        header: { start: 0.65, end: 0.85 },
+        description: { start: 0.2, end: 0.7 },
+        ipad: { start: 0.4, end: 1.0 }
+      },
+      easing: {
+        categoryTransition: "power3.inOut",
+        scale: "power1.inOut",
+        contentReveal: "power3.out"
+      },
+      contentOffset: { y: 50 }
+    };
+
+    // Cache easing functions for better performance
+    const easingCache = {
+      categoryTransition: gsap.parseEase(CONFIG.easing.categoryTransition),
+      scale: gsap.parseEase(CONFIG.easing.scale),
+      contentReveal: gsap.parseEase(CONFIG.easing.contentReveal)
+    };
+
+    // Helper function to normalize progress within a range
+    const getNormalizedProgress = (progress, start, end) => {
+      if (progress < start) return 0;
+      if (progress > end) return 1;
+      return (progress - start) / (end - start);
+    };
+
+    // Helper function to get eased value using cached easing
+    const getEasedValue = (progress, easeType) => {
+      return easingCache[easeType](progress);
+    };
+
+    // Calculate container scale based on progress
+    const getContainerScale = (progress) => {
+      const scaleProgress = Math.min(1, progress / CONFIG.container.scaleEndProgress);
+      const scaleEased = getEasedValue(scaleProgress, 'scale');
+      return CONFIG.container.initialScale - 
+        ((CONFIG.container.initialScale - CONFIG.container.finalScale) * scaleEased);
+    };
+
+    // Calculate container Y position based on progress
+    const getContainerY = (progress) => {
+      if (progress <= CONFIG.container.yEndProgress) {
+        return CONFIG.container.yEndPosition * (progress / CONFIG.container.yEndProgress);
+      }
+      return CONFIG.container.yEndPosition;
+    };
+
     // Clear any existing ScrollTriggers
     ScrollTrigger.getAll().forEach(trigger => {
       if (trigger.vars.id === 'categories-scroll') {
@@ -127,19 +190,195 @@ export default function Home() {
       }
     });
 
-    // Set initial states - first item visible, rest hidden
-    gsap.set(contextCategoriesRef.current, { y: 0, scale: 1.5 });
-    gsap.set(items[0], { opacity: 1 });
+    // Set initial states
+    gsap.set(contextCategoriesRef.current, { 
+      y: 0, 
+      scale: CONFIG.container.initialScale 
+    });
+    gsap.set(items[0], { opacity: CONFIG.opacity.active });
     items.slice(1).forEach(item => {
-      gsap.set(item, { opacity: 0.25 });
+      gsap.set(item, { opacity: CONFIG.opacity.inactive });
+    });
+    gsap.set(section6HeaderRef.current, { 
+      opacity: 0, 
+      y: CONFIG.contentOffset.y 
+    });
+    gsap.set(section6DescriptionRef.current, { 
+      opacity: 0, 
+      y: CONFIG.contentOffset.y 
+    });
+    gsap.set(section6IpadRef.current, { 
+      opacity: 0, 
+      y: CONFIG.contentOffset.y 
     });
 
-    // Set initial states for header, description, and iPad - hidden and positioned below
-    gsap.set(section6HeaderRef.current, { opacity: 0, y: 50 });
-    gsap.set(section6DescriptionRef.current, { opacity: 0, y: 50 });
-    gsap.set(section6IpadRef.current, { opacity: 0, y: 50 });
+    // Main animation update function
+    const updateAnimation = (progress) => {
+      const containerY = getContainerY(progress);
+      const containerScale = getContainerScale(progress);
+      const phaseDuration = CONFIG.phases.categoryTransition.duration;
+      const phaseIndex = Math.floor(progress / phaseDuration);
+      const maxPhase = CONFIG.phases.categoryTransition.count - 1;
 
-    // Create ScrollTrigger with phases for each item
+      // Category transition phases (0-60%)
+      if (progress <= CONFIG.phases.categoryTransition.end && phaseIndex <= maxPhase) {
+        const phaseStart = phaseIndex * phaseDuration;
+        const phaseProgress = getNormalizedProgress(
+          progress,
+          phaseStart,
+          phaseStart + phaseDuration
+        );
+        const easedProgress = getEasedValue(phaseProgress, 'categoryTransition');
+        const fromIndex = phaseIndex;
+        const toIndex = phaseIndex + 1;
+
+        // Update container
+        gsap.set(contextCategoriesRef.current, {
+          y: containerY,
+          scale: containerScale
+        });
+
+        // Update items - fade from one to next
+        items.forEach((item, index) => {
+          if (index < fromIndex || index > toIndex) {
+            gsap.set(item, { opacity: CONFIG.opacity.inactive });
+          } else if (index === fromIndex) {
+            gsap.set(item, { 
+              opacity: CONFIG.opacity.active - 
+                ((CONFIG.opacity.active - CONFIG.opacity.inactive) * easedProgress) 
+            });
+          } else if (index === toIndex) {
+            gsap.set(item, { 
+              opacity: CONFIG.opacity.inactive + 
+                ((CONFIG.opacity.active - CONFIG.opacity.inactive) * easedProgress) 
+            });
+          }
+        });
+
+        // Hide content elements
+        gsap.set(section6HeaderRef.current, { 
+          opacity: 0, 
+          y: CONFIG.contentOffset.y 
+        });
+        gsap.set(section6DescriptionRef.current, { 
+          opacity: 0, 
+          y: CONFIG.contentOffset.y 
+        });
+        gsap.set(section6IpadRef.current, { 
+          opacity: 0, 
+          y: CONFIG.contentOffset.y 
+        });
+      }
+      // Fade out phase (60-70%)
+      else if (progress <= CONFIG.phases.fadeOut.end) {
+        const fadeProgress = getNormalizedProgress(
+          progress,
+          CONFIG.phases.fadeOut.start,
+          CONFIG.phases.fadeOut.end
+        );
+        const easedProgress = getEasedValue(fadeProgress, 'categoryTransition');
+
+        // Fade out all category items
+        items.forEach(item => {
+          gsap.set(item, { 
+            opacity: CONFIG.opacity.inactive - (CONFIG.opacity.inactive * easedProgress) 
+          });
+        });
+        gsap.set(contextCategoriesRef.current, {
+          opacity: 1 - easedProgress,
+          scale: CONFIG.container.finalScale,
+          y: containerY
+        });
+
+        // Start header animation (overlaps with fade out)
+        if (progress >= CONFIG.contentReveal.header.start) {
+          const headerProgress = getNormalizedProgress(
+            progress,
+            CONFIG.contentReveal.header.start,
+            CONFIG.contentReveal.header.end
+          );
+          const headerEased = getEasedValue(headerProgress, 'contentReveal');
+          gsap.set(section6HeaderRef.current, {
+            opacity: headerEased,
+            y: CONFIG.contentOffset.y - (CONFIG.contentOffset.y * headerEased)
+          });
+        } else {
+          gsap.set(section6HeaderRef.current, { 
+            opacity: 0, 
+            y: CONFIG.contentOffset.y 
+          });
+        }
+
+        // Keep description and iPad hidden
+        gsap.set(section6DescriptionRef.current, { 
+          opacity: 0, 
+          y: CONFIG.contentOffset.y 
+        });
+        gsap.set(section6IpadRef.current, { 
+          opacity: 0, 
+          y: CONFIG.contentOffset.y 
+        });
+      }
+      // Content reveal phase (70-100%)
+      else {
+        // Hide categories completely
+        items.forEach(item => gsap.set(item, { opacity: CONFIG.opacity.hidden }));
+        gsap.set(contextCategoriesRef.current, {
+          opacity: CONFIG.opacity.hidden,
+          scale: CONFIG.container.finalScale,
+          y: containerY
+        });
+
+        // Calculate phase 6 progress (0-1 within content reveal phase)
+        const phase6Progress = getNormalizedProgress(
+          progress,
+          CONFIG.phases.contentReveal.start,
+          CONFIG.phases.contentReveal.end
+        );
+
+        // Header (continues from fade out phase)
+        const headerProgress = getNormalizedProgress(
+          progress,
+          CONFIG.contentReveal.header.start,
+          CONFIG.contentReveal.header.end
+        );
+        const headerEased = getEasedValue(headerProgress, 'contentReveal');
+        gsap.set(section6HeaderRef.current, {
+          opacity: headerEased,
+          y: CONFIG.contentOffset.y - (CONFIG.contentOffset.y * headerEased)
+        });
+
+        // Description (starts at 20% of phase 6)
+        if (phase6Progress >= CONFIG.contentReveal.description.start) {
+          const descProgress = getNormalizedProgress(
+            phase6Progress,
+            CONFIG.contentReveal.description.start,
+            CONFIG.contentReveal.description.end
+          );
+          const descEased = getEasedValue(descProgress, 'contentReveal');
+          gsap.set(section6DescriptionRef.current, {
+            opacity: descEased,
+            y: CONFIG.contentOffset.y - (CONFIG.contentOffset.y * descEased)
+          });
+        }
+
+        // iPad (starts at 40% of phase 6)
+        if (phase6Progress >= CONFIG.contentReveal.ipad.start) {
+          const ipadProgress = getNormalizedProgress(
+            phase6Progress,
+            CONFIG.contentReveal.ipad.start,
+            CONFIG.contentReveal.ipad.end
+          );
+          const ipadEased = getEasedValue(ipadProgress, 'contentReveal');
+          gsap.set(section6IpadRef.current, {
+            opacity: ipadEased,
+            y: CONFIG.contentOffset.y - (CONFIG.contentOffset.y * ipadEased)
+          });
+        }
+      }
+    };
+
+    // Create ScrollTrigger
     ScrollTrigger.create({
       id: 'categories-scroll',
       trigger: section6Ref.current,
@@ -150,261 +389,7 @@ export default function Home() {
       anticipatePin: 1,
       scrub: 1,
       invalidateOnRefresh: true,
-      onUpdate: (self) => {
-        const progress = self.progress; // 0 to 1
-
-        // Phase 1: 0-12% (Context → Environment) - 20% of Phase 1 (6 lines)
-        if (progress <= 0.12) {
-          const phase1Progress = progress / 0.12;
-          const easedProgress = gsap.parseEase("power3.inOut")(phase1Progress);
-
-          // Scale from 1.5 to 1 over 0-80% progress (independent easing: power2.inOut)
-          const scaleProgress = Math.min(1, progress / 0.8);
-          const scaleEased = gsap.parseEase("power2.inOut")(scaleProgress);
-          const scale = 1.5 - (0.5 * scaleEased);
-
-          // Container moves upward and scales
-          gsap.set(contextCategoriesRef.current, {
-            y: -65 * easedProgress,
-            scale: scale
-          });
-
-          gsap.set(items[0], {
-            opacity: 1 - (0.75 * easedProgress)
-          });
-
-          gsap.set(items[1], {
-            opacity: 0.25 + (0.75 * easedProgress)
-          });
-
-          // Keep rest at initial state
-          items.slice(2).forEach(item => gsap.set(item, { opacity: 0.25 }));
-
-          // Ensure header, description, and iPad are hidden in Phase 1
-          gsap.set(section6HeaderRef.current, { opacity: 0, y: 50 });
-          gsap.set(section6DescriptionRef.current, { opacity: 0, y: 50 });
-          gsap.set(section6IpadRef.current, { opacity: 0, y: 50 });
-        }
-        // Phase 2: 12-24% (Environment → Psychology) - 20% of Phase 1
-        else if (progress <= 0.24) {
-          const phase2Progress = (progress - 0.12) / 0.12;
-          const easedProgress = gsap.parseEase("power3.inOut")(phase2Progress);
-
-          // Scale from 1.5 to 1 over 0-80% progress (independent easing: power2.inOut)
-          const scaleProgress = Math.min(1, progress / 0.8);
-          const scaleEased = gsap.parseEase("power2.inOut")(scaleProgress);
-          const scale = 1.5 - (0.5 * scaleEased);
-
-          // Container moves upward (cumulative -130px) and scales
-          gsap.set(contextCategoriesRef.current, {
-            y: -65 - (65 * easedProgress),
-            scale: scale
-          });
-
-          gsap.set(items[0], { opacity: 0.25 });
-
-          gsap.set(items[1], {
-            opacity: 1 - (0.75 * easedProgress)
-          });
-
-          gsap.set(items[2], {
-            opacity: 0.25 + (0.75 * easedProgress)
-          });
-
-          items.slice(3).forEach(item => gsap.set(item, { opacity: 0.25 }));
-
-          // Ensure header, description, and iPad are hidden in Phase 2
-          gsap.set(section6HeaderRef.current, { opacity: 0, y: 50 });
-          gsap.set(section6DescriptionRef.current, { opacity: 0, y: 50 });
-          gsap.set(section6IpadRef.current, { opacity: 0, y: 50 });
-        }
-        // Phase 3: 24-36% (Psychology → Biometrics) - 20% of Phase 1
-        else if (progress <= 0.36) {
-          const phase3Progress = (progress - 0.24) / 0.12;
-          const easedProgress = gsap.parseEase("power3.inOut")(phase3Progress);
-
-          // Scale from 1.5 to 1 over 0-80% progress (independent easing: power2.inOut)
-          const scaleProgress = Math.min(1, progress / 0.8);
-          const scaleEased = gsap.parseEase("power2.inOut")(scaleProgress);
-          const scale = 1.5 - (0.5 * scaleEased);
-
-          // Container moves upward (cumulative -195px) and scales
-          gsap.set(contextCategoriesRef.current, {
-            y: -130 - (65 * easedProgress),
-            scale: scale
-          });
-
-          gsap.set(items[0], { opacity: 0.25 });
-          gsap.set(items[1], { opacity: 0.25 });
-
-          gsap.set(items[2], {
-            opacity: 1 - (0.75 * easedProgress)
-          });
-
-          gsap.set(items[3], {
-            opacity: 0.25 + (0.75 * easedProgress)
-          });
-
-          items.slice(4).forEach(item => gsap.set(item, { opacity: 0.25 }));
-
-          // Ensure header, description, and iPad are hidden in Phase 3
-          gsap.set(section6HeaderRef.current, { opacity: 0, y: 50 });
-          gsap.set(section6DescriptionRef.current, { opacity: 0, y: 50 });
-          gsap.set(section6IpadRef.current, { opacity: 0, y: 50 });
-        }
-        // Phase 4: 36-48% (Biometrics → Relationships) - 20% of Phase 1
-        else if (progress <= 0.48) {
-          const phase4Progress = (progress - 0.36) / 0.12;
-          const easedProgress = gsap.parseEase("power3.inOut")(phase4Progress);
-
-          // Scale from 1.5 to 1 over 0-80% progress (independent easing: power2.inOut)
-          const scaleProgress = Math.min(1, progress / 0.8);
-          const scaleEased = gsap.parseEase("power2.inOut")(scaleProgress);
-          const scale = 1.5 - (0.5 * scaleEased);
-
-          // Container moves upward (cumulative -260px) and scales
-          gsap.set(contextCategoriesRef.current, {
-            y: -195 - (65 * easedProgress),
-            scale: scale
-          });
-
-          items.slice(0, 3).forEach(item => gsap.set(item, { opacity: 0.25 }));
-
-          gsap.set(items[3], {
-            opacity: 1 - (0.75 * easedProgress)
-          });
-
-          gsap.set(items[4], {
-            opacity: 0.25 + (0.75 * easedProgress)
-          });
-
-          gsap.set(items[5], { opacity: 0.25 });
-
-          // Ensure header, description, and iPad are hidden in Phase 4
-          gsap.set(section6HeaderRef.current, { opacity: 0, y: 50 });
-          gsap.set(section6DescriptionRef.current, { opacity: 0, y: 50 });
-          gsap.set(section6IpadRef.current, { opacity: 0, y: 50 });
-        }
-        // Phase 5: 48-60% (Relationships → Communication) - 20% of Phase 1
-        else if (progress <= 0.6) {
-          const phase5Progress = (progress - 0.48) / 0.12;
-          const easedProgress = gsap.parseEase("power3.inOut")(phase5Progress);
-
-          // Scale from 1.5 to 1 over 0-80% progress (independent easing: power2.inOut)
-          const scaleProgress = Math.min(1, progress / 0.8);
-          const scaleEased = gsap.parseEase("power2.inOut")(scaleProgress);
-          const scale = 1.5 - (0.5 * scaleEased);
-
-          // Container moves upward (cumulative -325px) and scales
-          gsap.set(contextCategoriesRef.current, {
-            y: -260 - (65 * easedProgress),
-            scale: scale
-          });
-
-          items.slice(0, 4).forEach(item => gsap.set(item, { opacity: 0.25 }));
-
-          gsap.set(items[4], {
-            opacity: 1 - (0.75 * easedProgress)
-          });
-
-          gsap.set(items[5], {
-            opacity: 0.25 + (0.75 * easedProgress)
-          });
-
-          // Ensure header, description, and iPad are hidden in Phase 5
-          gsap.set(section6HeaderRef.current, { opacity: 0, y: 50 });
-          gsap.set(section6DescriptionRef.current, { opacity: 0, y: 50 });
-          gsap.set(section6IpadRef.current, { opacity: 0, y: 50 });
-        }
-        // Transition Phase: 60-70% (Fade out all categories completely)
-        else if (progress <= 0.7) {
-          const transitionProgress = (progress - 0.6) / 0.1;
-          const easedProgress = gsap.parseEase("power3.inOut")(transitionProgress);
-
-          // Fade out all category items completely
-          items.forEach(item => {
-            gsap.set(item, { opacity: 0.25 - (0.25 * easedProgress) });
-          });
-
-          // Fade out the categories container completely, maintain scale at 1
-          gsap.set(contextCategoriesRef.current, {
-            opacity: 1 - easedProgress,
-            scale: 1
-          });
-
-          // Start fading in header during transition phase (overlap with category fade-out)
-          // Header starts fading in at 65% overall progress (50% through transition phase)
-          // Use same calculation as Phase 6 for continuity: 65% to 85% overall
-          const headerOverallStart = 0.65;
-          const headerOverallEnd = 0.85;
-          if (progress >= headerOverallStart) {
-            const headerProgress = Math.max(0, Math.min(1, (progress - headerOverallStart) / (headerOverallEnd - headerOverallStart)));
-            const headerEased = gsap.parseEase("power3.out")(headerProgress);
-            gsap.set(section6HeaderRef.current, {
-              opacity: headerEased,
-              y: 50 - (50 * headerEased)
-            });
-          } else {
-            gsap.set(section6HeaderRef.current, { opacity: 0, y: 50 });
-          }
-
-          // Ensure description and iPad remain hidden
-          gsap.set(section6DescriptionRef.current, { opacity: 0, y: 50 });
-          gsap.set(section6IpadRef.current, { opacity: 0, y: 50 });
-        }
-        // Phase 6: 70-100% (Animate in header/description/iPad) - Phase 2 (30%)
-        else {
-          const phase6Progress = (progress - 0.7) / 0.3;
-
-          // Ensure categories stay completely faded out (already faded in transition phase)
-          items.forEach(item => {
-            gsap.set(item, { opacity: 0 });
-          });
-          gsap.set(contextCategoriesRef.current, {
-            opacity: 0,
-            scale: 1
-          });
-
-          // Animate in header, description, and iPad from below (staggered/overlapping)
-          // Header: continues from transition phase overlap, completes at 50% of phase 6
-          // Header already started at 65% overall (during transition), so at 70% it's partially visible
-          // Calculate header progress from 65% to 85% overall (continuous from transition phase)
-          const headerOverallStart = 0.65;
-          const headerOverallEnd = 0.85; // 70% + (50% of 30% = 15%)
-          const headerProgress = Math.max(0, Math.min(1, (progress - headerOverallStart) / (headerOverallEnd - headerOverallStart)));
-          const headerEased = gsap.parseEase("power3.out")(headerProgress);
-          gsap.set(section6HeaderRef.current, {
-            opacity: headerEased,
-            y: 50 - (50 * headerEased)
-          });
-
-          // Description: 20-70% of phase 6 (starts while header is animating)
-          const descStart = 0.2;
-          const descEnd = 0.7;
-          let descProgress = 0;
-          if (phase6Progress >= descStart) {
-            descProgress = Math.max(0, Math.min(1, (phase6Progress - descStart) / (descEnd - descStart)));
-          }
-          const descEased = gsap.parseEase("power3.out")(descProgress);
-          gsap.set(section6DescriptionRef.current, {
-            opacity: descEased,
-            y: 50 - (50 * descEased)
-          });
-
-          // iPad: 40-100% of phase 6 (starts while description is animating)
-          const ipadStart = 0.4;
-          const ipadEnd = 1.0;
-          let ipadProgress = 0;
-          if (phase6Progress >= ipadStart) {
-            ipadProgress = Math.max(0, Math.min(1, (phase6Progress - ipadStart) / (ipadEnd - ipadStart)));
-          }
-          const ipadEased = gsap.parseEase("power3.out")(ipadProgress);
-          gsap.set(section6IpadRef.current, {
-            opacity: ipadEased,
-            y: 50 - (50 * ipadEased)
-          });
-        }
-      }
+      onUpdate: (self) => updateAnimation(self.progress)
     });
 
     // Refresh ScrollTrigger after a brief delay to ensure layout is stable
