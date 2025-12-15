@@ -5,6 +5,7 @@ import { motion, useInView } from "framer-motion";
 import OrchestratorVisual from "./components/OrchestratorVisual";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import Link from "next/link";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -21,6 +22,8 @@ export default function Home() {
   const section6HeaderRef = useRef(null);
   const section6DescriptionRef = useRef(null);
   const section6IpadRef = useRef(null);
+  const videoRef = useRef(null);
+  const [isPlaying, setIsPlaying] = useState(true);
 
   const carouselItems = [
     {
@@ -84,6 +87,34 @@ export default function Home() {
   
   const [isAtStart, setIsAtStart] = useState(true);
   const [isAtEnd, setIsAtEnd] = useState(false);
+
+  const toggleVideoPlayPause = () => {
+    if (videoRef.current) {
+      if (isPlaying) {
+        videoRef.current.pause();
+      } else {
+        videoRef.current.play();
+      }
+      setIsPlaying(!isPlaying);
+    }
+  };
+
+  // Sync video state with actual playback
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    const handlePlay = () => setIsPlaying(true);
+    const handlePause = () => setIsPlaying(false);
+
+    video.addEventListener('play', handlePlay);
+    video.addEventListener('pause', handlePause);
+
+    return () => {
+      video.removeEventListener('play', handlePlay);
+      video.removeEventListener('pause', handlePause);
+    };
+  }, []);
 
   // Track carousel scroll position
   useEffect(() => {
@@ -414,6 +445,7 @@ export default function Home() {
         {/* Background Video */}
         <div className="absolute inset-0 pointer-events-none z-[1] shadow-2xl">
           <video 
+            ref={videoRef}
             autoPlay
             loop
             muted
@@ -447,6 +479,23 @@ export default function Home() {
             <p className="font-normal">Optimized.</p>
           </div>
         </div>
+
+        {/* Play/Pause Button */}
+        <button
+          onClick={toggleVideoPlayPause}
+          className="absolute bottom-6 right-6 z-20 w-9 h-9 rounded-full bg-white/20 backdrop-blur-lg  hover:bg-white/30 transition-all duration-200 flex items-center justify-center cursor-pointer hover:scale-105 active:scale-95"
+          aria-label={isPlaying ? "Pause video" : "Play video"}
+        >
+          {isPlaying ? (
+            <svg className="w-4 h-4 text-white ml-0.5" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z" />
+            </svg>
+          ) : (
+            <svg className="w-5 h-5 text-white ml-0.5" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M8 5v14l11-7z" />
+            </svg>
+          )}
+        </button>
       </section>
 
       {/* Second Section - Stop Thinking Start Living */}
@@ -561,10 +610,27 @@ export default function Home() {
             <p className="text-black/80 text-3xl mb-4 font-semibold tracking-[-0.01em] leading-tight">
               Meet the world's first fully agentic operating system.
             </p>
-            <p className="text-black/50 text-xl font-medium tracking-[-0.01em] leading-tight w-[50%] mx-auto">
+            <p className="text-black/50 text-xl font-medium tracking-[-0.01em] leading-tight mx-auto" style={{ width: '636px' }}>
             LifeOS anticipates what you need, acts on your behalf, and quietly handles the thousands of small decisions that used to fill your day.
             </p>
-            <p className="text-black/50 text-xl font-medium tracking-[-0.01em] leading-tight">Less screen time. Less decision fatigue. More you.</p>
+            <p className="text-black/50 text-xl font-medium tracking-[-0.01em] leading-tight mb-4">Less screen time. Less decision fatigue. More you.</p>
+
+            <Link 
+              href="/testimonials"
+              className="inline-block px-5 py-2 rounded-full border-none text-white text-lg font-medium tracking-[-0.01em] transition-all hover:scale-105 mt-5 mr-0 mb-0"
+              style={{
+                background: 'linear-gradient(171.13deg, rgba(0, 157, 255, 1) 0%, rgba(0, 110, 255, 1) 100%)',
+                boxSizing: 'content-box',
+                paddingTop: '8px',
+                paddingBottom: '8px',
+                border: 'none',
+                borderColor: 'transparent',
+                borderStyle: 'none',
+                borderImage: 'none'
+              }}
+            >
+              Now in Beta
+            </Link>
           </div>
         </div>
       </section>

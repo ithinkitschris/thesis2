@@ -7,11 +7,12 @@ import Link from "next/link";
 export default function Navbar() {
   const [isOverDark, setIsOverDark] = useState(true);
   const pathname = usePathname();
-  const isAboutPage = pathname === "/about";
+  const isHomePage = pathname === "/";
 
   useEffect(() => {
-    // On about page, always use white navbar
-    if (isAboutPage) {
+    // Only enable dark/light switching on home page
+    if (!isHomePage) {
+      // On all other pages, use white navbar
       setIsOverDark(false);
       return;
     }
@@ -42,7 +43,7 @@ export default function Navbar() {
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [isAboutPage]);
+  }, [isHomePage]);
 
   return (
     <nav
