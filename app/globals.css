@@ -8,15 +8,20 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: "SF Pro Rounded", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
-  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+  --font-sans: "Helvetica Neue", Helvetica, Arial, -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  --font-mono: ui-monospace, Menlo, Consolas, Monaco, monospace;
   --max-width-8xl: 96rem;
   --drop-shadow-lg2: 0 4px 5px rgba(0, 0, 0, 0.1);
+  --meta-blue: #1877F2;
+  --meta-dark-blue: #1B74E4;
+  --meta-gray: #65676B;
+  --meta-light-gray: #F0F2F5;
+  --meta-border: #E4E6EB;
 }
 
 html,
 body {
-  font-family: "SF Pro Rounded", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  font-family: "Helvetica Neue", Helvetica, Arial, -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
 }
 
 body {
