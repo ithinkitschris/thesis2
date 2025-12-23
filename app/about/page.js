@@ -109,8 +109,8 @@ export default function Research() {
             {articles.map((article) => (
               <Link key={article.slug} href={`/articles/${article.slug}`}>
                 <motion.div
-                  className="group bg-white hover:bg-black/70 rounded-4xl drop-shadow-xl hover:shadow-none px-6 py-4 cursor-pointer transition-colors duration-200"
-                  whileHover={{ scale: 0.98 }}
+                  className="group bg-white hover:bg-black/70 rounded-4xl drop-shadow-[0_4px_6px_rgba(0,0,0,0.08)] hover:shadow-none px-6 py-4 cursor-pointer transition-colors duration-200"
+                  whileHover={{ scale: 0.99 }}
                   transition={{
                     type: "spring",
                     stiffness: 600,
