@@ -29,8 +29,12 @@ body {
   @apply text-left max-w-3xl mx-auto;
 }
 
+.markdown-content h2 {
+  @apply text-2xl font-semibold mb-4 mt-8 first:mt-0;
+}
+
 .markdown-content h3 {
-  @apply text-4xl font-semibold mb-4 mt-8 first:mt-0;
+  @apply text-xl font-semibold mb-4 mt-6 first:mt-0;
 }
 
 .markdown-content h4 {

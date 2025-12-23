@@ -1,9 +1,22 @@
 "use client";
 
 import Image from 'next/image';
+import Link from 'next/link';
 import { motion } from 'framer-motion';
+import { getAllArticles } from '../data/articles';
 
 export default function Research() {
+  const articles = getAllArticles().slice(0, 3);
+
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    });
+  };
+
   return (
     <div className="flex min-h-screen items-center justify-center relative">
       <main className="px-8 text-left">
@@ -64,9 +77,9 @@ export default function Research() {
 
         {/* View Progress Link */}
         <div className="flex justify-center items-center mt-4 mb-4">
-          <motion.div 
+          <motion.div
             className="group bg-white hover:bg-black/70 rounded-4xl drop-shadow-xl hover:shadow-none px-6 py-2.5 inline-block cursor-pointer transition-colors duration-200"
-            whileHover={{ 
+            whileHover={{
               scale: 0.95
             }}
             transition={{
@@ -75,9 +88,9 @@ export default function Research() {
               damping: 22
             }}
           >
-            <a 
-              href="https://www.figma.com/deck/lDuqBcyzUYp4EIbKA8Busy/Thesis-Presentation--Dec-9-?node-id=1-42&t=pkUKckgAZfTuFGhJ-1" 
-              target="_blank" 
+            <a
+              href="https://www.figma.com/deck/lDuqBcyzUYp4EIbKA8Busy/Thesis-Presentation--Dec-9-?node-id=1-42&t=pkUKckgAZfTuFGhJ-1"
+              target="_blank"
               rel="noopener noreferrer"
               className="text-lg tracking-tight text-black/60 group-hover:text-white/90 font-semibold transition-colors duration-200 block"
             >
@@ -86,8 +99,42 @@ export default function Research() {
           </motion.div>
         </div>
 
+        {/* Notes & Reflections Section */}
+        <div id="notes-reflections" className="max-w-2xl mx-auto mt-52 mb-12">
+          <h2 className="text-5xl font-semibold tracking-tight text-center bg-gradient-to-t from-black/75 to-black/55 bg-clip-text text-transparent mb-10">
+            Notes & Reflections
+          </h2>
+
+          <div className="space-y-4">
+            {articles.map((article) => (
+              <Link key={article.slug} href={`/articles/${article.slug}`}>
+                <motion.div
+                  className="group bg-white hover:bg-black/70 rounded-4xl drop-shadow-xl hover:shadow-none px-6 py-4 cursor-pointer transition-colors duration-200"
+                  whileHover={{ scale: 0.98 }}
+                  transition={{
+                    type: "spring",
+                    stiffness: 600,
+                    damping: 22
+                  }}
+                >
+                  <h3 className="text-lg font-semibold text-black/70 group-hover:text-white/90 transition-colors duration-200">
+                    {article.title}
+                  </h3>
+                  <p className="text-black/50 group-hover:text-white/70 mt-1 text-sm transition-colors duration-200">
+                    {article.excerpt}
+                  </p>
+                  <div className="flex gap-4 mt-2 text-xs text-black/40 group-hover:text-white/50 transition-colors duration-200">
+                    <span>{formatDate(article.date)}</span>
+                    <span>{article.readingTime} min read</span>
+                  </div>
+                </motion.div>
+              </Link>
+            ))}
+          </div>
+        </div>
+
         {/* Memoji Wave - Bottom of Content */}
-        <div className="flex justify-center items-center ml-24 drop-shadow-2xl mt-48 overflow-hidden" style={{ height: '340px' }}>
+        <div className="flex justify-center items-center ml-24 drop-shadow-2xl mt-48 overflow-hidden" style={{ height: '360px' }}>
           <Image 
             src="/memojiwave.svg" 
             alt="Memoji Wave" 
