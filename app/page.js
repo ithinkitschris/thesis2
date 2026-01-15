@@ -15,6 +15,7 @@ export default function Home() {
   const isInView = useInView(phonesRef, { once: true, margin: "-100px" });
 
   const carouselRef = useRef(null);
+  const igCarouselRef = useRef(null);
   const orchestratorSectionRef = useRef(null);
   const contextCategoriesRef = useRef(null);
   const categoryItemsRef = useRef([]);
@@ -84,9 +85,43 @@ export default function Home() {
       }, 500); // Wait for smooth scroll to complete
     }
   };
+
+  const handleIgPrevSlide = () => {
+    if (igCarouselRef.current) {
+      const scrollAmount = 280 + 32; // card width + gap
+      igCarouselRef.current.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+      // Update state after scroll animation completes
+      setTimeout(() => {
+        if (igCarouselRef.current) {
+          const { scrollLeft, scrollWidth, clientWidth } = igCarouselRef.current;
+          const threshold = 10;
+          setIsIgAtStart(scrollLeft <= threshold);
+          setIsIgAtEnd(scrollLeft + clientWidth >= scrollWidth - threshold);
+        }
+      }, 500);
+    }
+  };
+
+  const handleIgNextSlide = () => {
+    if (igCarouselRef.current) {
+      const scrollAmount = 280 + 32; // card width + gap
+      igCarouselRef.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+      // Update state after scroll animation completes
+      setTimeout(() => {
+        if (igCarouselRef.current) {
+          const { scrollLeft, scrollWidth, clientWidth } = igCarouselRef.current;
+          const threshold = 10;
+          setIsIgAtStart(scrollLeft <= threshold);
+          setIsIgAtEnd(scrollLeft + clientWidth >= scrollWidth - threshold);
+        }
+      }, 500);
+    }
+  };
   
   const [isAtStart, setIsAtStart] = useState(true);
   const [isAtEnd, setIsAtEnd] = useState(false);
+  const [isIgAtStart, setIsIgAtStart] = useState(true);
+  const [isIgAtEnd, setIsIgAtEnd] = useState(false);
 
   const toggleVideoPlayPause = () => {
     if (videoRef.current) {
@@ -140,6 +175,34 @@ export default function Home() {
 
     return () => {
       carousel.removeEventListener('scroll', checkScrollPosition);
+      window.removeEventListener('resize', checkScrollPosition);
+    };
+  }, []);
+
+  // Track Instagram carousel scroll position
+  useEffect(() => {
+    const igCarousel = igCarouselRef.current;
+    if (!igCarousel) return;
+
+    const checkScrollPosition = () => {
+      const { scrollLeft, scrollWidth, clientWidth } = igCarousel;
+      const threshold = 10;
+
+      setIsIgAtStart(scrollLeft <= threshold);
+      setIsIgAtEnd(scrollLeft + clientWidth >= scrollWidth - threshold);
+    };
+
+    // Check initial position
+    checkScrollPosition();
+
+    // Listen to scroll events
+    igCarousel.addEventListener('scroll', checkScrollPosition);
+    
+    // Also check on resize
+    window.addEventListener('resize', checkScrollPosition);
+
+    return () => {
+      igCarousel.removeEventListener('scroll', checkScrollPosition);
       window.removeEventListener('resize', checkScrollPosition);
     };
   }, []);
@@ -615,7 +678,7 @@ export default function Home() {
             </p>
             <p className="text-black/50 text-xl font-medium tracking-[-0.01em] leading-tight mb-4">Less screen time. Less decision fatigue. More you.</p>
 
-            <Link 
+            {/* <Link 
               href="/testimonials"
               className="inline-block px-5 py-2 rounded-full border-none text-white text-lg font-medium tracking-[-0.01em] transition-all hover:scale-105 mt-5 mr-0 mb-0"
               style={{
@@ -630,7 +693,7 @@ export default function Home() {
               }}
             >
               Now in Beta
-            </Link>
+            </Link> */}
           </div>
         </div>
       </section>
@@ -788,26 +851,21 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Fifth Section - Personal Knowledge Graph */}
+      {/* Fifth Section - Day Planning */}
       <section className="relative w-full pt-20 pb-32 bg-gradient-to-b from-[#ffffff]  via-[#ddfeff] to-[#abd8ff]">
         <div className="max-w-8xl mx-auto flex flex-col items-center px-10">
-          {/* Title - Center Aligned at Top */}
           <h2
             className="text-6xl font-semibold bg-gradient-to-br from-[#66d6ff] to-[#008cff] bg-clip-text text-transparent pb-16 tracking-tight text-center"
           >
             Wake up to a day <br /> that's already solved.
           </h2>
-
-          {/* iPad Image */}
           <div className="flex justify-center mb-16">
             <img
               src="/day.png"
-              alt="Personal Knowledge Graph Interface"
+              alt="Day Planning Interface"
               className="w-full h-auto drop-shadow-xl max-w-4xl scale-110"
             />
           </div>
-
-          {/* Description Below iPad */}
           <p className="text-black/80 text-2xl mb-4 font-semibold tracking-[-0.01em] leading-tight">
           No planning. No prioritizing. No wondering what comes next.
           </p>
@@ -815,21 +873,171 @@ export default function Home() {
           LifeOS simulates thousands of possible days and delivers one day designed around <br/>who you are and what you need. No decisions required. All that's left is living it.
           </p>
         </div>
+        {/* Bottom Spacer */}
+        <div style={{ height: '50px' }}></div>
       </section>
 
-      {/* Sixth Section - Personal Knowledge Graph (Center Aligned) */}
-      <section id="section-6" ref={section6Ref} className="relative w-full bg-black/98" style={{ minHeight: '100vh' }}>
+      {/* Sixth Section - Instagram */}
+      <section className="relative w-full pt-12 pb-32 bg-white">
+        {/* Gradient overlay - top 50% */}
+        <div 
+          className="absolute top-0 left-0 right-0 h-full pointer-events-none z-0 opacity-90"
+          style={{
+            background: 'linear-gradient(to bottom, #9429ff 0%, #f54372 50%, #ff893b 100%)'
+          }}
+        ></div>
 
-        {/* Black gradient overlay at top of section */}
+        {/* Text Container */}
+        <div className="relative z-10 max-w-8xl mx-auto flex flex-col items-center px-10">
+
+          {/* Header */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+            className="text-center mb-4 w-full mt-12"
+          >
+            <h2
+              className="text-[52pt] leading-none font-semibold text-white pb-4 tracking-[-0.01em]"
+            >
+              No notice required.
+            </h2>
+          </motion.div>
+
+          {/* Description */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.6, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
+            className="text-center max-w-2xl"
+          >
+            <p className="text-white text-xl font-medium tracking-[-0.01em] leading-tight">
+            LifeOS handles your life in the background, so your attention stays where it belongs: on the one you're living, not the life you're managing.
+            </p>
+          </motion.div>
+        </div>
+
+        {/* Overlapping Images Container */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.6, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          className="relative z-10 w-full mx-auto mt-24 h-[800px] px-10 scale-110"
+        >
+          {/* Large card - Top Right */}
+          <div className="absolute top-0 left-1/2 z-10" style={{ transform: 'translateX(calc(-50% + 10px))' }}>
+            <img
+              src="/IG – Header1.png"
+              alt="Instagram Header 1"
+              className="w-[420px] h-auto drop-shadow-2xl rounded-2xl"
+            />
+          </div>
+
+          {/* Medium card - Middle Right */}
+          <div className="absolute top-[220px] left-1/2 z-20" style={{ transform: 'translateX(calc(-50% - 120px))' }}>
+            <img
+              src="/IG – Header2.png"
+              alt="Instagram Header 2"
+              className="w-[420px] h-auto drop-shadow-2xl rounded-2xl"
+            />
+          </div>
+
+          {/* Small card - Bottom Middle */}
+          <div className="absolute top-[320px] left-1/2 z-30" style={{ transform: 'translateX(calc(-50% + 140px))' }}>
+            <img
+              src="/IG – Header3.png"
+              alt="Instagram Header 3"
+              className="w-[430px] h-auto drop-shadow-2xl rounded-2xl"
+            />
+          </div>
+
+          {/* Small card - Bottom Left */}
+          <div className="absolute top-[450px] left-1/2 z-40" style={{ transform: 'translateX(calc(-50% - 40px))' }}>
+            <img
+              src="/IG – Header4.png"
+              alt="Instagram Header 4"
+              className="w-[400px] h-auto drop-shadow-2xl rounded-2xl"
+            />
+          </div>
+        </motion.div>
+
+        {/* Horizontal Carousel */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.6, delay: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          className="relative z-10 w-full"
+        >
+          <div className="max-w-8xl mx-auto">
+            <div className="flex items-end justify-between mb-10 pl-12">
+
+              {/* Header */}
+              <h2 className="text-[34pt] leading-none font-semibold tracking-tight text-white pb-2 pl-5 ">
+                Stay connected <br/>with no effort.
+              </h2>
+              
+              {/* Navigation Arrows */}
+              <div className="flex gap-3 mr-10">
+                <button
+                  onClick={handleIgPrevSlide}
+                  className={`w-9 h-9 rounded-full bg-white/90 hover:bg-white transition-all duration-100 flex items-center justify-center ${isIgAtStart ? 'opacity-30 pointer-events-none' : 'cursor-pointer'}`}
+                  aria-label="Previous slide"
+                >
+                  <svg className="w-6 h-6 mr-0.5 text-[#f54372]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M15 19l-7-7 7-7" />
+                  </svg>
+                </button>
+                <button
+                  onClick={handleIgNextSlide}
+                  className={`w-9 h-9 rounded-full bg-white/90 hover:bg-white transition-all duration-100 flex items-center justify-center ${isIgAtEnd ? 'opacity-30 pointer-events-none' : 'cursor-pointer'}`}
+                  aria-label="Next slide"
+                >
+                  <svg className="w-6 h-6 ml-0.5 text-[#f54372]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M9 5l7 7-7 7" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div className="relative max-w-8xl mx-auto">
+            <div 
+              ref={igCarouselRef}
+              className="overflow-x-auto pb-8 scroll-smooth [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] pl-12"
+            >
+              <div className="flex gap-5 px-4" style={{ width: 'max-content' }}>
+                {[1, 2, 3, 4, 5, 6, 7, 8].map((num) => (
+                  <div key={num} className="flex-shrink-0 w-[420px] h-full flex flex-col">
+                    <img
+                      src={`/IG${num}.png`}
+                      alt={`Instagram Image ${num}`}
+                      className="w-full h-full rounded-2xl drop-shadow-lg"
+                    />
+                    <div className="mt-6 ml-3">
+                      <p className="text-white text-lg font-medium tracking-[-0.01em]">
+                        {/* Caption placeholder - add your captions here */}
+                        Caption for image {num}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </motion.div>
+        
+      </section>
+
+      {/* Seventh Section - Personal Knowledge Graph (Center Aligned) - HIDDEN */}
+      {/* <section id="section-6" ref={section6Ref} className="relative w-full bg-black/98" style={{ minHeight: '100vh' }}>
         <div className="absolute top-0 left-0 right-0 h-[45%] bg-gradient-to-b from-black via-black/60 to-transparent pointer-events-none z-20"></div>
-        {/* Black gradient overlay at bottom of section */}
         <div className="absolute bottom-0 left-0 right-0 h-[45%] bg-gradient-to-t from-black via-black/60 to-transparent pointer-events-none z-20"></div>
-
         <div className="max-w-8xl mx-auto px-10 h-full pt-[30vh]">
-
           <div className="relative flex flex-col items-center justify-center h-full">
-
-            {/* Context Categories - positioned absolutely */}
             <div className="absolute top-1/2 left-[51%] transform -translate-x-1/2 -translate-y-1/2 z-10">
               <div ref={contextCategoriesRef} className="flex flex-col items-start text-left gap-4">
                 <div ref={el => categoryItemsRef.current[0] = el} className="flex items-center gap-5">
@@ -858,8 +1066,6 @@ export default function Home() {
                 </div>
               </div>
             </div>
-
-            {/* Header, Description, and iPad - positioned absolutely at the same location to overlap */}
             <div className="absolute top-[40%] left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex flex-col items-center text-center max-w-8xl z-30">
               <h2
                 ref={section6HeaderRef}
@@ -880,7 +1086,7 @@ export default function Home() {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Seventh Section - Placeholder */}
       {/* <section className="relative w-full bg-white min-h-screen">

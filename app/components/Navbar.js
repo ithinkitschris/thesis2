@@ -74,7 +74,7 @@ export default function Navbar() {
         >
           About
         </Link>
-        <Link
+        {/* <Link
           href="/sandbox"
           className={`text-base font-medium tracking-tight transition-all duration-100 hover:scale-90 rounded-full px-4 py-2 ${
             isOverDark
@@ -83,7 +83,7 @@ export default function Navbar() {
           }`}
         >
           Sandbox
-        </Link>
+        </Link> */}
       </div>
     </nav>
   );
