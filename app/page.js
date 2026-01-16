@@ -503,8 +503,8 @@ export default function Home() {
 
   return (
     <div className="flex flex-col min-h-screen overflow-x-hidden">
-      {/* Hero Section */}
-      <section className="relative w-full h-screen overflow-hidden">
+      {/* Hero Section – HIDDEN */}
+      <section className="relative hidden w-full h-screen overflow-hidden">
         {/* Background Video */}
         <div className="absolute inset-0 pointer-events-none z-[1] shadow-2xl">
           <video 
@@ -562,27 +562,35 @@ export default function Home() {
       </section>
 
       {/* Second Section - Stop Thinking Start Living */}
-      <section className="relative w-full bg-white pt-18 pb-32 px-8 ">
+      <section className="relative w-full bg-white pt-46 pb-32 px-8 ">
+
         {/* Background Image */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-0 scale-[125%]">
+        {/* <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-0 scale-[125%]">
           <img 
             src="/lotus.svg" 
             alt="" 
             className="absolute inset-0 w-full h-full object-cover object-center"
           />
-        </div>
+        </div> */}
+        
+        {/* Content Container */}
         <div className="max-w-7xl mx-auto relative z-10">
+
           {/* Text Content */}
-          <div className="text-center mb-14">
-            <div className="mb-5 flex justify-center">
+          <div className="text-center mb-18">
+
+            {/* Logo */}
+            <div className="mb-6 flex justify-center">
               <img 
                 alt="LifeOS Logo" 
                 src="/lifeosbadlogo.svg" 
-                className="h-20 w-auto drop-shadow-md"
+                className="h-28 w-auto drop-shadow-md"
               />
             </div>
+
+            {/* Title */}
             <h2 
-              className="text-[42pt] font-semibold bg-gradient-to-br from-[#66d6ff] to-[#008cff] bg-clip-text text-transparent mb-6 leading-none tracking-[-0.48px] drop-shadow-sm pb-2"
+              className="text-[42pt] font-semibold bg-gradient-to-br from-[#66d6ff] to-[#008cff] bg-clip-text text-transparent mb-12 leading-none tracking-[-0.48px] drop-shadow-sm pb-2"
             >
               Less thinking.
               <br />
@@ -668,7 +676,7 @@ export default function Home() {
             </motion.div>
           </div>
           
-          {/* Subheading below mockups */}
+          {/* Subheading below phones */}
           <div className="text-center mt-20 w-full">
             <p className="text-black/80 text-3xl mb-4 font-semibold tracking-[-0.01em] leading-tight">
               Meet the world's first fully agentic operating system.
@@ -891,42 +899,24 @@ export default function Home() {
         <div className="relative z-10 max-w-8xl mx-auto flex flex-col items-center px-10">
 
           {/* Header */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-            className="text-center mb-4 w-full mt-12"
-          >
+          <div className="text-center mb-4 w-full mt-12">
             <h2
               className="text-[52pt] leading-none font-semibold text-white pb-4 tracking-[-0.01em]"
             >
-              No notice required.
+              Social Intermediary.
             </h2>
-          </motion.div>
+          </div>
 
           {/* Description */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.6, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-            className="text-center max-w-2xl"
-          >
+          <div className="text-center max-w-2xl">
             <p className="text-white text-xl font-medium tracking-[-0.01em] leading-tight">
-            LifeOS handles your life in the background, so your attention stays where it belongs: on the one you're living, not the life you're managing.
+            LifeOS handles your social life and acts on your behalf in the background, <br/>so your attention stays on the life you're living, not the one you're managing.
             </p>
-          </motion.div>
+          </div>
         </div>
 
         {/* Overlapping Images Container */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.6, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
-          className="relative z-10 w-full mx-auto mt-24 h-[800px] px-10 scale-110"
-        >
+        <div className="relative z-10 w-full mx-auto mt-24 h-[800px] px-10 scale-110">
           {/* Large card - Top Right */}
           <div className="absolute top-0 left-1/2 z-10" style={{ transform: 'translateX(calc(-50% + 10px))' }}>
             <img
@@ -962,22 +952,16 @@ export default function Home() {
               className="w-[400px] h-auto drop-shadow-2xl rounded-2xl"
             />
           </div>
-        </motion.div>
+        </div>
 
         {/* Horizontal Carousel */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.6, delay: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          className="relative z-10 w-full"
-        >
+        <div className="relative z-10 w-full">
           <div className="max-w-8xl mx-auto">
             <div className="flex items-end justify-between mb-10 pl-12">
 
               {/* Header */}
               <h2 className="text-[34pt] leading-none font-semibold tracking-tight text-white pb-2 pl-5 ">
-                Stay connected <br/>with no effort.
+                
               </h2>
               
               {/* Navigation Arrows */}
@@ -1004,14 +988,15 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="relative max-w-8xl mx-auto">
+          {/* Instagram Carousel */}
+          <div className="relative max-w-8xl mx-auto rounded-2xl">
             <div 
               ref={igCarouselRef}
-              className="overflow-x-auto pb-8 scroll-smooth [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] pl-12"
+              className="overflow-x-auto pb-8 scroll-smooth [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] pl-12 rounded-[25pt]"
             >
               <div className="flex gap-5 px-4" style={{ width: 'max-content' }}>
                 {[1, 2, 3, 4, 5, 6, 7, 8].map((num) => (
-                  <div key={num} className="flex-shrink-0 w-[420px] h-full flex flex-col">
+                  <div key={num} className="flex-shrink-0 w-[280px] lg:w-[320px] xl:w-[380px] h-full flex flex-col">
                     <img
                       src={`/IG${num}.png`}
                       alt={`Instagram Image ${num}`}
@@ -1028,53 +1013,92 @@ export default function Home() {
               </div>
             </div>
           </div>
-        </motion.div>
+        </div>
         
       </section>
 
-      {/* Seventh Section - Personal Knowledge Graph (Center Aligned) - HIDDEN */}
-      {/* <section id="section-6" ref={section6Ref} className="relative w-full bg-black/98" style={{ minHeight: '100vh' }}>
-        <div className="absolute top-0 left-0 right-0 h-[45%] bg-gradient-to-b from-black via-black/60 to-transparent pointer-events-none z-20"></div>
-        <div className="absolute bottom-0 left-0 right-0 h-[45%] bg-gradient-to-t from-black via-black/60 to-transparent pointer-events-none z-20"></div>
+      {/* Seventh Section - Spotify */}
+      <section className="relative hidden w-full pt-12 pb-32 bg-white h-screen">
+
+        {/* Gradient overlay */}
+        <div 
+          className="absolute top-0 left-0 right-0 h-full pointer-events-none z-0 opacity-90 bg-gradient-to-b from-[#005266] via-[#001518] to-[#001518]"
+        ></div>
+
+        {/* Text Container */}
+        <div className="relative z-10 max-w-8xl mx-auto flex flex-col items-center px-10">
+
+          {/* Header */}
+          <div className="text-center mb-4 w-full mt-12">
+            <h2
+              className="text-[52pt] leading-none font-semibold text-white pb-4 tracking-[-0.01em]"
+            >
+              We know you better than you do.
+            </h2>
+          </div>
+
+          {/* Description */}
+          <div className="text-center max-w-2xl">
+            <p className="text-white text-xl font-medium tracking-[-0.01em] leading-tight">
+            Twenty years of memory. Every preference, every pattern, every unspoken need. LifeOS just understands.
+            </p>
+          </div>
+        </div>
+        
+      </section>
+
+      {/* Eighth Section - Personal Knowledge Graph (Center Aligned) - HIDDEN */}
+      <section id="section-6" ref={section6Ref} className="relative w-full bg-transparent" style={{ minHeight: '100vh' }}>
+
+      <div 
+          className="absolute top-0 left-0 right-0 h-full pointer-events-none z-0 bg-gradient-to-b from-[#001f26] via-[#001015] to-[#000a0d]"
+        ></div>
+
+
+        {/* <div className="absolute top-0 left-0 right-0 h-[45%] bg-gradient-to-b from-black via-black/60 to-transparent pointer-events-none z-20"></div>
+        <div className="absolute bottom-0 left-0 right-0 h-[45%] bg-gradient-to-t from-black via-black/60 to-transparent pointer-events-none z-20"></div> */}
+
+
         <div className="max-w-8xl mx-auto px-10 h-full pt-[30vh]">
           <div className="relative flex flex-col items-center justify-center h-full">
             <div className="absolute top-1/2 left-[51%] transform -translate-x-1/2 -translate-y-1/2 z-10">
               <div ref={contextCategoriesRef} className="flex flex-col items-start text-left gap-4">
                 <div ref={el => categoryItemsRef.current[0] = el} className="flex items-center gap-5">
-                  <div className="w-12 h-12 bg-gradient-to-br from-[#30c8ff] to-[#008cff]" style={{ WebkitMaskImage: `url(/eye.svg)`, WebkitMaskSize: 'contain', WebkitMaskRepeat: 'no-repeat', WebkitMaskPosition: 'center', maskImage: `url(/eye.svg)`, maskSize: 'contain', maskRepeat: 'no-repeat', maskPosition: 'center' }}></div>
+                  <div className="w-12 h-12 bg-gradient-to-br from-[#e2cfc0] to-[#c78e74]" style={{ WebkitMaskImage: `url(/eye.svg)`, WebkitMaskSize: 'contain', WebkitMaskRepeat: 'no-repeat', WebkitMaskPosition: 'center', maskImage: `url(/eye.svg)`, maskSize: 'contain', maskRepeat: 'no-repeat', maskPosition: 'center' }}></div>
                   <p className="text-5xl text-white tracking-[-0.01em]">Context</p>
                 </div>
                 <div ref={el => categoryItemsRef.current[1] = el} className="flex items-center gap-5">
-                  <div className="w-12 h-12 bg-gradient-to-br from-[#30c8ff] to-[#008cff]" style={{ WebkitMaskImage: `url(/home.svg)`, WebkitMaskSize: 'contain', WebkitMaskRepeat: 'no-repeat', WebkitMaskPosition: 'center', maskImage: `url(/home.svg)`, maskSize: 'contain', maskRepeat: 'no-repeat', maskPosition: 'center' }}></div>
+                  <div className="w-12 h-12 bg-gradient-to-br from-[#e2cfc0] to-[#c78e74]" style={{ WebkitMaskImage: `url(/home.svg)`, WebkitMaskSize: 'contain', WebkitMaskRepeat: 'no-repeat', WebkitMaskPosition: 'center', maskImage: `url(/home.svg)`, maskSize: 'contain', maskRepeat: 'no-repeat', maskPosition: 'center' }}></div>
                   <p className="text-5xl text-white tracking-[-0.01em]">Environment</p>
                 </div>
                 <div ref={el => categoryItemsRef.current[2] = el} className="flex items-center gap-5">
-                  <div className="w-12 h-12 bg-gradient-to-br from-[#30c8ff] to-[#008cff]" style={{ WebkitMaskImage: `url(/thinking.svg)`, WebkitMaskSize: 'contain', WebkitMaskRepeat: 'no-repeat', WebkitMaskPosition: 'center', maskImage: `url(/thinking.svg)`, maskSize: 'contain', maskRepeat: 'no-repeat', maskPosition: 'center' }}></div>
+                  <div className="w-12 h-12 bg-gradient-to-br from-[#e2cfc0] to-[#c78e74]" style={{ WebkitMaskImage: `url(/thinking.svg)`, WebkitMaskSize: 'contain', WebkitMaskRepeat: 'no-repeat', WebkitMaskPosition: 'center', maskImage: `url(/thinking.svg)`, maskSize: 'contain', maskRepeat: 'no-repeat', maskPosition: 'center' }}></div>
                   <p className="text-5xl text-white tracking-[-0.01em]">Psychology</p>
                 </div>
                 <div ref={el => categoryItemsRef.current[3] = el} className="flex items-center gap-5">
-                  <div className="w-12 h-12 bg-gradient-to-br from-[#30c8ff] to-[#008cff]" style={{ WebkitMaskImage: `url(/bio.svg)`, WebkitMaskSize: 'contain', WebkitMaskRepeat: 'no-repeat', WebkitMaskPosition: 'center', maskImage: `url(/bio.svg)`, maskSize: 'contain', maskRepeat: 'no-repeat', maskPosition: 'center' }}></div>
+                  <div className="w-12 h-12 bg-gradient-to-br from-[#e2cfc0] to-[#c78e74]" style={{ WebkitMaskImage: `url(/bio.svg)`, WebkitMaskSize: 'contain', WebkitMaskRepeat: 'no-repeat', WebkitMaskPosition: 'center', maskImage: `url(/bio.svg)`, maskSize: 'contain', maskRepeat: 'no-repeat', maskPosition: 'center' }}></div>
                   <p className="text-5xl text-white tracking-[-0.01em]">Biometrics</p>
                 </div>
                 <div ref={el => categoryItemsRef.current[4] = el} className="flex items-center gap-5">
-                  <div className="w-12 h-12 bg-gradient-to-br from-[#30c8ff] to-[#008cff]" style={{ WebkitMaskImage: `url(/relationships.svg)`, WebkitMaskSize: 'contain', WebkitMaskRepeat: 'no-repeat', WebkitMaskPosition: 'center', maskImage: `url(/relationships.svg)`, maskSize: 'contain', maskRepeat: 'no-repeat', maskPosition: 'center' }}></div>
+                  <div className="w-12 h-12 bg-gradient-to-br from-[#e2cfc0] to-[#c78e74]" style={{ WebkitMaskImage: `url(/relationships.svg)`, WebkitMaskSize: 'contain', WebkitMaskRepeat: 'no-repeat', WebkitMaskPosition: 'center', maskImage: `url(/relationships.svg)`, maskSize: 'contain', maskRepeat: 'no-repeat', maskPosition: 'center' }}></div>
                   <p className="text-5xl text-white tracking-[-0.01em]">Relationships</p>
                 </div>
                 <div ref={el => categoryItemsRef.current[5] = el} className="flex items-center gap-5">
-                  <div className="w-12 h-12 bg-gradient-to-br from-[#30c8ff] to-[#008cff]" style={{ WebkitMaskImage: `url(/conversation.svg)`, WebkitMaskSize: 'contain', WebkitMaskRepeat: 'no-repeat', WebkitMaskPosition: 'center', maskImage: `url(/conversation.svg)`, maskSize: 'contain', maskRepeat: 'no-repeat', maskPosition: 'center' }}></div>
+                  <div className="w-12 h-12 bg-gradient-to-br from-[#e2cfc0] to-[#c78e74]" style={{ WebkitMaskImage: `url(/conversation.svg)`, WebkitMaskSize: 'contain', WebkitMaskRepeat: 'no-repeat', WebkitMaskPosition: 'center', maskImage: `url(/conversation.svg)`, maskSize: 'contain', maskRepeat: 'no-repeat', maskPosition: 'center' }}></div>
                   <p className="text-5xl text-white tracking-[-0.01em]">Communication</p>
                 </div>
               </div>
             </div>
-            <div className="absolute top-[40%] left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex flex-col items-center text-center max-w-8xl z-30">
+
+            <div className="absolute top-[20%] left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex flex-col items-center text-center max-w-8xl z-30">
               <h2
                 ref={section6HeaderRef}
-                className="text-[48pt] leading-none font-medium bg-gradient-to-br from-[#30c8ff] to-[#008cff] bg-clip-text text-transparent mb-3 tracking-tight pb-2"
+                className="text-[48pt] leading-none font-medium bg-gradient-to-br from-[#e2cfc0] to-[#c78e74] bg-clip-text text-transparent mb-3 tracking-tight pb-2"
               >
-                Personal<br/>Knowledge Graph
+                We know you <br/>better than you do.
               </h2>
-              <p ref={section6DescriptionRef} className="text-white/70 text-lg mb-14 ">
-                Your entire life, relationships, preferences, and patterns consolidated in one intelligent archive <br/>that understands context, learns continuously, and anticipates your needs before you do.
+              <p ref={section6DescriptionRef} className="text-white text-lg mb-14 ">
+              Twenty years of memory. Every preference, every pattern, every unspoken need. <br/>LifeOS just understands.
               </p>
               <div ref={section6IpadRef} className="justify-center items-start w-[97vh] max-w-[1200px]">
                 <img
@@ -1086,10 +1110,10 @@ export default function Home() {
             </div>
           </div>
         </div>
-      </section> */}
+      </section>
 
       {/* Seventh Section - Placeholder */}
-      {/* <section className="relative w-full bg-white min-h-screen">
+      <section className="relative w-full bg-white min-h-screen">
         <div className="max-w-8xl mx-auto px-10 py-20">
           <div className="flex flex-col items-center justify-center min-h-screen">
             <h2 className="text-6xl font-semibold text-black mb-8">
@@ -1100,7 +1124,7 @@ export default function Home() {
             </p>
           </div>
         </div>
-      </section> */}
+      </section>
 
     </div>
   );
