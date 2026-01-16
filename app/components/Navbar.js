@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 
 export default function Navbar() {
-  const [isOverDark, setIsOverDark] = useState(true);
+  const [isOverDark, setIsOverDark] = useState(false);
   const pathname = usePathname();
   const isHomePage = pathname === "/";
 
@@ -38,11 +38,12 @@ export default function Navbar() {
       setIsOverDark(scrollY < viewportHeight * 0.8); // Switch slightly before full scroll
     };
 
-    // Check initial position
-    handleScroll();
+    // DISABLED: Check initial position
+    // handleScroll();
 
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    // DISABLED: Scroll-based light/dark switching
+    // window.addEventListener("scroll", handleScroll);
+    // return () => window.removeEventListener("scroll", handleScroll);
   }, [isHomePage]);
 
   return (
