@@ -34,8 +34,14 @@ export default function Research() {
 
         {/* Body */}
         <div className="max-w-5xl mx-auto text-center">
-          <p className="text-4xl mx-auto font-semibold tracking-[-0.0em] leading-tight bg-gradient-to-t from-black/75 to-black/55 bg-clip-text text-transparent">
-            Bargaining with the Future is a Master's thesis by <a href="https://www.ithinkitschris.com" target="_blank" rel="noopener noreferrer" className="inline-block underline text-black/10 transition-all duration-100 hover:scale-[0.97] hover:text-white/50">Chris Leow</a>, a Graduate Student at the School of Visual Arts in New York City. It is a speculative design exercise that seeks to investigate user agency in a fully agentic future; with three main goals:  
+          <p className="text-[26pt] mx-auto font-semibold tracking-[-0.0em] leading-tight bg-gradient-to-t from-black/75 to-black/55 bg-clip-text text-transparent">
+            Bargaining with the Future is a Master's thesis by <a href="https://www.ithinkitschris.com" target="_blank" rel="noopener noreferrer" className="inline-block underline text-black/10 transition-all duration-100 hover:scale-[0.97] hover:text-white/50">Chris Leow</a>, a Graduate Student at the School of Visual Arts in New York City.
+          </p>
+          <p className="text-2xl font-medium tracking-[-0.01em] mx-auto mt-5 text-black/60 max-w-[90%]">
+            It is a speculative design exercise that seeks to investigate how Visual and Motion Design may be used to cultivate trust with users in AI-native Operating Systems.
+          </p>
+          <p className="text-lg font-medium tracking-[-0.01em] mx-auto leading-normal mt-8 text-black/50 max-w-[65%]">
+            If the current incarnation of LifeOS on this site terrifies you, fret not, that's the point. I am not insane <span className="italic">(to a certain degree)</span>. It is currently a research artifact for understanding current day comfort levels towards an AI-native Operating System that has been designed with no consideration for agency and oversight.
           </p>
           {/* <ul className="list-decimal list-inside text-lg mt-4" >
             <li>To investigate the role of agency in a fully agentic future</li>
@@ -45,7 +51,7 @@ export default function Research() {
         </div>
 
         {/* Images */}
-        <div className="max-w-2xl mx-auto mt-20 mb-12">
+        {/* <div className="max-w-2xl mx-auto mt-20 mb-12">
           <Image 
             src="/thesisobjective1.svg" 
             alt="Thesis Objective 1" 
@@ -67,7 +73,7 @@ export default function Research() {
             height={600}
             className="w-full h-auto rounded-4xl drop-shadow-xl mt-8"
           />
-        </div>
+        </div> */}
 
         {/* <div className="max-w-5xl mx-auto text-center">
           <p className="text-lg mx-auto">
@@ -76,7 +82,7 @@ export default function Research() {
         </div> */}
 
         {/* View Progress Link */}
-        <div className="flex justify-center items-center mt-4 mb-4">
+        <div className="flex justify-center items-center mb-4 mt-18">
           <motion.div
             className="group bg-white hover:bg-black/70 rounded-4xl drop-shadow-xl hover:shadow-none px-6 py-2.5 inline-block cursor-pointer transition-colors duration-200"
             whileHover={{
