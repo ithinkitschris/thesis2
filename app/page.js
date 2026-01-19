@@ -562,7 +562,7 @@ export default function Home() {
       </section>
 
       {/* Second Section - Stop Thinking Start Living */}
-      <section className="relative w-full bg-white pt-46 pb-32 px-8 ">
+      <section className="relative w-full bg-white pt-46 pb-32 px-8 overflow-visible">
 
         {/* Background Image */}
         {/* <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-0 scale-[125%]">
@@ -599,7 +599,7 @@ export default function Home() {
           </div>
 
           {/* iPhone Mockups */}
-          <div ref={phonesRef} className="relative flex items-center justify-center flex-wrap" style={{ perspective: 1000 }}>
+          <div ref={phonesRef} className="relative flex items-center justify-center flex-nowrap overflow-y-visible scroll-smooth py-8 -mt-8 -mb-8 [&::-webkit-scrollbar]:hidden" style={{ perspective: 1000, scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
             {/* bezel-1 - Leftmost, slides out from middle */}
             <motion.div 
               className="relative w-[220px] h-[449px] z-10"
@@ -681,7 +681,7 @@ export default function Home() {
             <p className="text-black/80 text-3xl mb-4 font-semibold tracking-[-0.01em] leading-tight">
               Meet the world's first fully agentic operating system.
             </p>
-            <p className="text-black/50 text-xl font-medium tracking-[-0.01em] leading-tight mx-auto" style={{ width: '636px' }}>
+            <p className="text-black/50 text-xl font-medium tracking-[-0.01em] leading-tight mx-auto max-w-[636px] px-4">
             LifeOS anticipates what you need, acts on your behalf, and quietly handles the thousands of small decisions that used to fill your day.
             </p>
             <p className="text-black/50 text-xl font-medium tracking-[-0.01em] leading-tight mb-4">Less screen time. Less decision fatigue. More you.</p>
