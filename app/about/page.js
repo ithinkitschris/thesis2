@@ -4,6 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { getAllArticles } from '../data/articles';
+import RiskTrustMatrix from '../../components/RiskTrustMatrix';
 
 export default function Research() {
   const articles = getAllArticles().slice(0, 3);
@@ -103,6 +104,20 @@ export default function Research() {
               View the latest deck here
             </a>
           </motion.div>
+        </div>
+
+        {/* Contribute Section */}
+        <div id="contribute" className="max-w-4xl mx-auto mt-52 mb-12">
+          <h2 className="text-5xl font-semibold tracking-tight text-center bg-gradient-to-t from-black/75 to-black/55 bg-clip-text text-transparent mb-14">
+            Contribute
+          </h2>
+          <p className="text-3xl font-semibold tracking-[-0.01em] mx-auto text-center text-black/70 max-w-[90%] mb-1">
+            <span className="text-lg">01.</span><br/>Low/high risk/trust
+          </p>
+          <p className="text-lg font-medium tracking-[-0.01em] text-center text-black/60">
+            If you had to automate tasks in your life, where would you chart them here?
+          </p>
+          <RiskTrustMatrix />
         </div>
 
         {/* Notes & Reflections Section */}
