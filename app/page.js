@@ -54,6 +54,17 @@ export default function Home() {
     }
   ];
 
+  const instagramCaptions = [
+    "Curated life updates served based on your typical check-in pattern.",
+    "Comments on your behalf based on past engagement patterns and tone of voice.",
+    "Ensures material fulfillment!",
+    "Keeps track of your friends, so you don't have to.",
+    "Contextual updates based on past conversations.",
+    "Status updates on your loved ones.",
+    "Whole conversations proactively conducted with friends deemed in need of one.",
+    "'Manual texting', on your behalf."
+  ];
+
   const handlePrevSlide = () => {
     if (carouselRef.current) {
       const scrollAmount = 420 + 24; // card width + gap
@@ -608,7 +619,7 @@ export default function Home() {
               transition={{ duration: 0.8, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
             >
               <img 
-                alt="iPhone bezel" 
+  
                 className="w-full h-full object-contain" 
                 style={{ filter: 'drop-shadow(10px 15px 20px rgba(0, 0, 0, 0.2))' }}
                 src="/iPhone bezel-1.svg" 
@@ -623,7 +634,7 @@ export default function Home() {
               transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
             >
               <img 
-                alt="iPhone bezel" 
+  
                 className="w-full h-full object-contain" 
                 style={{ filter: 'drop-shadow(10px 15px 20px rgba(0, 0, 0, 0.2))' }}
                 src="/iPhone bezel-3.svg" 
@@ -638,7 +649,7 @@ export default function Home() {
               transition={{ duration: 0.5, delay: 0, ease: [0.16, 1, 0.3, 1] }}
             >
               <img 
-                alt="iPhone bezel" 
+  
                 className="w-full h-full object-contain" 
                 style={{ filter: 'drop-shadow(10px 15px 20px rgba(0, 0, 0, 0.25))' }}
                 src="/iPhone bezel-4.svg" 
@@ -653,7 +664,7 @@ export default function Home() {
               transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
             >
               <img 
-                alt="iPhone bezel" 
+  
                 className="w-full h-full object-contain" 
                 style={{ filter: 'drop-shadow(10px 15px 20px rgba(0, 0, 0, 0.2))' }}
                 src="/iPhone bezel.svg" 
@@ -668,7 +679,7 @@ export default function Home() {
               transition={{ duration: 0.8, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
             >
               <img 
-                alt="iPhone bezel" 
+  
                 className="w-full h-full object-contain" 
                 style={{ filter: 'drop-shadow(10px 15px 20px rgba(0, 0, 0, 0.2))' }}
                 src="/iPhone bezel-2.svg" 
@@ -957,7 +968,7 @@ export default function Home() {
         {/* Horizontal Carousel */}
         <div className="relative z-10 w-full">
           <div className="max-w-8xl mx-auto">
-            <div className="flex items-end justify-between mb-10 pl-12">
+            <div className="flex items-end justify-between mb-0 pl-12">
 
               {/* Header */}
               <h2 className="text-[34pt] leading-none font-semibold tracking-tight text-white pb-2 pl-5 ">
@@ -996,16 +1007,15 @@ export default function Home() {
             >
               <div className="flex gap-5 px-4" style={{ width: 'max-content' }}>
                 {[1, 2, 3, 4, 5, 6, 7, 8].map((num) => (
-                  <div key={num} className="flex-shrink-0 w-[280px] lg:w-[320px] xl:w-[380px] h-full flex flex-col">
+                  <div key={num} className="flex-shrink-0 w-[220px] lg:w-[250px] xl:w-[280px] h-full flex flex-col">
                     <img
-                      src={`/IG${num}.png`}
+                      src={`/IG – ${num}.png`}
                       alt={`Instagram Image ${num}`}
                       className="w-full h-full rounded-2xl drop-shadow-lg"
                     />
-                    <div className="mt-6 ml-3">
-                      <p className="text-white text-lg font-medium tracking-[-0.01em]">
-                        {/* Caption placeholder - add your captions here */}
-                        Caption for image {num}
+                    <div className="mt-6 ml-1.5 w-[90%]">
+                      <p className="text-white text-lg font-medium tracking-[-0.01em] leading-[1.25]">
+                        {instagramCaptions[num - 1]}
                       </p>
                     </div>
                   </div>
@@ -1018,7 +1028,7 @@ export default function Home() {
       </section>
 
       {/* Seventh Section - Spotify */}
-      <section className="relative hidden w-full pt-12 pb-32 bg-white h-screen">
+      <section className="relative hidden w-full pt-24 pb-32 bg-white h-screen">
 
         {/* Gradient overlay */}
         <div 
@@ -1059,7 +1069,7 @@ export default function Home() {
         <div className="absolute bottom-0 left-0 right-0 h-[45%] bg-gradient-to-t from-black via-black/60 to-transparent pointer-events-none z-20"></div> */}
 
 
-        <div className="max-w-8xl mx-auto px-10 h-full pt-[30vh]">
+        <div className="max-w-8xl mx-auto px-10 h-full pt-[40vh]">
           <div className="relative flex flex-col items-center justify-center h-full">
             <div className="absolute top-1/2 left-[51%] transform -translate-x-1/2 -translate-y-1/2 z-10">
               <div ref={contextCategoriesRef} className="flex flex-col items-start text-left gap-4">
@@ -1090,7 +1100,7 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="absolute top-[20%] left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex flex-col items-center text-center max-w-8xl z-30">
+            <div className="absolute top-[30%] left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex flex-col items-center text-center max-w-8xl z-30">
               <h2
                 ref={section6HeaderRef}
                 className="text-[48pt] leading-none font-medium bg-gradient-to-br from-[#e2cfc0] to-[#c78e74] bg-clip-text text-transparent mb-3 tracking-tight pb-2"
@@ -1100,7 +1110,7 @@ export default function Home() {
               <p ref={section6DescriptionRef} className="text-white text-lg mb-14 ">
               Twenty years of memory. Every preference, every pattern, every unspoken need. <br/>LifeOS just understands.
               </p>
-              <div ref={section6IpadRef} className="justify-center items-start w-[97vh] max-w-[1200px]">
+              <div ref={section6IpadRef} className="justify-center items-start w-[97vh] max-w-[1200px] mt-6">
                 <img
                   src="/pkg.svg"
                   alt="Personal Knowledge Graph Interface"
@@ -1117,11 +1127,27 @@ export default function Home() {
         <div className="max-w-8xl mx-auto px-10 py-20">
           <div className="flex flex-col items-center justify-center min-h-screen">
             <h2 className="text-6xl font-semibold text-black mb-8">
-              Placeholder Section
+              More to come.
             </h2>
             <p className="text-black/60 text-xl text-center max-w-3xl">
-              This is a placeholder section. Add your content here.
+              A thesis that is work in progress!
             </p>
+            <Link 
+              href="/about"
+              className="inline-block px-5 py-1.5 rounded-full border-none text-white text-lg font-medium tracking-[-0.01em] transition-all hover:scale-105 mt-5 mr-0 mb-0"
+              style={{
+                background: 'linear-gradient(171.13deg, rgba(0, 157, 255, 1) 0%, rgba(0, 110, 255, 1) 100%)',
+                boxSizing: 'content-box',
+                paddingTop: '8px',
+                paddingBottom: '8px',
+                border: 'none',
+                borderColor: 'transparent',
+                borderStyle: 'none',
+                borderImage: 'none'
+              }}
+            >
+              Learn more
+            </Link>
           </div>
         </div>
       </section>

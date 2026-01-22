@@ -140,12 +140,12 @@ export default function Research() {
         </div>
 
         {/* Memoji Wave - Bottom of Content */}
-        <div className="flex justify-center items-center ml-24 drop-shadow-2xl mt-48 overflow-hidden" style={{ height: '360px' }}>
+        <div className="flex justify-center items-center ml-24 mt-36 drop-shadow-2xl overflow-hidden" style={{ height: '310px' }}>
           <Image 
             src="/memojiwave.svg" 
             alt="Memoji Wave" 
-            width={350} 
-            height={350}
+            width={300} 
+            height={300}
             className="h-auto"
           />
         </div>
