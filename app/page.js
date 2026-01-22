@@ -128,7 +128,7 @@ export default function Home() {
       }, 500);
     }
   };
-  
+
   const [isAtStart, setIsAtStart] = useState(true);
   const [isAtEnd, setIsAtEnd] = useState(false);
   const [isIgAtStart, setIsIgAtStart] = useState(true);
@@ -180,7 +180,7 @@ export default function Home() {
 
     // Listen to scroll events
     carousel.addEventListener('scroll', checkScrollPosition);
-    
+
     // Also check on resize
     window.addEventListener('resize', checkScrollPosition);
 
@@ -208,7 +208,7 @@ export default function Home() {
 
     // Listen to scroll events
     igCarousel.addEventListener('scroll', checkScrollPosition);
-    
+
     // Also check on resize
     window.addEventListener('resize', checkScrollPosition);
 
@@ -276,7 +276,7 @@ export default function Home() {
     const getContainerScale = (progress) => {
       const scaleProgress = Math.min(1, progress / CONFIG.container.scaleEndProgress);
       const scaleEased = getEasedValue(scaleProgress, 'scale');
-      return CONFIG.container.initialScale - 
+      return CONFIG.container.initialScale -
         ((CONFIG.container.initialScale - CONFIG.container.finalScale) * scaleEased);
     };
 
@@ -296,25 +296,25 @@ export default function Home() {
     });
 
     // Set initial states
-    gsap.set(contextCategoriesRef.current, { 
-      y: 0, 
-      scale: CONFIG.container.initialScale 
+    gsap.set(contextCategoriesRef.current, {
+      y: 0,
+      scale: CONFIG.container.initialScale
     });
     gsap.set(items[0], { opacity: CONFIG.opacity.active });
     items.slice(1).forEach(item => {
       gsap.set(item, { opacity: CONFIG.opacity.inactive });
     });
-    gsap.set(section6HeaderRef.current, { 
-      opacity: 0, 
-      y: CONFIG.contentOffset.y 
+    gsap.set(section6HeaderRef.current, {
+      opacity: 0,
+      y: CONFIG.contentOffset.y
     });
-    gsap.set(section6DescriptionRef.current, { 
-      opacity: 0, 
-      y: CONFIG.contentOffset.y 
+    gsap.set(section6DescriptionRef.current, {
+      opacity: 0,
+      y: CONFIG.contentOffset.y
     });
-    gsap.set(section6IpadRef.current, { 
-      opacity: 0, 
-      y: CONFIG.contentOffset.y 
+    gsap.set(section6IpadRef.current, {
+      opacity: 0,
+      y: CONFIG.contentOffset.y
     });
 
     // Main animation update function
@@ -348,30 +348,30 @@ export default function Home() {
           if (index < fromIndex || index > toIndex) {
             gsap.set(item, { opacity: CONFIG.opacity.inactive });
           } else if (index === fromIndex) {
-            gsap.set(item, { 
-              opacity: CONFIG.opacity.active - 
-                ((CONFIG.opacity.active - CONFIG.opacity.inactive) * easedProgress) 
+            gsap.set(item, {
+              opacity: CONFIG.opacity.active -
+                ((CONFIG.opacity.active - CONFIG.opacity.inactive) * easedProgress)
             });
           } else if (index === toIndex) {
-            gsap.set(item, { 
-              opacity: CONFIG.opacity.inactive + 
-                ((CONFIG.opacity.active - CONFIG.opacity.inactive) * easedProgress) 
+            gsap.set(item, {
+              opacity: CONFIG.opacity.inactive +
+                ((CONFIG.opacity.active - CONFIG.opacity.inactive) * easedProgress)
             });
           }
         });
 
         // Hide content elements
-        gsap.set(section6HeaderRef.current, { 
-          opacity: 0, 
-          y: CONFIG.contentOffset.y 
+        gsap.set(section6HeaderRef.current, {
+          opacity: 0,
+          y: CONFIG.contentOffset.y
         });
-        gsap.set(section6DescriptionRef.current, { 
-          opacity: 0, 
-          y: CONFIG.contentOffset.y 
+        gsap.set(section6DescriptionRef.current, {
+          opacity: 0,
+          y: CONFIG.contentOffset.y
         });
-        gsap.set(section6IpadRef.current, { 
-          opacity: 0, 
-          y: CONFIG.contentOffset.y 
+        gsap.set(section6IpadRef.current, {
+          opacity: 0,
+          y: CONFIG.contentOffset.y
         });
       }
       // Fade out phase (60-70%)
@@ -385,8 +385,8 @@ export default function Home() {
 
         // Fade out all category items
         items.forEach(item => {
-          gsap.set(item, { 
-            opacity: CONFIG.opacity.inactive - (CONFIG.opacity.inactive * easedProgress) 
+          gsap.set(item, {
+            opacity: CONFIG.opacity.inactive - (CONFIG.opacity.inactive * easedProgress)
           });
         });
         gsap.set(contextCategoriesRef.current, {
@@ -408,20 +408,20 @@ export default function Home() {
             y: CONFIG.contentOffset.y - (CONFIG.contentOffset.y * headerEased)
           });
         } else {
-          gsap.set(section6HeaderRef.current, { 
-            opacity: 0, 
-            y: CONFIG.contentOffset.y 
+          gsap.set(section6HeaderRef.current, {
+            opacity: 0,
+            y: CONFIG.contentOffset.y
           });
         }
 
         // Keep description and iPad hidden
-        gsap.set(section6DescriptionRef.current, { 
-          opacity: 0, 
-          y: CONFIG.contentOffset.y 
+        gsap.set(section6DescriptionRef.current, {
+          opacity: 0,
+          y: CONFIG.contentOffset.y
         });
-        gsap.set(section6IpadRef.current, { 
-          opacity: 0, 
-          y: CONFIG.contentOffset.y 
+        gsap.set(section6IpadRef.current, {
+          opacity: 0,
+          y: CONFIG.contentOffset.y
         });
       }
       // Content reveal phase (70-100%)
@@ -518,13 +518,13 @@ export default function Home() {
       <section className="relative hidden w-full h-screen overflow-hidden">
         {/* Background Video */}
         <div className="absolute inset-0 pointer-events-none z-[1] shadow-2xl">
-          <video 
+          <video
             ref={videoRef}
             autoPlay
             loop
             muted
             playsInline
-            className="absolute h-[106.83%] left-[-9.48%] max-w-none top-[-0.62%] w-[117.71%] object-cover " 
+            className="absolute h-[106.83%] left-[-9.48%] max-w-none top-[-0.62%] w-[117.71%] object-cover "
           >
             <source src="/lifeoscover.mp4" type="video/mp4" />
           </video>
@@ -537,13 +537,13 @@ export default function Home() {
         <div className="absolute inset-0 flex flex-col items-center justify-center z-10 text-center px-8">
           {/* LifeOS Logo */}
           <div className="-mt-16 mb-3">
-            <img 
-              alt="LifeOS Logo" 
-              src="/lifeoswhite.svg" 
+            <img
+              alt="LifeOS Logo"
+              src="/lifeoswhite.svg"
               className="h-11 w-auto drop-shadow-[2px 4px 5px rgba(0, 0, 0, 1)]"
             />
           </div>
-          <div 
+          <div
             className="text-white text-6xl tracking-tight"
             style={{
               lineHeight: '1.1'
@@ -583,7 +583,7 @@ export default function Home() {
             className="absolute inset-0 w-full h-full object-cover object-center"
           />
         </div> */}
-        
+
         {/* Content Container */}
         <div className="max-w-7xl mx-auto relative z-10">
 
@@ -592,15 +592,15 @@ export default function Home() {
 
             {/* Logo */}
             <div className="mb-6 flex justify-center">
-              <img 
-                alt="LifeOS Logo" 
-                src="/lifeosbadlogo.svg" 
+              <img
+                alt="LifeOS Logo"
+                src="/lifeosbadlogo.svg"
                 className="h-28 w-auto drop-shadow-md"
               />
             </div>
 
             {/* Title */}
-            <h2 
+            <h2
               className="text-[42pt] font-semibold bg-gradient-to-br from-[#66d6ff] to-[#008cff] bg-clip-text text-transparent mb-12 leading-none tracking-[-0.48px] drop-shadow-sm pb-2"
             >
               Less thinking.
@@ -612,88 +612,88 @@ export default function Home() {
           {/* iPhone Mockups */}
           <div ref={phonesRef} className="relative flex items-center justify-center flex-nowrap overflow-y-visible scroll-smooth py-8 -mt-8 -mb-8 [&::-webkit-scrollbar]:hidden" style={{ perspective: 1000, scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
             {/* bezel-1 - Leftmost, slides out from middle */}
-            <motion.div 
+            <motion.div
               className="relative w-[220px] h-[449px] z-10"
               initial={{ x: 360, rotateY: 0 }}
               animate={isInView ? { x: 0, rotateY: 10 } : { x: 500, rotateY: 0 }}
               transition={{ duration: 0.8, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
             >
-              <img 
-  
-                className="w-full h-full object-contain" 
+              <img
+
+                className="w-full h-full object-contain"
                 style={{ filter: 'drop-shadow(10px 15px 20px rgba(0, 0, 0, 0.2))' }}
-                src="/iPhone bezel-1.svg" 
+                src="/iPhone bezel-1.svg"
               />
             </motion.div>
-            
+
             {/* bezel-3 - Left of center, slides out from middle */}
-            <motion.div 
+            <motion.div
               className="relative w-[241px] h-[491px] -ml-20 z-20"
               initial={{ x: 200, rotateY: 0 }}
               animate={isInView ? { x: 0, rotateY: 5 } : { x: 136, rotateY: 0 }}
               transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
             >
-              <img 
-  
-                className="w-full h-full object-contain" 
+              <img
+
+                className="w-full h-full object-contain"
                 style={{ filter: 'drop-shadow(10px 15px 20px rgba(0, 0, 0, 0.2))' }}
-                src="/iPhone bezel-3.svg" 
+                src="/iPhone bezel-3.svg"
               />
             </motion.div>
-            
+
             {/* bezel-4 - Center, appears first */}
-            <motion.div 
+            <motion.div
               className="relative w-[272px] h-[554px] -ml-16 z-30"
               initial={{ scale: 0.8 }}
               animate={isInView ? { scale: 1 } : { scale: 0.8 }}
               transition={{ duration: 0.5, delay: 0, ease: [0.16, 1, 0.3, 1] }}
             >
-              <img 
-  
-                className="w-full h-full object-contain" 
+              <img
+
+                className="w-full h-full object-contain"
                 style={{ filter: 'drop-shadow(10px 15px 20px rgba(0, 0, 0, 0.25))' }}
-                src="/iPhone bezel-4.svg" 
+                src="/iPhone bezel-4.svg"
               />
             </motion.div>
-            
+
             {/* bezel.svg - Right of center, slides out from middle */}
-            <motion.div 
+            <motion.div
               className="relative w-[241px] h-[491px] -ml-16 z-20"
               initial={{ x: -206, rotateY: 0 }}
               animate={isInView ? { x: 0, rotateY: -5 } : { x: -136, rotateY: 0 }}
               transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
             >
-              <img 
-  
-                className="w-full h-full object-contain" 
+              <img
+
+                className="w-full h-full object-contain"
                 style={{ filter: 'drop-shadow(10px 15px 20px rgba(0, 0, 0, 0.2))' }}
-                src="/iPhone bezel.svg" 
+                src="/iPhone bezel.svg"
               />
             </motion.div>
-            
+
             {/* bezel-2 - Rightmost, slides out from middle */}
-            <motion.div 
+            <motion.div
               className="relative w-[220px] h-[449px] -ml-20 z-10"
               initial={{ x: -350, rotateY: 0 }}
               animate={isInView ? { x: 0, rotateY: -10 } : { x: -300, rotateY: 0 }}
               transition={{ duration: 0.8, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
             >
-              <img 
-  
-                className="w-full h-full object-contain" 
+              <img
+
+                className="w-full h-full object-contain"
                 style={{ filter: 'drop-shadow(10px 15px 20px rgba(0, 0, 0, 0.2))' }}
-                src="/iPhone bezel-2.svg" 
+                src="/iPhone bezel-2.svg"
               />
             </motion.div>
           </div>
-          
+
           {/* Subheading below phones */}
           <div className="text-center mt-20 w-full">
             <p className="text-black/80 text-3xl mb-4 font-semibold tracking-[-0.01em] leading-tight">
               Meet the world's first fully agentic operating system.
             </p>
             <p className="text-black/50 text-xl font-medium tracking-[-0.01em] leading-tight mx-auto max-w-[636px] px-4">
-            LifeOS anticipates what you need, acts on your behalf, and quietly handles the thousands of small decisions that used to fill your day.
+              LifeOS anticipates what you need, acts on your behalf, and quietly handles the thousands of small decisions that used to fill your day.
             </p>
             <p className="text-black/50 text-xl font-medium tracking-[-0.01em] leading-tight mb-4">Less screen time. Less decision fatigue. More you.</p>
 
@@ -727,9 +727,9 @@ export default function Home() {
 
             {/* Header */}
             <h2 className="text-[38pt] leading-none font-semibold tracking-tight bg-gradient-to-br from-[#777777] to-[#343434] bg-clip-text text-transparent pb-2 drop-shadow-md opacity-00">
-              Intelligence that <br/>finally works for you.
+              Intelligence that <br />finally works for you.
             </h2>
-            
+
             {/* Navigation Arrows */}
             <div className="flex gap-3">
               <button
@@ -760,7 +760,7 @@ export default function Home() {
         <div className="relative pl-12 max-w-8xl mx-auto">
           {/* Carousel Items */}
           <div ref={carouselRef} className="flex gap-5 overflow-x-scroll snap-x snap-mandatory pb-8 pr-8 rounded-[22pt]"
-               style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
             {carouselItems.map((item, index) => (
               <div
                 key={index}
@@ -770,19 +770,18 @@ export default function Home() {
                 {/* Rounded Rectangle Card */}
                 <div className=" overflow-hidden h-full">
                   {/* Image */}
-                  <div className={`aspect-[3.5/4.8] rounded-[22pt] overflow-hidden flex items-center justify-center ${
-                    index === 0 
-                      ? 'bg-gradient-to-b from-[#ffd289] to-[#ff8e61]' 
-                      : index === 1
+                  <div className={`aspect-[3.5/4.8] rounded-[22pt] overflow-hidden flex items-center justify-center ${index === 0
+                    ? 'bg-gradient-to-b from-[#ffd289] to-[#ff8e61]'
+                    : index === 1
                       ? 'bg-gradient-to-b from-[#ff9dd8] to-[#ff7394]'
                       : index === 2
-                      ? 'bg-gradient-to-b from-[#79dbff] to-[#2fa1ff]'
-                      : index === 3
-                      ? 'bg-gradient-to-b from-[#5573f7] to-[#7c3aed]'
-                      : index === 4
-                      ? 'bg-gradient-to-b from-[#ffd36e] to-[#ff8c78]'
-                      : 'bg-black/10'
-                  }`}>
+                        ? 'bg-gradient-to-b from-[#79dbff] to-[#2fa1ff]'
+                        : index === 3
+                          ? 'bg-gradient-to-b from-[#5573f7] to-[#7c3aed]'
+                          : index === 4
+                            ? 'bg-gradient-to-b from-[#ffd36e] to-[#ff8c78]'
+                            : 'bg-black/10'
+                    }`}>
                     {index === 0 && (
                       <img
                         src={item.image}
@@ -850,21 +849,21 @@ export default function Home() {
               Infinite coordination.
             </h2>
           </div>
-          
+
           {/* Orchestrator visual with orbiting animation */}
           <div className="flex justify-center">
             <div className="w-full h-auto max-w-7xl scale-115" style={{ filter: 'drop-shadow(2px 5px 10px rgba(0, 0, 0, 0.09))' }}>
               <OrchestratorVisual sectionRef={orchestratorSectionRef} />
             </div>
           </div>
-          
+
           {/* Description */}
           <div className="text-center max-w-3xl mt-28">
             <p className="text-black/80 text-3xl mb-4 font-semibold tracking-[-0.01em] leading-tight">
-            Meet the Orchestrator.
+              Meet the Orchestrator.
             </p>
             <p className="text-black/50 text-2xl font-medium tracking-[-0.01em] leading-tight">
-            Anticipating what you need, coordinating every subsystem, and executing decisions across every domain of your life. The Orchestrator handles life's complexity while keeping yours beautifully simple.
+              Anticipating what you need, coordinating every subsystem, and executing decisions across every domain of your life. The Orchestrator handles life's complexity while keeping yours beautifully simple.
             </p>
           </div>
         </div>
@@ -886,10 +885,10 @@ export default function Home() {
             />
           </div>
           <p className="text-black/80 text-2xl mb-4 font-semibold tracking-[-0.01em] leading-tight">
-          No planning. No prioritizing. No wondering what comes next.
+            No planning. No prioritizing. No wondering what comes next.
           </p>
           <p className="text-black/60 text-2xl font-medium tracking-[-0.01em] leading-tight">
-          LifeOS simulates thousands of possible days and delivers one day designed around <br/>who you are and what you need. No decisions required. All that's left is living it.
+            LifeOS simulates thousands of possible days and delivers one day designed around <br />who you are and what you need. No decisions required. All that's left is living it.
           </p>
         </div>
         {/* Bottom Spacer */}
@@ -899,7 +898,7 @@ export default function Home() {
       {/* Sixth Section - Instagram */}
       <section className="relative w-full pt-12 pb-32 bg-white">
         {/* Gradient overlay - top 50% */}
-        <div 
+        <div
           className="absolute top-0 left-0 right-0 h-full pointer-events-none z-0 opacity-90"
           style={{
             background: 'linear-gradient(to bottom, #9429ff 0%, #f54372 50%, #ff893b 100%)'
@@ -921,7 +920,7 @@ export default function Home() {
           {/* Description */}
           <div className="text-center max-w-2xl">
             <p className="text-white text-xl font-medium tracking-[-0.01em] leading-tight">
-            LifeOS handles your social life and acts on your behalf in the background, <br/>so your attention stays on the life you're living, not the one you're managing.
+              LifeOS handles your social life and acts on your behalf in the background, <br />so your attention stays on the life you're living, not the one you're managing.
             </p>
           </div>
         </div>
@@ -972,9 +971,9 @@ export default function Home() {
 
               {/* Header */}
               <h2 className="text-[34pt] leading-none font-semibold tracking-tight text-white pb-2 pl-5 ">
-                
+
               </h2>
-              
+
               {/* Navigation Arrows */}
               <div className="flex gap-3 mr-10">
                 <button
@@ -1001,7 +1000,7 @@ export default function Home() {
 
           {/* Instagram Carousel */}
           <div className="relative max-w-8xl mx-auto rounded-2xl">
-            <div 
+            <div
               ref={igCarouselRef}
               className="overflow-x-auto pb-8 scroll-smooth [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] pl-12 rounded-[25pt]"
             >
@@ -1024,14 +1023,14 @@ export default function Home() {
             </div>
           </div>
         </div>
-        
+
       </section>
 
       {/* Seventh Section - Spotify */}
       <section className="relative hidden w-full pt-24 pb-32 bg-white h-screen">
 
         {/* Gradient overlay */}
-        <div 
+        <div
           className="absolute top-0 left-0 right-0 h-full pointer-events-none z-0 opacity-90 bg-gradient-to-b from-[#005266] via-[#001518] to-[#001518]"
         ></div>
 
@@ -1050,17 +1049,17 @@ export default function Home() {
           {/* Description */}
           <div className="text-center max-w-2xl">
             <p className="text-white text-xl font-medium tracking-[-0.01em] leading-tight">
-            Twenty years of memory. Every preference, every pattern, every unspoken need. LifeOS just understands.
+              Twenty years of memory. Every preference, every pattern, every unspoken need. LifeOS just understands.
             </p>
           </div>
         </div>
-        
+
       </section>
 
       {/* Eighth Section - Personal Knowledge Graph (Center Aligned) - HIDDEN */}
       <section id="section-6" ref={section6Ref} className="relative w-full bg-transparent" style={{ minHeight: '100vh' }}>
 
-      <div 
+        <div
           className="absolute top-0 left-0 right-0 h-full pointer-events-none z-0 bg-gradient-to-b from-[#001f26] via-[#001015] to-[#000a0d]"
         ></div>
 
@@ -1069,7 +1068,7 @@ export default function Home() {
         <div className="absolute bottom-0 left-0 right-0 h-[45%] bg-gradient-to-t from-black via-black/60 to-transparent pointer-events-none z-20"></div> */}
 
 
-        <div className="max-w-8xl mx-auto px-10 h-full pt-[40vh]">
+        <div className="max-w-8xl mx-auto px-10 h-full pt-[30vh]">
           <div className="relative flex flex-col items-center justify-center h-full">
             <div className="absolute top-1/2 left-[51%] transform -translate-x-1/2 -translate-y-1/2 z-10">
               <div ref={contextCategoriesRef} className="flex flex-col items-start text-left gap-4">
@@ -1100,17 +1099,17 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="absolute top-[30%] left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex flex-col items-center text-center max-w-8xl z-30">
+            <div className="absolute top-[40%] left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex flex-col items-center text-center max-w-8xl z-30">
               <h2
                 ref={section6HeaderRef}
                 className="text-[48pt] leading-none font-medium bg-gradient-to-br from-[#e2cfc0] to-[#c78e74] bg-clip-text text-transparent mb-3 tracking-tight pb-2"
               >
-                We know you <br/>better than you do.
+                We know you <br />better than you do.
               </h2>
               <p ref={section6DescriptionRef} className="text-white text-lg mb-14 ">
-              Twenty years of memory. Every preference, every pattern, every unspoken need. <br/>LifeOS just understands.
+                Twenty years of memory. Every preference, every pattern, every unspoken need. <br />LifeOS just understands.
               </p>
-              <div ref={section6IpadRef} className="justify-center items-start w-[97vh] max-w-[1200px] mt-6">
+              <div ref={section6IpadRef} className="justify-center items-start w-[97vh] max-w-[1200px]">
                 <img
                   src="/pkg.svg"
                   alt="Personal Knowledge Graph Interface"
@@ -1132,7 +1131,7 @@ export default function Home() {
             <p className="text-black/60 text-xl text-center max-w-3xl">
               A thesis that is work in progress!
             </p>
-            <Link 
+            <Link
               href="/about"
               className="inline-block px-5 py-1.5 rounded-full border-none text-white text-lg font-medium tracking-[-0.01em] transition-all hover:scale-105 mt-5 mr-0 mb-0"
               style={{
