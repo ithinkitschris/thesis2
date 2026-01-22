@@ -41,7 +41,7 @@ export default function Research() {
             It is a speculative design exercise that seeks to investigate how visual and motion design may be used to cultivate trust with users in AI-native operating systems.
           </p>
           <p className="text-lg font-medium tracking-[-0.01em] mx-auto leading-normal mt-8 text-black/50 max-w-[70%]">
-            If the current incarnation of LifeOS on this site terrifies you, fret not, that's the point. I am not insane <span className="italic">(to a certain degree)</span>. It is currently a research artifact for understanding current day comfort levels towards an AI-native Operating System that has been designed with no consideration for agency nor control.
+            If the current incarnation of LifeOS on this site terrifies you, fret not; that's the point. I am not insane <span className="italic">(to a certain degree)</span>. It is currently a research artifact for understanding current day comfort levels towards an AI-native Operating System that has been designed with no consideration for agency nor control.
           </p>
           {/* <ul className="list-decimal list-inside text-lg mt-4" >
             <li>To investigate the role of agency in a fully agentic future</li>
