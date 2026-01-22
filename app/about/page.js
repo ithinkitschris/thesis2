@@ -20,14 +20,14 @@ export default function Research() {
 
   return (
     <div className="flex min-h-screen items-center justify-center relative">
-      <main className="px-8 text-left">
+      <main className="w-full text-left">
 
         {/* Header */}
-        <div className="w-[70%] mx-auto mb-12 mt-32 text-center">
-          <Image 
-            src="/flower.svg" 
-            alt="Flower" 
-            width={200} 
+        <div className="max-w-xl mx-auto mb-12 mt-32 text-center">
+          <Image
+            src="/flower.svg"
+            alt="Flower"
+            width={200}
             height={200}
             className="w-full h-auto"
           />
@@ -107,12 +107,12 @@ export default function Research() {
         </div>
 
         {/* Contribute Section */}
-        <div id="contribute" className="max-w-4xl mx-auto mt-52 mb-12">
+        <div id="contribute" className="max-w-5xl mx-auto mt-52 mb-12">
           <h2 className="text-5xl font-semibold tracking-tight text-center bg-gradient-to-t from-black/75 to-black/55 bg-clip-text text-transparent mb-14">
             Contribute
           </h2>
           <p className="text-3xl font-semibold tracking-[-0.01em] mx-auto text-center text-black/70 max-w-[90%] mb-1">
-            <span className="text-lg">01.</span><br/>Low/high risk/trust
+            <span className="text-lg">01.</span><br />Low/high risk/trust
           </p>
           <p className="text-lg font-medium tracking-[-0.01em] text-center text-black/60">
             If you had to automate tasks in your life, where would you chart them here?
@@ -156,10 +156,10 @@ export default function Research() {
 
         {/* Memoji Wave - Bottom of Content */}
         <div className="flex justify-center items-center ml-24 mt-36 drop-shadow-2xl overflow-hidden" style={{ height: '310px' }}>
-          <Image 
-            src="/memojiwave.svg" 
-            alt="Memoji Wave" 
-            width={300} 
+          <Image
+            src="/memojiwave.svg"
+            alt="Memoji Wave"
+            width={300}
             height={300}
             className="h-auto"
           />

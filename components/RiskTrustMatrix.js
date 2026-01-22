@@ -204,75 +204,113 @@ export default function RiskTrustMatrix() {
   return (
     <div className="relative w-full">
       <div className="relative rounded-4xl p-8 md:p-12" style={{ minHeight: '500px' }}>
-        {/* Matrix Container */}
-        <div
-          ref={containerRef}
-          className="relative w-full aspect-square cursor-crosshair border border-black/0 rounded-2xl overflow-hidden"
-          onClick={handleMatrixClick}
-        >
-          {/* Grid lines */}
-          <div className="absolute inset-16">
-            {/* Vertical center line */}
-            <div className="absolute left-1/2 top-0 bottom-0 w-px bg-black/80 transform -translate-x-1/2" />
-            {/* Horizontal center line */}
-            <div className="absolute top-1/2 left-0 right-0 h-px bg-black/80 transform -translate-y-1/2" />
-          </div>
 
-          {/* Axis Labels */}
-          <div className="absolute inset-0 pointer-events-none">
+        {/* Flex Container with Equal Padding */}
+        <div className="flex gap-0 items-start">
+          {/* Left Padding Area - Example Tasks */}
+          <div className="flex-shrink-0 w-30">
 
-            {/* Risk Low - Left */}
-            <div className="absolute left-4 top-1/2 transform -translate-y-1/2">
-              <div className="text-xs text-black/90 font-medium text-center leading-tight">Risk</div>
-              <div className="text-lg text-black font-semibold text-center leading-tight">Low</div>
-            </div>
-
-            {/* Risk High - Right */}
-            <div className="absolute right-4 top-1/2 transform -translate-y-1/2">
-              <div className="text-xs text-black/90 font-medium text-center leading-tight">Risk</div>
-              <div className="text-lg text-black font-semibold text-center leading-tight">High</div>
-            </div>
-
-            {/* Trust Low - Top */}
-            <div className="absolute top-4 left-1/2 transform -translate-x-1/2">
-              <div className="text-xs text-black/90 font-medium text-center leading-tight">Trust</div>
-              <div className="text-lg text-black font-semibold text-center leading-tight">Low</div>
-            </div>
-
-            {/* Trust High - Bottom */}
-            <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2">
-              <div className="text-xs text-black/90 font-medium text-center leading-tight">Trust</div>
-              <div className="text-lg text-black font-semibold text-center leading-tight">High</div>
+            <div className="text-[11px] text-black/60 leading-[1.4] mt-7 whitespace-nowrap">
+              <div className="text-black/80 font-semibold tracking-tight">Examples:</div>
+              <div>Alarms</div>
+              <div>Clock</div>
+              <div>Calendar</div>
+              <div>Notifications</div>
+              <div>Weather</div>
+              <div>News</div>
+              <div>Information</div>
+              <div>Media</div>
+              <div>Music</div>
+              <div>Entertainment</div>
+              <div>Messaging</div>
+              <div>Message Summaries</div>
+              <div>Social Media</div>
+              <div>Banking</div>
+              <div>Finances</div>
+              <div>Shopping</div>
+              <div>Wellness Reminders</div>
+              <div>Routine optimization</div>
+              <div>Navigation</div>
+              <div>Knowledge</div>
+              <div>Books</div>
+              <div>Writing</div>
             </div>
           </div>
 
-          {/* Data Points */}
-          {dataPoints.map((point) => {
-            const x = (point.riskPercent / 100) * 100;
-            const y = (point.trustPercent / 100) * 100;
+          {/* Matrix Container */}
+          <div className="flex-1">
+            <div
+              ref={containerRef}
+              className="relative w-full aspect-square cursor-crosshair border border-black/0 rounded-2xl overflow-hidden"
+              onClick={handleMatrixClick}
+            >
+              {/* Grid lines */}
+              <div className="absolute inset-16">
+                {/* Vertical center line */}
+                <div className="absolute left-1/2 top-0 bottom-0 w-px bg-black/80 transform -translate-x-1/2" />
+                {/* Horizontal center line */}
+                <div className="absolute top-1/2 left-0 right-0 h-px bg-black/80 transform -translate-y-1/2" />
+              </div>
 
-            return (
-              <div
-                key={point.id}
-                className="absolute transform -translate-x-1/2 -translate-y-1/2 group cursor-pointer"
-                style={{
-                  left: `${x}%`,
-                  top: `${y}%`,
-                }}
-                onClick={(e) => handlePointClick(e, point)}
-              >
-                {/* Dot */}
-                <div className="w-3 h-3 bg-black rounded-full shadow-lg border border-black/20 group-hover:scale-125 transition-transform duration-200" />
+              {/* Axis Labels */}
+              <div className="absolute inset-0 pointer-events-none">
+                {/* Risk Low - Left */}
+                <div className="absolute left-4 top-1/2 transform -translate-y-1/2">
+                  <div className="text-xs text-black/90 font-medium text-center leading-tight">Risk</div>
+                  <div className="text-lg text-black font-semibold text-center leading-tight">Low</div>
+                </div>
 
-                {/* Label - appears on hover */}
-                <div className="absolute left-1/2 top-4 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap">
-                  <div className="bg-black/80 text-white text-xs px-2 py-1 rounded-lg">
-                    {point.label}
-                  </div>
+                {/* Risk High - Right */}
+                <div className="absolute right-4 top-1/2 transform -translate-y-1/2">
+                  <div className="text-xs text-black/90 font-medium text-center leading-tight">Risk</div>
+                  <div className="text-lg text-black font-semibold text-center leading-tight">High</div>
+                </div>
+
+                {/* Trust Low - Top */}
+                <div className="absolute top-4 left-1/2 transform -translate-x-1/2">
+                  <div className="text-xs text-black/90 font-medium text-center leading-tight">Trust</div>
+                  <div className="text-lg text-black font-semibold text-center leading-tight">Low</div>
+                </div>
+
+                {/* Trust High - Bottom */}
+                <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2">
+                  <div className="text-xs text-black/90 font-medium text-center leading-tight">Trust</div>
+                  <div className="text-lg text-black font-semibold text-center leading-tight">High</div>
                 </div>
               </div>
-            );
-          })}
+
+              {/* Data Points */}
+              {dataPoints.map((point) => {
+                const x = (point.riskPercent / 100) * 100;
+                const y = (point.trustPercent / 100) * 100;
+
+                return (
+                  <div
+                    key={point.id}
+                    className="absolute transform -translate-x-1/2 -translate-y-1/2 group cursor-pointer"
+                    style={{
+                      left: `${x}%`,
+                      top: `${y}%`,
+                    }}
+                    onClick={(e) => handlePointClick(e, point)}
+                  >
+                    {/* Dot */}
+                    <div className="w-3 h-3 bg-black rounded-full shadow-lg border border-black/20 group-hover:scale-125 transition-transform duration-200" />
+
+                    {/* Label - appears on hover */}
+                    <div className="absolute left-1/2 top-4 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap">
+                      <div className="bg-black/80 text-white text-xs px-2 py-1 rounded-lg">
+                        {point.label}
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Right Padding Area - Empty for symmetry */}
+          <div className="flex-shrink-0 w-30"></div>
         </div>
 
         {/* Click instruction */}
@@ -285,98 +323,102 @@ export default function RiskTrustMatrix() {
       </div>
 
       {/* Input Modal */}
-      {showInput && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/20"
-          onClick={handleCancel}
-          style={{
-            // Position modal near click location
-            alignItems: inputPosition.screenY > window.innerHeight / 2 ? 'flex-start' : 'center',
-            paddingTop: inputPosition.screenY > window.innerHeight / 2 ? '20%' : '0',
-          }}
-        >
+      {
+        showInput && (
           <div
-            className="bg-white rounded-4xl p-6 shadow-xl max-w-sm w-full mx-4"
-            onClick={(e) => e.stopPropagation()}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/20"
+            onClick={handleCancel}
+            style={{
+              // Position modal near click location
+              alignItems: inputPosition.screenY > window.innerHeight / 2 ? 'flex-start' : 'center',
+              paddingTop: inputPosition.screenY > window.innerHeight / 2 ? '20%' : '0',
+            }}
           >
-            <form onSubmit={handleSubmit}>
-              <label className="block text-black/70 font-medium mb-2">
-                Enter label:
-              </label>
-              <input
-                ref={inputRef}
-                type="text"
-                value={inputValue}
-                onChange={(e) => setInputValue(e.target.value)}
-                onKeyDown={handleKeyDown}
-                className="w-full px-4 py-2 border border-black/20 rounded-2xl focus:outline-none focus:ring-2 focus:ring-black/20 text-black"
-                placeholder="e.g., banking"
-                disabled={submitting}
-              />
-              <div className="flex gap-3 mt-4">
+            <div
+              className="bg-white rounded-4xl p-6 shadow-xl max-w-sm w-full mx-4"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <form onSubmit={handleSubmit}>
+                <label className="block text-black/70 font-medium mb-2">
+                  Enter label:
+                </label>
+                <input
+                  ref={inputRef}
+                  type="text"
+                  value={inputValue}
+                  onChange={(e) => setInputValue(e.target.value)}
+                  onKeyDown={handleKeyDown}
+                  className="w-full px-4 py-2 border border-black/20 rounded-2xl focus:outline-none focus:ring-2 focus:ring-black/20 text-black"
+                  placeholder="e.g., banking"
+                  disabled={submitting}
+                />
+                <div className="flex gap-3 mt-4">
+                  <button
+                    type="button"
+                    onClick={handleCancel}
+                    className="flex-1 px-4 py-2 text-black/60 hover:text-black/80 transition-colors"
+                    disabled={submitting}
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    className="flex-1 px-4 py-2 bg-black/70 hover:bg-black/80 text-white rounded-2xl transition-colors disabled:opacity-50"
+                    disabled={submitting || !inputValue.trim()}
+                  >
+                    {submitting ? "Saving..." : "Save"}
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        )
+      }
+
+      {/* Delete Confirmation Modal */}
+      {
+        showDeleteModal && selectedPoint && (
+          <div
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/20"
+            onClick={handleCancelDelete}
+          >
+            <div
+              className="bg-white rounded-4xl p-6 shadow-xl max-w-sm w-full mx-4"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <h3 className="text-lg font-semibold text-black/80 mb-2">
+                Delete Entry
+              </h3>
+              <p className="text-black/60 mb-1">
+                Are you sure you want to delete <span className="font-semibold">"{selectedPoint.label}"</span>?
+              </p>
+              <p className="text-black/40 text-sm mb-4">
+                {selectedPoint.userId === user?.uid
+                  ? "This action cannot be undone."
+                  : "Note: You can only delete your own entries."}
+              </p>
+              <div className="flex gap-3">
                 <button
                   type="button"
-                  onClick={handleCancel}
+                  onClick={handleCancelDelete}
                   className="flex-1 px-4 py-2 text-black/60 hover:text-black/80 transition-colors"
-                  disabled={submitting}
+                  disabled={deleting}
                 >
                   Cancel
                 </button>
                 <button
-                  type="submit"
-                  className="flex-1 px-4 py-2 bg-black/70 hover:bg-black/80 text-white rounded-2xl transition-colors disabled:opacity-50"
-                  disabled={submitting || !inputValue.trim()}
+                  type="button"
+                  onClick={handleDelete}
+                  className="flex-1 px-4 py-2 bg-red-500/70 hover:bg-red-500/80 text-white rounded-2xl transition-colors disabled:opacity-50"
+                  disabled={deleting || selectedPoint.userId !== user?.uid}
                 >
-                  {submitting ? "Saving..." : "Save"}
+                  {deleting ? "Deleting..." : "Delete"}
                 </button>
               </div>
-            </form>
-          </div>
-        </div>
-      )}
-
-      {/* Delete Confirmation Modal */}
-      {showDeleteModal && selectedPoint && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/20"
-          onClick={handleCancelDelete}
-        >
-          <div
-            className="bg-white rounded-4xl p-6 shadow-xl max-w-sm w-full mx-4"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <h3 className="text-lg font-semibold text-black/80 mb-2">
-              Delete Entry
-            </h3>
-            <p className="text-black/60 mb-1">
-              Are you sure you want to delete <span className="font-semibold">"{selectedPoint.label}"</span>?
-            </p>
-            <p className="text-black/40 text-sm mb-4">
-              {selectedPoint.userId === user?.uid
-                ? "This action cannot be undone."
-                : "Note: You can only delete your own entries."}
-            </p>
-            <div className="flex gap-3">
-              <button
-                type="button"
-                onClick={handleCancelDelete}
-                className="flex-1 px-4 py-2 text-black/60 hover:text-black/80 transition-colors"
-                disabled={deleting}
-              >
-                Cancel
-              </button>
-              <button
-                type="button"
-                onClick={handleDelete}
-                className="flex-1 px-4 py-2 bg-red-500/70 hover:bg-red-500/80 text-white rounded-2xl transition-colors disabled:opacity-50"
-                disabled={deleting || selectedPoint.userId !== user?.uid}
-              >
-                {deleting ? "Deleting..." : "Delete"}
-              </button>
             </div>
           </div>
-        </div>
-      )}
-    </div>
+        )
+      }
+    </div >
   );
 }
