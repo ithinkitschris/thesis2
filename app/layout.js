@@ -4,7 +4,26 @@ import Link from "next/link";
 
 export const metadata = {
   title: "LifeOS",
-  description: "A speculative design exercise that seeks to investigate user agency in a fully agentic future",
+  description: "A speculative design exercise into building trust in an agentic future",
+  openGraph: {
+    title: "LifeOS",
+    description: "A speculative design exercise into building trust in an agentic future",
+    type: "website",
+    images: [
+      {
+        url: "/lifeosbadlogo.svg",
+        width: 1200,
+        height: 630,
+        alt: "LifeOS",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "LifeOS",
+    description: "A speculative design exercise into building trust in an agentic future",
+    images: ["/lifeosbadlogo.svg"],
+  },
 };
 
 export default function RootLayout({ children }) {
