@@ -280,10 +280,7 @@ export default function RiskTrustMatrix() {
           Click anywhere on the matrix to add a data point.
         </p>
         <p className="text-center text-black/40 text-sm mt-6">
-          All entries are strictly confidential.
-        </p>
-        <p className="text-center text-black/40 text-sm ">
-          As edit/delete is session based, ensure entries are final before leaving this page.
+          All entries are strictly anonymous. <br />Data stored with Firebase with anonymous userIDs for delete capability.
         </p>
       </div>
 
