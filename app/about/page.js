@@ -35,13 +35,13 @@ export default function Research() {
         {/* Body */}
         <div className="max-w-5xl mx-auto text-center">
           <p className="text-[26pt] mx-auto font-semibold tracking-[-0.0em] leading-tight bg-gradient-to-t from-black/75 to-black/55 bg-clip-text text-transparent">
-            Bargaining with the Future is a Master's thesis by <a href="https://www.ithinkitschris.com" target="_blank" rel="noopener noreferrer" className="inline-block underline text-black/10 transition-all duration-100 hover:scale-[0.97] hover:text-white/50">Chris Leow</a>, a Graduate Student at the School of Visual Arts in New York City.
+            Bargaining with the Future is a Master's thesis by <a href="https://www.ithinkitschris.com" target="_blank" rel="noopener noreferrer" className="inline-block underline text-black/10 transition-all duration-100 hover:scale-[0.97] hover:text-white/50">Chris Leow</a>, a Graduate Student in Interaction Design in New York City.
           </p>
           <p className="text-2xl font-medium tracking-[-0.01em] mx-auto mt-5 text-black/60 max-w-[90%]">
-            It is a speculative design exercise that seeks to investigate how Visual and Motion Design may be used to cultivate trust with users in AI-native Operating Systems.
+            It is a speculative design exercise that seeks to investigate how visual and motion design may be used to cultivate trust with users in AI-native operating systems.
           </p>
-          <p className="text-lg font-medium tracking-[-0.01em] mx-auto leading-normal mt-8 text-black/50 max-w-[65%]">
-            If the current incarnation of LifeOS on this site terrifies you, fret not, that's the point. I am not insane <span className="italic">(to a certain degree)</span>. It is currently a research artifact for understanding current day comfort levels towards an AI-native Operating System that has been designed with no consideration for agency and oversight.
+          <p className="text-lg font-medium tracking-[-0.01em] mx-auto leading-normal mt-8 text-black/50 max-w-[70%]">
+            If the current incarnation of LifeOS on this site terrifies you, fret not, that's the point. I am not insane <span className="italic">(to a certain degree)</span>. It is currently a research artifact for understanding current day comfort levels towards an AI-native Operating System that has been designed with no consideration for agency nor control.
           </p>
           {/* <ul className="list-decimal list-inside text-lg mt-4" >
             <li>To investigate the role of agency in a fully agentic future</li>
